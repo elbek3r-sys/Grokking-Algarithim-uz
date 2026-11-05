@@ -177,6 +177,7 @@
     ochre:'radial-gradient(ellipse at 30% 20%,#ad9364 0,#887044 48%,#66512f 100%)'
   };
   const wordCount=text=>(text.trim().match(/\S+/g)||[]).length;
+  const normalizeSearchText=value=>String(value??'').normalize('NFKC').toLocaleLowerCase().replace(/[\u2018\u2019\u02bb\u02bc\u0060\u00b4]/g,"'").replace(/\s+/g,' ').trim();
   const copyBook=b=>({...b,pages:[...(b.pages||[''])],cursors:[...(b.cursors||[])]});
   const normalizeBook=(b={})=>{
     if(!b||typeof b!=='object'||Array.isArray(b))b={};
@@ -234,8 +235,8 @@
     try{audioContext||=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type=type==='page'?'triangle':'sine';osc.frequency.setValueAtTime(type==='page'?540:760,now);osc.frequency.exponentialRampToValueAtTime(type==='page'?250:460,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
   }
   function renderLibrary(){
-    const list=$('libraryCovers'),search=$('librarySearch'),query=search.value.trim().toLocaleLowerCase();list.replaceChildren();$('librarySearchWrap').hidden=library.books.length<2;
-    const books=query?library.books.filter(book=>[book.title,book.subtitle,book.author].some(value=>value.toLocaleLowerCase().includes(query))):library.books;
+    const list=$('libraryCovers'),search=$('librarySearch'),query=normalizeSearchText(search.value);list.replaceChildren();$('librarySearchWrap').hidden=library.books.length<2;
+    const books=query?library.books.filter(book=>[book.title,book.subtitle,book.author].some(value=>normalizeSearchText(value).includes(query))):library.books;
     $('librarySearchStatus').textContent=query?`${books.length} ta kitob topildi`:'';
     if(!library.books.length||!books.length){const empty=document.createElement('p');empty.className='shelf-empty';empty.textContent=library.books.length?'Mos kitob topilmadi. Boshqa so‘z bilan qidiring.':'Javoningiz hozircha bo‘sh. Yangi kitobdan boshlang.';list.append(empty)}
     books.forEach(book=>{
