@@ -8,7 +8,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Kitoblarni javonda nomi, taglavhasi yoki muallifi bo‘yicha qidirish
 - Matn, kursor joyi va oxirgi ochilgan sahifani avtomatik saqlash
 - Har bir sahifaga ixtiyoriy sarlavha qo‘shish; sarlavha sahifani ko‘chirganda saqlanadi va TXT/PDF eksportiga kiradi
-- Sahifa va kitobdagi so‘zlar sonini ko‘rish
+- Sahifa va kitobdagi so‘zlar sonini, jumladan sarlavhalarni, ko‘rish
 - Sahifalarni qo‘shish, tartiblash, o‘chirish va o‘chirilganini qaytarish
 - Kitob ichidan matn qidirish
 - Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash
