@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 22024)
-Total output lines: 423
+Warning: truncated output (original token count: 22285)
+Total output lines: 426
 
 <!doctype html>
 <html lang="uz">
@@ -42,6 +42,8 @@ Total output lines: 423
     .page-jump{margin:0 0 10px}.page-jump label{display:block;color:#73776c;font-size:10px;margin:0 0 5px}.page-jump>div{display:flex;gap:5px}.page-jump input{width:76px;min-width:0;border:1px solid #d8d1bf;border-radius:6px;background:rgba(255,255,255,.52);padding:6px 8px;color:var(--forest);font-size:11px}.page-jump button{border:1px solid rgba(36,55,47,.18);border-radius:6px;background:rgba(255,255,255,.45);color:var(--forest);font-size:10px;padding:5px 8px}.page-jump p{margin:5px 0 0;color:#999687;font-size:9px}
     .find-panel{max-width:1180px;margin:-10px auto 16px;padding:11px 14px;border:1px solid rgba(36,55,47,.13);border-radius:10px;background:rgba(255,255,255,.62);box-shadow:0 8px 24px rgba(54,55,42,.06)}.find-panel[hidden]{display:none}.find-row{display:flex;align-items:center;gap:10px}.find-row label{color:#73776c;font-size:11px;white-space:nowrap}.find-row input{flex:1;min-width:0;border:1px solid #d8d1bf;border-radius:7px;background:rgba(255,255,255,.75);padding:9px 11px;color:var(--forest);font-size:13px}.find-row input:focus{outline:2px solid rgba(72,105,77,.25);border-color:#7c9277}.find-close{border:0;background:transparent;color:#73776c;padding:7px 8px;font-size:12px}.find-panel p{margin:5px 0 0 107px;color:#999687;font-size:10px;min-height:12px}.search-results{display:flex;flex-direction:column;gap:4px;max-height:190px;overflow:auto;margin-top:7px}.search-results[hidden]{display:none}.search-result{border:0;background:rgba(255,255,255,.6);border-radius:6px;text-align:left;color:#555c50;padding:7px 9px;font-size:11px;line-height:1.4}.search-result:hover{background:#fff}.search-result strong{display:block;color:var(--forest);font-size:10px;margin-bottom:2px}.search-result mark{background:#edcf8c;color:#3f3a2c;border-radius:2px}
     @media(max-width:380px){.topbar{padding:0 12px}.brand{gap:8px}.top-actions{gap:6px}#soundLabel{display:none}#soundToggle{justify-content:center;width:34px;height:34px;padding:0}}
+    .work-backup{margin-top:14px;padding:12px 10px;border-top:1px solid rgba(36,55,47,.12)}.work-backup-button{width:100%;border:1px solid rgba(36,55,47,.18);border-radius:8px;background:rgba(255,255,255,.48);color:var(--forest);padding:9px 10px;font-size:10px;line-height:1.35}.work-backup-button:hover{background:#fff}.work-backup-status{margin:7px 0 0;color:#858678;font-size:10px;line-height:1.45}.work-backup-status.backup-due{color:#8b6043;font-weight:600}
+    @media(max-width:680px){.work-backup{margin-top:8px;padding:8px 0 0;border-top:0}.work-backup-button{width:auto;max-width:100%;padding:8px 12px}.work-backup-status{text-align:center;max-width:420px;margin:6px auto 0}}
   </style>
 </head>
 <body>
@@ -127,13 +129,14 @@ Total output lines: 423
         <p id="bookSearchStatus" aria-live="polite"></p><div class="search-results" id="bookSearchResults" hidden></div>
       </div>
       <div class="book-workspace">
-        <aside class="side-panel" aria-label="Sahifalar ro‘yxati">
+        <aside class="side-panel" aria-label="Kitob va sahifa boshqaruvi">
           <h2 class="side-title">Qo‘lyozma</h2>
           <p class="side-hint">Sahifalar avtomatik saqlanadi. Matn maydonidan tashqarida Ctrl/Cmd + ←/→ — sahifalar. Ctrl/Cmd + F — qidiruv; Ctrl/Cmd + S — saqlash.</p>
           <div class="page-jump"><label for="pageJump">Sahifaga o‘tish</label><div><input id="pageJump" type="number" min="1" step="1" value="1" inputmode="numeric"><button id="jumpPage" type="button">O‘tish</button></div><p id="pageListRange" aria-live="polite"></p></div>
           <div class="page-list" id="pageList"></div>
           <button class="add-page" id="addPage" type="button">＋ Yangi sahifa</button>
           <div class="local-note"><span aria-hidden="true">◌</span><span>Yozuvlaringiz shu brauzerda saqlanadi.</span></div>
+          <div class="work-backup"><button class="work-backup-button" id="backupWorkButton" type="button">Javon zaxirasini yuklab olish</button><p class="work-backup-status" id="backupStatusWork" role="status" aria-live="polite"></p></div>
         </aside>
         <div class="book-wrap">
           <div class="book-spread" id="bookSpread">
@@ -159,19 +162,7 @@ Total output lines: 423
       </div>
     </section>
   </main>
-  <dialog class="restore-dialog" id="restoreDialog" aria-labelledby="restoreHeading"><form class="restore-dialog-card" method="dialog"><h2 id="restoreHeading">Zaxirani qanday tiklaymiz?</h2><p id="restoreExplanation">Zaxira fayli tahlil qilindi. Qanday davom etishni tanlang.</p><p class="restore-summary" id="restoreSummary"></p><div class="restore-actions"><button type="submit" value="cancel">Bekor qilish</button><button class="restore-merge" type="submit" value="merge" autofocus>Javonga qo‘shish</button><button class="restore-replace" type="submit" value="replace">Javonni almashtirish</button></div></form></dialog>
-  <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMessage"></span><button class="toast-action" id="toastAction" type="button" hidden></button></div>
-</div>
-<div id="printRoot" hidden></div>
-<script>
-(()=>{
-  const STORE='kitob-daftari-v1',SHELF='kitob-daftari-shelf-v1',BACKUP_META='kitob-daftari-last-backup-v1',CHANGE_META='kitob-daftari-last-change-v1';
-  const themes={
-    forest:'radial-gradient(ellipse at 30% 20%,#526352 0,#35493c 45%,#23392e 100%)',
-    terracotta:'radial-gradient(ellipse at 30% 20%,#9b6b54 0,#785040 48%,#56382e 100%)',
-    midnight:'radial-gradient(ellipse at 30% 20%,#60708a 0,#3c4c64 48%,#29364b 100%)',
-    plum:'radial-gradient(ellipse at 30% 20%,#80657b 0,#624c60 48%,#453649 100%)',
-    ochre:'radial-gradient(ellipse at 30% 20%,#ad9364 0,#887044 …2024 tokens truncated…RampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
+  <dialog class="restore-dialog" id="restoreDialog" aria-labelledby="restoreHeading"><form class="restore-dialog-card" method="dialog"><h2 id="restoreHeading">Zaxirani qanday tiklaymiz?</h2><p id="restoreExplanation">Zaxira fayli tahlil qilindi. Qanday davom etishni tanlang.</p><p class="restore-summary" id="restoreSummary"></p><div class="restore-actions"><button type="submit" value="cancel">Bekor qilish</button><button class="restore-merge" type="submit" value="merge" autofocus>Javonga qo‘shish</bu…2285 tokens truncated….exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
   }
   function renderLibrary(){
     const list=$('libraryCovers');list.replaceChildren();if(!library.books.length){const empty=document.createElement('p');empty.className='shelf-empty';empty.textContent='Javoningiz hozircha bo‘sh. Yangi kitobdan boshlang.';list.append(empty)}
@@ -314,7 +305,7 @@ Total output lines: 423
   $('newBookButton').addEventListener('click',()=>openCoverEditor());$('saveCover').addEventListener('click',saveCover);$('cancelCover').addEventListener('click',closeCoverEditor);$('cancelCoverX').addEventListener('click',closeCoverEditor);
   $('downloadRecoveryData').addEventListener('click',()=>{if(downloadRecoveryRaw())toast('Buzilgan xom nusxa yuklandi. Uni xavfsiz joyda saqlang.')});
   $('continueWithoutRecovery').addEventListener('click',()=>{if(!confirm('Davom etsangiz, buzilgan fayl keyingi saqlashda almashtiriladi. Xom nusxani yuklab olganingizga ishonch hosil qiling. Baribir davom etilsinmi?'))return;storageRecoveryRaw=null;$('storageRecovery').hidden=true;$('saveNote').classList.remove('save-error');setSaveState('idle','Brauzeringizda saqlanadi');pendingEdits=false;toast('Buzilgan nusxa almashtirilishi mumkin; yangi kitobingizni zaxiralab boring.')});
-  $('exportBackup').addEventListener('click',downloadJSON);$('importBackupButton').addEventListener('click',()=>$('importBackupFile').click());$('importBackupFile').addEventListener('change',e=>restoreJSON(e.target.files?.[0]));
+  $('exportBackup').addEventListener('click',downloadJSON);$('backupWorkButton').addEventListener('click',downloadJSON);$('importBackupButton').addEventListener('click',()=>$('importBackupFile').click());$('importBackupFile').addEventListener('change',e=>restoreJSON(e.target.files?.[0]));
   $('chooseCoverImage').addEventListener('click',()=>$('coverImageInput').click());
   $('coverImageInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Rasm faylini tanlang');e.target.value='';return}if(file.size>15*1024*1024){toast('Rasm 15 MB dan kichik bo‘lishi kerak');e.target.value='';return}const previousImage=selectedCoverImage,previousName=selectedCoverName;$('coverImageStatus').textContent='Rasm kichraytirilmoqda…';try{selectedCoverImage=await compressCoverImage(file);selectedCoverName=`${file.name} · optimallashtirildi`;updateCoverPreview()}catch(err){selectedCoverImage=previousImage;selectedCoverName=previousName;updateCoverPreview();toast(err.message||'Rasmni yuklab bo‘lmadi')}finally{e.target.value=''}});
   $('removeCoverImage').addEventListener('click',()=>{selectedCoverImage='';selectedCoverName='';updateCoverPreview()});
