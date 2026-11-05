@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 21322)
-Total output lines: 416
+Warning: truncated output (original token count: 21377)
+Total output lines: 418
 
 <!doctype html>
 <html lang="uz">
@@ -182,8 +182,7 @@ Total output lines: 416
     const rawImage=typeof b.coverImage==='string'?b.coverImage:'';
     const coverImage=rawImage.length<=360000&&/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(rawImage)?rawImage:'';
     const current=Math.max(0,Math.min(Number.isFinite(Number(b.current))?Math.trunc(Number(b.current)):0,pages.length-1));
-    return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.aut…1322 tokens truncated…?`Oxirgi zaxira: ${date}. Keyin kitoblaringiz o‘zgargan — yangi nusxa oling.`:expired&&hasBooks?`Oxirgi zaxira: ${date}. Yangi nusxa olish vaqti keldi.`:`Oxirgi zaxira: ${date}.`}
-  function toast(msg,error=false,action=null){const el=$('toast'),button=$('toastAction');clearTimeout(toastTimer);if(document.activeElement===button)button.blur();$('toastMessage').textContent=msg;button.hidden=!action;button.onclick=null;if(action){button.textContent=action.label;button.setAttribute('aria-label',action.ariaLabel||action.label);button.onclick=()=>{clearTimeout(toastTimer);button.blur();el.classList.remove('show');button.hidden=true;button.onclick=null;action.run()}}el.classList.toggle('save-error-toast',error||$('saveNote').classList.contains('save-error'));el.classList.add('show');function dismiss(){if(document.activeElement===button){toastTimer=setTimeout(dismiss,1000);return}el.classList.remove('show');button.hidden=true;button.onclick=null}toastTimer=setTimeout(dismiss,action?7000:1900)}
+    return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.aut…1377 tokens truncated…n=null){const el=$('toast'),button=$('toastAction');clearTimeout(toastTimer);if(document.activeElement===button)button.blur();$('toastMessage').textContent=msg;button.hidden=!action;button.onclick=null;if(action){button.textContent=action.label;button.setAttribute('aria-label',action.ariaLabel||action.label);button.onclick=()=>{clearTimeout(toastTimer);button.blur();el.classList.remove('show');button.hidden=true;button.onclick=null;action.run()}}el.classList.toggle('save-error-toast',error||$('saveNote').classList.contains('save-error'));el.classList.add('show');function dismiss(){if(document.activeElement===button){toastTimer=setTimeout(dismiss,1000);return}el.classList.remove('show');button.hidden=true;button.onclick=null}toastTimer=setTimeout(dismiss,action?7000:1900)}
   function play(type='page'){
     if(!state.sound)return;
     try{audioContext||=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type=type==='page'?'triangle':'sine';osc.frequency.setValueAtTime(type==='page'?540:760,now);osc.frequency.exponentialRampToValueAtTime(type==='page'?250:460,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
@@ -223,18 +222,20 @@ Total output lines: 416
     document.querySelectorAll('.theme-swatch').forEach(b=>{const chosen=b.dataset.theme===selectedTheme;b.classList.toggle('selected',chosen);b.setAttribute('aria-pressed',String(chosen))});
   }
   async function compressCoverImage(file){
-    let bitmap;
-    if(window.createImageBitmap)bitmap=await createImageBitmap(file);
-    else bitmap=await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Rasmni ochib bo‘lmadi'));image.src=URL.createObjectURL(file)});
-    const maxSide=1100,scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));let width=Math.max(1,Math.round(bitmap.width*scale)),height=Math.max(1,Math.round(bitmap.height*scale));
-    const canvas=document.createElement('canvas');
-    for(let attempt=0;attempt<4;attempt++){
-      canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0,width,height);
-      const quality=[.82,.72,.62,.54][attempt];let data=canvas.toDataURL('image/webp',quality);if(!data.startsWith('data:image/webp'))data=canvas.toDataURL('image/jpeg',quality);
-      if(data.length<260000||attempt===3){if(bitmap.close)bitmap.close();return data}
-      width=Math.max(1,Math.round(width*.78));height=Math.max(1,Math.round(height*.78));
-    }
-    if(bitmap.close)bitmap.close();throw new Error('Rasm hajmini kichraytirib bo‘lmadi');
+    let bitmap,objectUrl='';
+    if(window.createImageBitmap)try{bitmap=await createImageBitmap(file)}catch{}
+    if(!bitmap){objectUrl=URL.createObjectURL(file);try{bitmap=await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Rasmni ochib bo‘lmadi'));image.src=objectUrl})}catch(error){URL.revokeObjectURL(objectUrl);throw error}}
+    try{
+      const maxSide=1100,scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));let width=Math.max(1,Math.round(bitmap.width*scale)),height=Math.max(1,Math.round(bitmap.height*scale));
+      const canvas=document.createElement('canvas');
+      for(let attempt=0;attempt<4;attempt++){
+        canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Rasmni qayta ishlash uchun canvas ochilmadi');ctx.drawImage(bitmap,0,0,width,height);
+        const quality=[.82,.72,.62,.54][attempt];let data=canvas.toDataURL('image/webp',quality);if(!data.startsWith('data:image/webp'))data=canvas.toDataURL('image/jpeg',quality);
+        if(data.length<260000||attempt===3)return data;
+        width=Math.max(1,Math.round(width*.78));height=Math.max(1,Math.round(height*.78));
+      }
+      throw new Error('Rasm hajmini kichraytirib bo‘lmadi');
+    }finally{bitmap.close?.();if(objectUrl)URL.revokeObjectURL(objectUrl)}
   }
   function openCoverEditor(bookId=null){
     coverEditorReturnFocus=document.activeElement;coverEditId=bookId;const existing=bookId?library.books.find(b=>b.id===bookId):null;
