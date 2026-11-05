@@ -155,10 +155,14 @@
   const wordCount=text=>(text.trim().match(/\S+/g)||[]).length;
   const copyBook=b=>({...b,pages:[...(b.pages||[''])],cursors:[...(b.cursors||[])]});
   const normalizeBook=(b={})=>{
-    const pages=Array.isArray(b.pages)&&b.pages.length?b.pages:[''];
-    const cursors=Array.isArray(b.cursors)?[...b.cursors]:[];
+    if(!b||typeof b!=='object'||Array.isArray(b))b={};
+    const pages=Array.isArray(b.pages)&&b.pages.length?b.pages.map(p=>typeof p==='string'?p:''):[''];
+    const cursors=Array.isArray(b.cursors)?b.cursors.map(c=>Number.isFinite(Number(c))?Math.max(0,Math.trunc(Number(c))):0):[];
     while(cursors.length<pages.length)cursors.push(0);
-    return {id:b.id||`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:b.title||'Yangi kitob',subtitle:b.subtitle??'Hali yozilmagan hikoya',author:b.author??'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage:typeof b.coverImage==='string'?b.coverImage:'',pages:[...pages],current:Math.max(0,Math.min(Number(b.current)||0,pages.length-1)),cursors};
+    const rawImage=typeof b.coverImage==='string'?b.coverImage:'';
+    const coverImage=rawImage.length<=360000&&/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(rawImage)?rawImage:'';
+    const current=Math.max(0,Math.min(Number.isFinite(Number(b.current))?Math.trunc(Number(b.current)):0,pages.length-1));
+    return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.author:'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage,pages,current,cursors:cursors.slice(0,pages.length)};
   };
   const read=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}};
   const legacy=read(STORE)||{};
