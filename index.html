@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 22714)
-Total output lines: 430
+Warning: truncated output (original token count: 22867)
+Total output lines: 431
 
 <!doctype html>
 <html lang="uz">
@@ -159,13 +159,7 @@ Total output lines: 430
       </div>
       <div class="nav-row">
         <button class="nav-btn" id="previousPage" type="button" aria-keyshortcuts="Control+ArrowLeft Meta+ArrowLeft"><span aria-hidden="true">←</span> Oldingi</button>
-        <div class="page-progress" id="pageProgress"><strong>1</st…2714 tokens truncated…
-      const spine=document.createElement('div');spine.className='cover-spine';
-      const inner=document.createElement('div');inner.className='cover-inner';
-      const ornament=document.createElement('div');ornament.className='cover-ornament';ornament.setAttribute('aria-hidden','true');ornament.textContent='✳';
-      const flower=document.createElement('div');flower.className='cover-flower';flower.setAttribute('aria-hidden','true');flower.textContent='❧';
-      const coverTitle=document.createElement('h2');coverTitle.className='cover-title';coverTitle.textContent=book.title;
-      const subtitle=document.createElement('div');subtitle.className='cover-subtitle';subtitle.textContent=book.subtitle||'';
+        <div class="page-progress" id="pageProgress"><strong>1</st…2867 tokens truncated…=document.createElement('div');subtitle.className='cover-subtitle';subtitle.textContent=book.subtitle||'';
       const rule=document.createElement('div');rule.className='cover-rule';
       const author=document.createElement('div');author.className='cover-author';author.textContent=book.author||'';
       inner.append(ornament,flower,coverTitle,subtitle,rule,author);coverArt.append(spine,inner);
@@ -228,6 +222,7 @@ Total output lines: 430
     const list=$('pageList');list.replaceChildren();const total=state.pages.length,windowSize=30,start=Math.max(0,Math.min(state.current-Math.floor(windowSize/2),total-windowSize)),end=Math.min(total,start+windowSize);
     $('pageListRange').textContent=`Sahifalar ${start+1}–${end} / ${total}`;$('pageJump').max=String(total);$('pageJump').value=String(state.current+1);$('movePageUp').disabled=state.current===0;$('movePageDown').disabled=state.current===total-1;$('movePageUp').setAttribute('aria-label',`${state.current+1}-sahifani oldingi o‘ringa ko‘chirish`);$('movePageDown').setAttribute('aria-label',`${state.current+1}-sahifani keyingi o‘ringa ko‘chirish`);
     for(let i=start;i<end;i++){const txt=state.pages[i];const row=document.createElement('div');row.className='page-chip-row';row.dataset.pageIndex=String(i);const b=document.createElement('button');b.type='button';b.className='page-chip'+(i===state.current?' active':'');b.setAttribute('aria-current',i===state.current?'page':'false');const num=document.createElement('span');num.className='page-chip-num';num.textContent=String(i+1);const preview=document.createElement('span');preview.className='page-chip-preview';preview.textContent=pagePreview(txt);b.append(num,preview);b.addEventListener('click',()=>go(i,true));const remove=document.createElement('button');remove.type='button';remove.className='page-delete';if(state.pages.length===1){if(!txt.trim())remove.hidden=true;else{remove.textContent='⌫';remove.title='Yagona sahifani bo‘shatish';remove.setAttribute('aria-label','Yagona sahifani bo‘shatish')}}else{remove.textContent='×';remove.title=`${i+1}-sahifani o‘chirish`;remove.setAttribute('aria-label',`${i+1}-sahifani o‘chirish`)}remove.addEventListener('click',()=>deletePage(i));row.append(b,remove);list.append(row)}
+    if(work.classList.contains('active')){const active=list.querySelector('.page-chip.active');if(active){const listRect=list.getBoundingClientRect(),activeRect=active.getBoundingClientRect();if(list.scrollHeight>list.clientHeight){if(activeRect.top<listRect.top)list.scrollTop-=listRect.top-activeRect.top;else if(activeRect.bottom>listRect.bottom)list.scrollTop+=activeRect.bottom-listRect.bottom}if(list.scrollWidth>list.clientWidth){if(activeRect.left<listRect.left)list.scrollLeft-=listRect.left-activeRect.left;else if(activeRect.right>listRect.right)list.scrollLeft+=activeRect.right-listRect.right}}}
   }
   function moveCurrentPage(direction){const from=state.current,to=from+direction;if(to<0||to>=state.pages.length)return;captureEditor();for(const items of [state.pages,state.cursors,bookWordCounts])[items[from],items[to]]=[items[to],items[from]];state.current=to;updatePage();persist();const saved=!$('saveNote').classList.contains('save-error');focusEditor();toast(saved?`Sahifa ${from+1} boshqa o‘ringa ko‘chirildi`:'Sahifa ko‘chirildi, lekin saqlanmadi',!saved)}
   function pagePreview(text){return text.trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa'}
