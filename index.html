@@ -233,7 +233,7 @@
       const remove=document.createElement('button');remove.type='button';remove.className='shelf-delete';remove.textContent='O‘chirish';remove.setAttribute('aria-label',`${book.title} kitobini o‘chirish`);remove.addEventListener('click',()=>deleteBook(book.id));
       item.append(open,edit,remove);list.append(item);
     });
-    $('coverProgress').textContent=`${library.books.length} ta kitob`;
+    $('coverProgress').textContent=`${library.books.length} ta kitob`;updateBackupStatus();
   }
   function updateCover(){
     $('coverProgress').textContent=`${library.books.length} ta kitob`;
