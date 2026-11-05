@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 21322)
+Total output lines: 416
+
 <!doctype html>
 <html lang="uz">
 <head>
@@ -179,48 +182,8 @@
     const rawImage=typeof b.coverImage==='string'?b.coverImage:'';
     const coverImage=rawImage.length<=360000&&/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(rawImage)?rawImage:'';
     const current=Math.max(0,Math.min(Number.isFinite(Number(b.current))?Math.trunc(Number(b.current)):0,pages.length-1));
-    return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.author:'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage,pages,current,cursors:cursors.slice(0,pages.length)};
-  };
-  const bookSignature=book=>JSON.stringify({title:book.title,subtitle:book.subtitle,author:book.author,theme:book.theme,coverImage:book.coverImage,pages:book.pages});
-  const shelfSignature=()=>JSON.stringify({books:library.books.map(normalizeBook),activeId:library.activeId,sound:library.sound});
-  const readRaw=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
-  const parseStored=raw=>{try{return JSON.parse(raw||'null')}catch{return null}};
-  const legacyRaw=readRaw(STORE),legacyData=parseStored(legacyRaw),legacy=legacyData&&typeof legacyData==='object'&&!Array.isArray(legacyData)?legacyData:null;
-  const hasLegacyBook=!!legacy&&['pages','title','subtitle','author','coverImage'].some(key=>Object.prototype.hasOwnProperty.call(legacy,key));
-  const savedShelfRaw=readRaw(SHELF),savedShelf=parseStored(savedShelfRaw);
-  const shelfIsUsable=!!savedShelf&&Array.isArray(savedShelf.books)&&savedShelf.books.every(book=>book&&typeof book==='object'&&!Array.isArray(book)&&Array.isArray(book.pages)&&book.pages.every(page=>typeof page==='string'));
-  const legacyIsUsable=!hasLegacyBook||(Array.isArray(legacy.pages)&&legacy.pages.every(page=>typeof page==='string'));
-  let storageRecoveryRaw=savedShelfRaw!==null&&!shelfIsUsable?savedShelfRaw:(savedShelfRaw===null&&legacyRaw!==null&&(!legacyData||!legacyIsUsable)?legacyRaw:null);
-  let library=shelfIsUsable?savedShelf:{books:hasLegacyBook?[normalizeBook(legacy)]:[],activeId:null,sound:legacy?.sound!==false};
-  library.books=library.books.map(normalizeBook);
-  if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0]?.id||null;
-  if(typeof library.sound!=='boolean')library.sound=legacy?.sound!==false;
-  let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;let bookWordCounts=state.pages.map(wordCount);
-  let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false,lastShelfSnapshot=shelfSignature();
-  let coverEditId=null,coverEditorReturnFocus=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',saveTimer=null,saveStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,printOriginalTitle=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})(),lastChangeAt=(()=>{try{return localStorage.getItem(CHANGE_META)||''}catch{return ''}})();
-  const $=id=>document.getElementById(id);
-  const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle');
-  function persist(){
-    clearTimeout(saveStatusTimer);
-    if(storageRecoveryRaw!==null){pendingEdits=true;$('saveNote').classList.add('save-error');$('saveLabel').textContent='Javon buzilgan — avval tiklash kerak';return}
-    try{
-      const i=library.books.findIndex(b=>b.id===library.activeId);
-      if(i>=0)library.books[i]={...state,pages:[...state.pages],cursors:[...state.cursors]};
-      library.sound=state.sound;
-      const shelfChanged=shelfSignature()!==lastShelfSnapshot;
-      const hadShelf=localStorage.getItem(SHELF)!==null;
-      if(hadShelf)localStorage.removeItem(STORE);
-      localStorage.setItem(SHELF,JSON.stringify(library));
-      if(!hadShelf)localStorage.removeItem(STORE);
-      lastShelfSnapshot=shelfSignature();
-      if(shelfChanged){const previousChange=Date.parse(lastChangeAt);lastChangeAt=new Date(Math.max(Date.now(),Number.isFinite(previousChange)?previousChange+1:0)).toISOString();try{localStorage.setItem(CHANGE_META,lastChangeAt)}catch{}updateBackupStatus()}
-      activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state));pendingEdits=false;
-      $('saveNote').classList.remove('save-error');$('saveLabel').textContent='Saqlandi';saveStatusTimer=setTimeout(()=>{if(!pendingEdits&&!$('saveNote').classList.contains('save-error'))$('saveLabel').textContent='Brauzeringizda saqlanadi'},1300);
-    }catch{$('saveNote').classList.add('save-error');$('saveLabel').textContent='Xotira to‘ldi — zaxira nusxa yuklang';toast('Saqlash amalga oshmadi. JSON zaxira nusxasini yuklab oling yoki xotiradan joy bo‘shating.',true)}
-  }
-  function scheduleSave(){pendingEdits=true;clearTimeout(saveStatusTimer);$('saveLabel').textContent='Saqlanmoqda…';clearTimeout(saveTimer);saveTimer=setTimeout(persist,280)}
-  function updateBackupStatus(){const status=$('backupStatus'),stamp=Date.parse(lastBackupAt),changeStamp=Date.parse(lastChangeAt),hasBooks=library.books.length>0,changedAfterBackup=hasBooks&&(!Number.isFinite(changeStamp)||!Number.isFinite(stamp)||stamp<changeStamp),expired=!Number.isFinite(stamp)||Date.now()-stamp>7*86400000;status.classList.toggle('backup-due',hasBooks&&(expired||changedAfterBackup));if(!Number.isFinite(stamp)){status.textContent=hasBooks?'Hali zaxira olinmagan. JSON nusxasini yuklab, xavfsiz joyda saqlang.':'Kitob yozishni boshlang; keyin javonning zaxira nusxasini olishingiz mumkin.';return}const date=new Date(stamp).toLocaleDateString('uz-UZ',{year:'numeric',month:'long',day:'numeric'});status.textContent=changedAfterBackup?`Oxirgi zaxira: ${date}. Keyin kitoblaringiz o‘zgargan — yangi nusxa oling.`:expired&&hasBooks?`Oxirgi zaxira: ${date}. Yangi nusxa olish vaqti keldi.`:`Oxirgi zaxira: ${date}.`}
-  function toast(msg,error=false,action=null){const el=$('toast'),button=$('toastAction');$('toastMessage').textContent=msg;button.hidden=!action;button.onclick=null;if(action){button.textContent=action.label;button.setAttribute('aria-label',action.ariaLabel||action.label);button.onclick=()=>{clearTimeout(toastTimer);el.classList.remove('show');action.run()}}el.classList.toggle('save-error-toast',error||$('saveNote').classList.contains('save-error'));el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),action?7000:1900)}
+    return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.aut…1322 tokens truncated…?`Oxirgi zaxira: ${date}. Keyin kitoblaringiz o‘zgargan — yangi nusxa oling.`:expired&&hasBooks?`Oxirgi zaxira: ${date}. Yangi nusxa olish vaqti keldi.`:`Oxirgi zaxira: ${date}.`}
+  function toast(msg,error=false,action=null){const el=$('toast'),button=$('toastAction');clearTimeout(toastTimer);if(document.activeElement===button)button.blur();$('toastMessage').textContent=msg;button.hidden=!action;button.onclick=null;if(action){button.textContent=action.label;button.setAttribute('aria-label',action.ariaLabel||action.label);button.onclick=()=>{clearTimeout(toastTimer);button.blur();el.classList.remove('show');button.hidden=true;button.onclick=null;action.run()}}el.classList.toggle('save-error-toast',error||$('saveNote').classList.contains('save-error'));el.classList.add('show');function dismiss(){if(document.activeElement===button){toastTimer=setTimeout(dismiss,1000);return}el.classList.remove('show');button.hidden=true;button.onclick=null}toastTimer=setTimeout(dismiss,action?7000:1900)}
   function play(type='page'){
     if(!state.sound)return;
     try{audioContext||=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type=type==='page'?'triangle':'sine';osc.frequency.setValueAtTime(type==='page'?540:760,now);osc.frequency.exponentialRampToValueAtTime(type==='page'?250:460,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
