@@ -5,12 +5,13 @@ Yozuvlaringizni kitob ko‘rinishidagi sahifalarda yozish uchun bitta faylli, st
 ## Imkoniyatlar
 
 - Kitob muqovasini yaratishdan oldin tahrirlash: nomi, taglavhasi, muallif yozuvi va rangini tanlash
+- Muqovaga rasm yuklash, jonli ko‘rish, almashtirish yoki olib tashlash; tasvir brauzerda kichraytirilib saqlanadi
 - Bir nechta kitob yaratish va mavjud muqovalarni keyinroq tahrirlash
 - Sahifalarni avtomatik saqlash va oxirgi sahifa hamda kursor joyidan davom ettirish
 - Varaqlash ovozini yoqish yoki o‘chirish
 - Qo‘lyozmani TXT fayl qilib yuklab olish
 
-Ma’lumotlar brauzerning localStorage xotirasida saqlanadi; boshqa brauzer yoki qurilmaga avtomatik sinxronlanmaydi.
+Kitoblar va muqova rasmlari brauzerning localStorage xotirasida saqlanadi; boshqa brauzer yoki qurilmaga avtomatik sinxronlanmaydi.
 
 ## Ishga tushirish
 
