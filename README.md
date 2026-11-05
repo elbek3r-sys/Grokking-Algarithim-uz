@@ -4,14 +4,14 @@ Yozuvlaringizni kitob ko‘rinishidagi sahifalarda yozish uchun bitta faylli, st
 
 ## Imkoniyatlar
 
-- Kitob muqovasini yaratishdan oldin tahrirlash: nomi, taglavhasi, muallif yozuvi va rangini tanlash
-- Muqovaga rasm yuklash, jonli ko‘rish, almashtirish yoki olib tashlash; tasvir brauzerda kichraytirilib saqlanadi
-- Bir nechta kitob yaratish va mavjud muqovalarni keyinroq tahrirlash
-- Sahifalarni avtomatik saqlash va oxirgi sahifa hamda kursor joyidan davom ettirish
+- Bir nechta kitob yaratish, muqovalarini nom, taglavha, muallif, rang va rasm bilan tahrirlash
+- Kitob va sahifalarni tasdiqlash orqali o‘chirish
+- Matn, kursor joyi va joriy sahifani avtomatik saqlash
+- Javonni JSON fayliga zaxiralash va shu fayldan tiklash
 - Varaqlash ovozini yoqish yoki o‘chirish
 - Qo‘lyozmani TXT fayl qilib yuklab olish
 
-Kitoblar va muqova rasmlari brauzerning localStorage xotirasida saqlanadi; boshqa brauzer yoki qurilmaga avtomatik sinxronlanmaydi.
+Kitoblar va muqova rasmlari brauzerning localStorage xotirasida saqlanadi. Boshqa brauzer yoki qurilmaga avtomatik sinxronlanmaydi. JSON zaxira nusxasini vaqti-vaqti bilan yuklab olish tavsiya etiladi.
 
 ## Ishga tushirish
 
