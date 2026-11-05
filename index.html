@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 21682)
-Total output lines: 419
+Warning: truncated output (original token count: 21903)
+Total output lines: 422
 
 <!doctype html>
 <html lang="uz">
@@ -175,10 +175,7 @@ Total output lines: 419
   const wordCount=text=>(text.trim().match(/\S+/g)||[]).length;
   const copyBook=b=>({...b,pages:[...(b.pages||[''])],cursors:[...(b.cursors||[])]});
   const normalizeBook=(b={})=>{
-  …1682 tokens truncated…Content=msg;button.hidden=!action;button.onclick=null;if(action){button.textContent=action.label;button.setAttribute('aria-label',action.ariaLabel||action.label);button.onclick=()=>{clearTimeout(toastTimer);button.blur();el.classList.remove('show');button.hidden=true;button.onclick=null;action.run()}}el.classList.toggle('save-error-toast',error||$('saveNote').classList.contains('save-error'));el.classList.add('show');function dismiss(){if(document.activeElement===button){toastTimer=setTimeout(dismiss,1000);return}el.classList.remove('show');button.hidden=true;button.onclick=null}toastTimer=setTimeout(dismiss,action?7000:1900)}
-  function play(type='page'){
-    if(!state.sound)return;
-    try{audioContext||=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type=type==='page'?'triangle':'sine';osc.frequency.setValueAtTime(type==='page'?540:760,now);osc.frequency.exponentialRampToValueAtTime(type==='page'?250:460,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
+  …1903 tokens truncated…teOscillator(),gain=audioContext.createGain();osc.type=type==='page'?'triangle':'sine';osc.frequency.setValueAtTime(type==='page'?540:760,now);osc.frequency.exponentialRampToValueAtTime(type==='page'?250:460,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
   }
   function renderLibrary(){
     const list=$('libraryCovers');list.replaceChildren();if(!library.books.length){const empty=document.createElement('p');empty.className='shelf-empty';empty.textContent='Javoningiz hozircha bo‘sh. Yangi kitobdan boshlang.';list.append(empty)}
@@ -273,30 +270,33 @@ Total output lines: 419
   function deleteBook(id){
     const book=library.books.find(item=>item.id===id);if(!book||!confirm(`“${book.title}” kitobi va uning barcha sahifalarini o‘chirasizmi?`))return;
     const removed=copyBook(book),index=library.books.indexOf(book),wasActive=id===library.activeId;
-    library.books.splice(index,1);if(wasActive){library.activeId=library.books[0]?.id||null;state=copyBook(library.books[0]||normalizeBook());state.sound=library.sound;bookWordCounts=state.pages.map(wordCount)}
+    library.books.splice(index,1);if(wasActive){library.activeId=library.books[0]?.id||null;state=copyBook(library.books[0]||normalizeBook());state.sound=library.sound;bookWordCounts=state.pages.map(wordCount)}const activeAfterDelete=library.activeId;
     persist();const saved=!$('saveNote').classList.contains('save-error');renderLibrary();updateCover();focusShelfBook();
     toast(saved?'Kitob o‘chirildi':'O‘chirish saqlanmadi',!saved,{label:'Qaytarish',ariaLabel:`${book.title} kitobini qaytarish`,run:()=>{
       if(library.books.some(item=>item.id===removed.id)){toast('Bu kitob boshqa tabda allaqachon mavjud');return}
       library.books.splice(Math.min(index,library.books.length),0,removed);
-      if(wasActive){library.activeId=removed.id;state={...copyBook(removed),sound:library.sound};bookWordCounts=state.pages.map(wordCount)}
-      persist();const undoSaved=!$('saveNote').classList.contains('save-error');renderLibrary();updateCover();focusShelfBook(wasActive?removed.id:library.activeId);toast(undoSaved?'Kitob tiklandi':'Kitob tiklandi, lekin saqlanmadi',!undoSaved)
+      const restoreSelection=wasActive&&cover.classList.contains('active')&&library.activeId===activeAfterDelete;
+      if(restoreSelection){library.activeId=removed.id;state={...copyBook(removed),sound:library.sound};bookWordCounts=state.pages.map(wordCount)}
+      persist();const undoSaved=!$('saveNote').classList.contains('save-error');renderLibrary();updateCover();if(cover.classList.contains('active'))focusShelfBook(restoreSelection?removed.id:library.activeId);toast(undoSaved?'Kitob tiklandi':'Kitob tiklandi, lekin saqlanmadi',!undoSaved)
     }})
   }
   function deletePage(index){
+    const bookId=library.activeId;
     if(state.pages.length===1){
       if(!state.pages[0].trim()){toast('Bo‘sh sahifa allaqachon bo‘sh');return}
       if(!confirm('Yagona sahifadagi matnni o‘chirib, bo‘sh qoldirasizmi?'))return;
       const removed=state.pages[0],cursor=state.cursors[0];state.pages[0]='';state.cursors[0]=0;bookWordCounts[0]=0;state.current=0;updatePage();persist();const saved=!$('saveNote').classList.contains('save-error');focusPageChip();
-      toast(saved?'Sahifa bo‘shatildi':'O‘zgarish saqlanmadi',!saved,{label:'Qaytarish',ariaLabel:'Yagona sahifadagi matnni qaytarish',run:()=>{if(state.pages[0]){toast('Sahifa qayta yozilgan; matn ustidan yozilmadi');return}state.pages[0]=removed;state.cursors[0]=cursor;bookWordCounts[0]=wordCount(removed);state.current=0;updatePage();persist();const undoSaved=!$('saveNote').classList.contains('save-error');focusEditor();toast(undoSaved?'Sahifa tiklandi':'Sahifa tiklandi, lekin saqlanmadi',!undoSaved)}});return
+      toast(saved?'Sahifa bo‘shatildi':'O‘zgarish saqlanmadi',!saved,{label:'Qaytarish',ariaLabel:`${state.title} kitobidagi yagona sahifa matnini qaytarish`,run:()=>{const target=library.books.find(book=>book.id===bookId);if(!target){toast('Kitob topilmadi; sahifa qaytarilmadi');return}const active=library.activeId===bookId,pages=active?state.pages:target.pages,cursors=active?state.cursors:target.cursors;if(pages[0]){toast('Sahifa qayta yozilgan; matn ustidan yozilmadi');return}pages[0]=removed;cursors[0]=cursor;if(active){bookWordCounts[0]=wordCount(removed);state.current=0;updatePage()}else target.current=0;persist();const undoSaved=!$('saveNote').classList.contains('save-error');if(active)focusEditor();toast(undoSaved?'Sahifa tiklandi':'Sahifa tiklandi, lekin saqlanmadi',!undoSaved)}});return
     }
     if(!confirm(`${index+1}-sahifa va undagi matnni o‘chirasizmi?`))return;
     captureEditor();const removed=state.pages[index],cursor=state.cursors[index],previousCurrent=state.current;
     state.pages.splice(index,1);state.cursors.splice(index,1);bookWordCounts.splice(index,1);if(index<state.current)state.current--;else if(index===state.current)state.current=Math.min(index,state.pages.length-1);
     const selectionAfterDelete=state.current,wasCurrent=index===previousCurrent;updatePage();persist();const saved=!$('saveNote').classList.contains('save-error');focusPageChip();
-    toast(saved?'Sahifa o‘chirildi':'O‘zgarish saqlanmadi',!saved,{label:'Qaytarish',ariaLabel:`${index+1}-sahifani qaytarish`,run:()=>{
-      const currentNow=state.current;state.pages.splice(index,0,removed);state.cursors.splice(index,0,cursor);bookWordCounts.splice(index,0,wordCount(removed));
-      const returnToRemoved=wasCurrent&&currentNow===selectionAfterDelete;state.current=returnToRemoved?index:currentNow+(index<=currentNow?1:0);updatePage();persist();const undoSaved=!$('saveNote').classList.contains('save-error');
-      if(returnToRemoved)setTimeout(focusEditor,0);else focusPageChip(index);toast(undoSaved?'Sahifa tiklandi':'Sahifa tiklandi, lekin saqlanmadi',!undoSaved)
+    toast(saved?'Sahifa o‘chirildi':'O‘zgarish saqlanmadi',!saved,{label:'Qaytarish',ariaLabel:`${state.title} kitobida ${index+1}-sahifani qaytarish`,run:()=>{
+      const target=library.books.find(book=>book.id===bookId);if(!target){toast('Kitob topilmadi; sahifa qaytarilmadi');return}
+      const active=library.activeId===bookId,pages=active?state.pages:target.pages,cursors=active?state.cursors:target.cursors,currentNow=active?state.current:target.current;pages.splice(index,0,removed);cursors.splice(index,0,cursor);const returnToRemoved=wasCurrent&&currentNow===selectionAfterDelete,newCurrent=returnToRemoved?index:currentNow+(index<=currentNow?1:0);
+      if(active){bookWordCounts.splice(index,0,wordCount(removed));state.current=newCurrent;updatePage()}else target.current=newCurrent;persist();const undoSaved=!$('saveNote').classList.contains('save-error');
+      if(active){if(returnToRemoved)setTimeout(focusEditor,0);else focusPageChip(index)}toast(undoSaved?'Sahifa tiklandi':'Sahifa tiklandi, lekin saqlanmadi',!undoSaved)
     }})
   }
   function downloadBlob(blob,filename){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.hidden=true;document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1000)}
