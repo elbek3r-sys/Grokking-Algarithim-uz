@@ -28,6 +28,9 @@
     @media(max-width:680px){.topbar{height:64px;padding:0 16px}.brand{font-size:18px}.save-note{display:none}.cover-screen{min-height:calc(100vh - 64px);grid-template-columns:1fr;gap:35px;padding:25px 24px 80px;text-align:center}.intro-copy{margin:auto}.intro-copy h1{font-size:43px;margin:14px 0}.intro-copy p{font-size:15px;margin:auto}.progress-card{margin:22px auto 0}.book-cover{width:215px;height:302px}.cover-inner{inset:48px 32px 44px 40px}.cover-title{font-size:29px}.cover-flower{font-size:58px}.cover-shadow{width:230px;transform:translate(13px,150px)}.work-screen{padding:0 10px 28px}.work-toolbar{margin-bottom:12px;padding:0 4px}.work-title{font-size:16px;width:34vw}.toolbar-left{gap:5px}.back-btn{font-size:11px}.quiet-btn{padding:8px 10px;font-size:11px}.tool-icon{height:32px;width:32px}.word-count{display:none}.book-workspace{grid-template-columns:1fr;gap:12px}.side-panel{order:2;padding:0 6px}.side-title,.side-hint,.local-note{display:none}.page-list{flex-direction:row;max-height:none;overflow:auto;padding:4px 0}.page-chip{flex:0 0 auto;padding:6px 8px}.page-chip-preview{display:none}.page-chip-num{width:22px;height:26px}.add-page{margin-top:4px;padding:8px}.book-wrap{order:1}.book-spread{min-height:72vh;grid-template-columns:1fr;filter:drop-shadow(0 12px 20px rgba(48,48,39,.14))}.leaf.left{display:none}.leaf.right{min-height:72vh;border-radius:6px;padding:34px 28px;background:linear-gradient(90deg,#f0eadc 0,#fbf7ec 8%,#fbf7ec 94%,#eee7d8 100%)}.gutter{display:none}.page-editor{min-height:52vh;font-size:18px}.nav-row{padding:0 5px;margin-top:12px}.nav-btn{padding:9px 13px;font-size:11px}.page-progress{font-size:10px}}
     @media(max-width:680px){.cover-stage.library-stage{gap:20px}.library-covers{gap:20px 14px}.shelf-item{width:calc(50% - 12px);max-width:200px}.shelf-item .book-cover{width:100%;height:auto;aspect-ratio:2/3}.shelf-item .cover-inner{inset:41px 22px 35px 31px}.shelf-item .cover-title{font-size:21px}.shelf-item .cover-flower{font-size:47px}.cover-editor-backdrop{padding:10px}.cover-editor-dialog{max-height:94vh;padding:20px 18px}.cover-editor-body{grid-template-columns:1fr;gap:20px;padding-top:16px}.cover-preview{width:165px;height:240px}.cover-preview .cover-inner{inset:42px 22px 34px 31px}.cover-preview .cover-title{font-size:23px}.cover-preview .cover-flower{font-size:48px}.cover-form-actions{flex-wrap:wrap}.create-book-button{flex:1}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+    .backup-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.backup-actions .quiet-btn{font-size:10px;padding:8px 11px}.save-note.save-error{color:#9a4d3f}.save-note.save-error .save-dot{background:#b75140;box-shadow:0 0 0 3px rgba(183,81,64,.13)}.shelf-delete{border:0;background:transparent;color:#956352;font-size:10px;padding:5px 9px;border-radius:999px}.shelf-delete:hover{background:rgba(255,255,255,.52);color:#713b2f}.page-chip-row{display:flex;align-items:center;gap:3px}.page-chip-row .page-chip{flex:1;min-width:0}.page-delete{border:0;background:transparent;color:#9b7767;border-radius:6px;width:28px;height:30px;font-size:15px;opacity:.72}.page-delete:hover{background:rgba(145,91,72,.1);opacity:1}
+    .shelf-empty{font-family:var(--serif);font-size:15px;font-style:italic;color:#77796b;text-align:center;padding:28px 12px}
+    @media(max-width:680px){.save-note.save-error{display:flex;position:fixed;z-index:30;left:50%;bottom:12px;transform:translateX(-50%);background:#fff5ed;border:1px solid #ddb4a5;border-radius:10px;box-shadow:0 7px 25px rgba(48,30,25,.18);padding:10px 14px;max-width:calc(100% - 24px)}}
   </style>
 </head>
 <body>
@@ -35,7 +38,7 @@
   <header class="topbar">
     <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Kitob Daftari</span></div>
     <div class="top-actions">
-      <span class="save-note" id="saveNote"><span class="save-dot"></span><span id="saveLabel">Brauzeringizda saqlanadi</span></span>
+      <span class="save-note" id="saveNote" role="status" aria-live="polite"><span class="save-dot"></span><span id="saveLabel">Brauzeringizda saqlanadi</span></span>
       <button class="quiet-btn" id="soundToggle" type="button" aria-pressed="true" title="Ovoz effektlarini o‘chirish"><span id="soundIcon" aria-hidden="true">♪</span><span id="soundLabel">Ovoz yoqilgan</span></button>
     </div>
   </header>
@@ -47,6 +50,7 @@
         <h1>Fikrlaringizga<br>joy oching.</h1>
         <p>Bo‘sh sahifadan boshlang. Kitobingizni yoping, qaytib keling — oxirgi yozgan joyingiz o‘sha yerda kutadi.</p>
         <div class="progress-card"><span>Hozirgi holat</span><strong id="coverProgress">Hali boshlanmadi</strong></div>
+        <div class="backup-actions"><button class="quiet-btn" id="exportBackup" type="button">JSON zaxira nusxasi</button><button class="quiet-btn" id="importBackupButton" type="button">Zaxiradan tiklash</button><input id="importBackupFile" type="file" accept="application/json,.json" hidden></div>
       </div>
       <div class="cover-stage library-stage">
         <div class="library-covers" id="libraryCovers" aria-label="Kitoblarim"></div>
@@ -154,30 +158,30 @@
     const pages=Array.isArray(b.pages)&&b.pages.length?b.pages:[''];
     const cursors=Array.isArray(b.cursors)?[...b.cursors]:[];
     while(cursors.length<pages.length)cursors.push(0);
-    return {id:b.id||`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:b.title||'Yangi kitob',subtitle:b.subtitle??'hali yozilmagan hikoya',author:b.author??'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage:typeof b.coverImage==='string'?b.coverImage:'',pages:[...pages],current:Math.max(0,Math.min(Number(b.current)||0,pages.length-1)),cursors};
+    return {id:b.id||`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:b.title||'Yangi kitob',subtitle:b.subtitle??'Hali yozilmagan hikoya',author:b.author??'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage:typeof b.coverImage==='string'?b.coverImage:'',pages:[...pages],current:Math.max(0,Math.min(Number(b.current)||0,pages.length-1)),cursors};
   };
   const read=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}};
   const legacy=read(STORE)||{};
   const savedShelf=read(SHELF);
   let library=savedShelf&&Array.isArray(savedShelf.books)?savedShelf:{books:[normalizeBook(legacy)],activeId:null,sound:legacy.sound!==false};
-  if(!library.books.length)library.books.push(normalizeBook({title:'Yangi kitob'}));
   library.books=library.books.map(normalizeBook);
-  if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0].id;
+  if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0]?.id||null;
   if(typeof library.sound!=='boolean')library.sound=legacy.sound!==false;
-  let state=copyBook(library.books.find(b=>b.id===library.activeId));state.sound=library.sound;
+  let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;
   let coverEditId=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',saveTimer=null,toastTimer=null,audioContext=null;
   const $=id=>document.getElementById(id);
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle');
   function persist(){
     try{
       const i=library.books.findIndex(b=>b.id===library.activeId);
-      const saved={...state,pages:[...state.pages],cursors:[...state.cursors]};
-      if(i>=0)library.books[i]=saved;else library.books.push(saved);
+      if(i>=0)library.books[i]={...state,pages:[...state.pages],cursors:[...state.cursors]};
       library.sound=state.sound;
+      const hadShelf=localStorage.getItem(SHELF)!==null;
+      if(hadShelf)localStorage.removeItem(STORE);
       localStorage.setItem(SHELF,JSON.stringify(library));
-      localStorage.setItem(STORE,JSON.stringify(state));
-      $('saveLabel').textContent='Saqlandi';setTimeout(()=>{$('saveLabel').textContent='Brauzeringizda saqlanadi'},1300);
-    }catch{$('saveLabel').textContent='Saqlash imkoni yo‘q'}
+      if(!hadShelf)localStorage.removeItem(STORE);
+      $('saveNote').classList.remove('save-error');$('saveLabel').textContent='Saqlandi';setTimeout(()=>{if(!$('saveNote').classList.contains('save-error'))$('saveLabel').textContent='Brauzeringizda saqlanadi'},1300);
+    }catch{$('saveNote').classList.add('save-error');$('saveLabel').textContent='Xotira to‘ldi — zaxira nusxa yuklang';toast('Saqlash amalga oshmadi. JSON zaxira nusxasini yuklab oling yoki xotiradan joy bo‘shating.')}
   }
   function scheduleSave(){$('saveLabel').textContent='Saqlanmoqda…';clearTimeout(saveTimer);saveTimer=setTimeout(persist,280)}
   function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1900)}
@@ -186,7 +190,7 @@
     try{audioContext||=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type=type==='page'?'triangle':'sine';osc.frequency.setValueAtTime(type==='page'?540:760,now);osc.frequency.exponentialRampToValueAtTime(type==='page'?250:460,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
   }
   function renderLibrary(){
-    const list=$('libraryCovers');list.replaceChildren();
+    const list=$('libraryCovers');list.replaceChildren();if(!library.books.length){const empty=document.createElement('p');empty.className='shelf-empty';empty.textContent='Javoningiz hozircha bo‘sh. Yangi kitobdan boshlang.';list.append(empty)}
     library.books.forEach(book=>{
       const item=document.createElement('article');item.className='shelf-item';
       const open=document.createElement('button');open.type='button';open.className='book-button';open.setAttribute('aria-label',`${book.title} kitobini ochish`);
@@ -200,10 +204,11 @@
       const rule=document.createElement('div');rule.className='cover-rule';
       const author=document.createElement('div');author.className='cover-author';author.textContent=book.author||'';
       inner.append(ornament,flower,coverTitle,subtitle,rule,author);coverArt.append(spine,inner);
-      const cta=document.createElement('div');cta.className='cover-cta';const ctaText=document.createElement('span');ctaText.textContent=book.id===library.activeId&&book.pages.some(p=>p.trim())?`Davom ettirish · ${book.current+1}-sahifa`:'Kitobni ochish';const arrow=document.createElement('span');arrow.textContent='→';arrow.setAttribute('aria-hidden','true');cta.append(ctaText,arrow);
+      const cta=document.createElement('div');cta.className='cover-cta';const ctaText=document.createElement('span');ctaText.textContent=book.pages.some(p=>p.trim())?`Davom ettirish · ${book.current+1}-sahifa`:'Kitobni ochish';const arrow=document.createElement('span');arrow.textContent='→';arrow.setAttribute('aria-hidden','true');cta.append(ctaText,arrow);
       open.append(coverArt,cta);open.addEventListener('click',()=>openBook(book.id));
       const edit=document.createElement('button');edit.type='button';edit.className='shelf-edit';edit.textContent='✎ Muqovani tahrirlash';edit.addEventListener('click',()=>openCoverEditor(book.id));
-      item.append(open,edit);list.append(item);
+      const remove=document.createElement('button');remove.type='button';remove.className='shelf-delete';remove.textContent='O‘chirish';remove.setAttribute('aria-label',`${book.title} kitobini o‘chirish`);remove.addEventListener('click',()=>deleteBook(book.id));
+      item.append(open,edit,remove);list.append(item);
     });
     $('coverProgress').textContent=`${library.books.length} ta kitob`;
   }
@@ -254,8 +259,13 @@
   function openBook(id=library.activeId){if(id&&id!==library.activeId)switchBook(id);cover.classList.remove('active');work.classList.add('active');title.value=state.title||'Yangi kitob';updatePage();play('page');setTimeout(focusEditor,180)}
   function renderList(){
     const list=$('pageList');list.replaceChildren();
-    state.pages.forEach((txt,i)=>{const b=document.createElement('button');b.type='button';b.className='page-chip'+(i===state.current?' active':'');b.setAttribute('aria-current',i===state.current?'page':'false');const num=document.createElement('span');num.className='page-chip-num';num.textContent=String(i+1);const preview=document.createElement('span');preview.className='page-chip-preview';preview.textContent=txt.trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa';b.append(num,preview);b.addEventListener('click',()=>go(i,true));list.append(b)});
+    state.pages.forEach((txt,i)=>{const row=document.createElement('div');row.className='page-chip-row';const b=document.createElement('button');b.type='button';b.className='page-chip'+(i===state.current?' active':'');b.setAttribute('aria-current',i===state.current?'page':'false');const num=document.createElement('span');num.className='page-chip-num';num.textContent=String(i+1);const preview=document.createElement('span');preview.className='page-chip-preview';preview.textContent=txt.trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa';b.append(num,preview);b.addEventListener('click',()=>go(i,true));const remove=document.createElement('button');remove.type='button';remove.className='page-delete';remove.textContent='×';remove.title=`${i+1}-sahifani o‘chirish`;remove.setAttribute('aria-label',`${i+1}-sahifani o‘chirish`);remove.addEventListener('click',()=>deletePage(i));row.append(b,remove);list.append(row)});
   }
+  function captureEditor(){if(work.classList.contains('active')){state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;state.title=title.value.trim()||'Yangi kitob'}}
+  function deleteBook(id){const book=library.books.find(b=>b.id===id);if(!book||!confirm(`“${book.title}” kitobi va uning barcha sahifalarini o‘chirasizmi?`))return;const wasActive=id===library.activeId;library.books=library.books.filter(b=>b.id!==id);if(wasActive){library.activeId=library.books[0]?.id||null;state=copyBook(library.books[0]||normalizeBook());state.sound=library.sound}persist();renderLibrary();updateCover();toast('Kitob o‘chirildi')}
+  function deletePage(index){if(state.pages.length===1){if(!state.pages[0].trim()){toast('Bo‘sh sahifa allaqachon bo‘sh');return}if(!confirm('Yagona sahifadagi matnni o‘chirib, bo‘sh qoldirasizmi?'))return;state.pages[0]='';state.cursors[0]=0;state.current=0;updatePage();persist();toast('Sahifa bo‘shatildi');return}if(!confirm(`${index+1}-sahifa va undagi matnni o‘chirasizmi?`))return;captureEditor();state.pages.splice(index,1);state.cursors.splice(index,1);if(index<state.current)state.current--;else if(index===state.current)state.current=Math.min(index,state.pages.length-1);updatePage();persist();toast('Sahifa o‘chirildi')}
+  function downloadJSON(){captureEditor();persist();const backup={format:'kitob-daftari-backup',version:1,exportedAt:new Date().toISOString(),library};const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kitob-daftari-zaxira.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Javon JSON zaxira fayli sifatida yuklandi')}
+  async function restoreJSON(file){if(!file)return;if(file.size>20*1024*1024){toast('Zaxira fayli 20 MB dan kichik bo‘lishi kerak');return}try{const data=JSON.parse(await file.text());if(data?.format!=='kitob-daftari-backup'||data.version!==1||!Array.isArray(data.library?.books))throw new Error('Bu Kitob Daftari zaxira fayli emas');if(!confirm('Joriy javon va yozuvlar zaxira faylidagi ma’lumotlar bilan almashtiriladi. Davom etasizmi?'))return;const seen=new Set();const books=data.library.books.map(item=>{let book=normalizeBook(item);if(seen.has(book.id))book=normalizeBook({...item,id:''});seen.add(book.id);return book});const activeId=books.some(b=>b.id===data.library.activeId)?data.library.activeId:(books[0]?.id||null);const next={books,activeId,sound:typeof data.library.sound==='boolean'?data.library.sound:true};localStorage.setItem(SHELF,JSON.stringify(next));localStorage.removeItem(STORE);library=next;state=copyBook(library.books.find(b=>b.id===activeId)||normalizeBook());state.sound=library.sound;work.classList.remove('active');cover.classList.add('active');renderLibrary();updateCover();persist();$('soundToggle').setAttribute('aria-pressed',String(!!state.sound));$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';toast('Zaxira muvaffaqiyatli tiklandi')}catch(err){toast(err instanceof SyntaxError?'JSON faylini o‘qib bo‘lmadi':err.message==='QuotaExceededError'?'Xotirada zaxira uchun joy yetarli emas':'Zaxira noto‘g‘ri yoki xotirada joy yetarli emas')}finally{$('importBackupFile').value=''}}
   function updatePage(){
     const current=state.pages[state.current]||'';editor.value=current;$('pageNumber').textContent=String(state.current+1);$('chapterLabel').textContent=state.current===0?'Birinchi bob':'Davomi';$('pageWordCount').textContent=current.trim()?`${wordCount(current)} ta so‘z`:'Bo‘sh sahifa';$('wordCount').textContent=`${state.pages.reduce((n,p)=>n+wordCount(p),0)} ta so‘z`;$('pageProgress').innerHTML=`<strong>${state.current+1}</strong> / ${state.pages.length}-sahifa`;$('previousPage').disabled=state.current===0;$('nextPage').disabled=state.current===state.pages.length-1;
     const left=$('leftCopy');left.replaceChildren();const kicker=document.createElement('div');kicker.className='leaf-kicker';kicker.textContent=state.current===0?'Sizning qo‘lyozmangiz':`Oldingi sahifa · ${state.current}`;const heading=document.createElement('h2');heading.className='left-leaf-title';heading.textContent=state.current===0?'Har bir kitob birinchi jumladan boshlanadi.':(state.title||'Yangi kitob');const prev=state.current>0?(state.pages[state.current-1]||'').trim():'';const excerpt=document.createElement('div');excerpt.className=prev?'left-excerpt':'left-empty';excerpt.textContent=prev||'Bu yerda oxirgi sahifangiz ko‘rinadi. O‘ng betga yozing — sahifangiz saqlanib boradi.';const foot=document.createElement('div');foot.className='left-foot';foot.innerHTML=`<span>${state.current===0?'Yozish uchun tayyor':'Davomi bor'}</span><span class="left-flourish" aria-hidden="true">❧</span>`;left.append(kicker,heading,excerpt,foot);renderList();updateCover();
@@ -263,13 +273,15 @@
   function focusEditor(){const pos=Math.max(0,Math.min(Number(state.cursors[state.current])||0,editor.value.length));editor.focus();editor.setSelectionRange(pos,pos)}
   function go(index,focus=false){if(index<0)return;while(state.pages.length<=index){state.pages.push('');state.cursors.push(0)}if(index===state.current)return;state.current=index;updatePage();const spread=$('bookSpread');spread.classList.remove('turning');void spread.offsetWidth;spread.classList.add('turning');play('page');scheduleSave();if(focus)setTimeout(focusEditor,100)}
   $('newBookButton').addEventListener('click',()=>openCoverEditor());$('saveCover').addEventListener('click',saveCover);$('cancelCover').addEventListener('click',closeCoverEditor);$('cancelCoverX').addEventListener('click',closeCoverEditor);
+  $('exportBackup').addEventListener('click',downloadJSON);$('importBackupButton').addEventListener('click',()=>$('importBackupFile').click());$('importBackupFile').addEventListener('change',e=>restoreJSON(e.target.files?.[0]));
   $('chooseCoverImage').addEventListener('click',()=>$('coverImageInput').click());
-  $('coverImageInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Rasm faylini tanlang');e.target.value='';return}if(file.size>15*1024*1024){toast('Rasm 15 MB dan kichik bo‘lishi kerak');e.target.value='';return}$('coverImageStatus').textContent='Rasm kichraytirilmoqda…';try{selectedCoverImage=await compressCoverImage(file);selectedCoverName=`${file.name} · optimallashtirildi`;updateCoverPreview()}catch(err){selectedCoverImage='';selectedCoverName='';updateCoverPreview();toast(err.message||'Rasmni yuklab bo‘lmadi')}finally{e.target.value=''}});
+  $('coverImageInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Rasm faylini tanlang');e.target.value='';return}if(file.size>15*1024*1024){toast('Rasm 15 MB dan kichik bo‘lishi kerak');e.target.value='';return}const previousImage=selectedCoverImage,previousName=selectedCoverName;$('coverImageStatus').textContent='Rasm kichraytirilmoqda…';try{selectedCoverImage=await compressCoverImage(file);selectedCoverName=`${file.name} · optimallashtirildi`;updateCoverPreview()}catch(err){selectedCoverImage=previousImage;selectedCoverName=previousName;updateCoverPreview();toast(err.message||'Rasmni yuklab bo‘lmadi')}finally{e.target.value=''}});
   $('removeCoverImage').addEventListener('click',()=>{selectedCoverImage='';selectedCoverName='';updateCoverPreview()});
   ['editTitle','editSubtitle','editAuthor'].forEach(id=>$(id).addEventListener('input',updateCoverPreview));
   $('themeOptions').addEventListener('click',e=>{const swatch=e.target.closest('.theme-swatch');if(!swatch)return;selectedTheme=swatch.dataset.theme;updateCoverPreview()});
   $('coverEditor').addEventListener('click',e=>{if(e.target===$('coverEditor'))closeCoverEditor()});
-  $('coverEditor').addEventListener('keydown',e=>{if(e.key==='Escape')closeCoverEditor();if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();if(e.target.id==='editTitle')$('editSubtitle').focus();else if(e.target.id==='editSubtitle')$('editAuthor').focus();else saveCover()}});
+  $('coverEditor').addEventListener('keydown',e=>{if(e.key==='Escape'){closeCoverEditor();return}if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();if(e.target.id==='editTitle')$('editSubtitle').focus();else if(e.target.id==='editSubtitle')$('editAuthor').focus();else saveCover()}});
+  document.addEventListener('keydown',e=>{if($('coverEditor').hidden)return;if(e.key==='Escape'){closeCoverEditor();return}if(e.key==='Tab'){const focusable=[...$('coverEditor').querySelectorAll('button:not([disabled]),input:not([disabled])')].filter(el=>!el.hidden&&el.offsetParent!==null);if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}},true);
   $('closeBook').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;state.title=title.value.trim()||'Yangi kitob';persist();play('page');work.classList.remove('active');cover.classList.add('active');renderLibrary();updateCover()});
   $('previousPage').addEventListener('click',()=>go(state.current-1,true));$('nextPage').addEventListener('click',()=>go(state.current+1,true));$('turnCornerNext').addEventListener('click',()=>go(state.current+1,true));
   $('addPage').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.pages.splice(state.current+1,0,'');state.cursors.splice(state.current+1,0,0);go(state.current+1,true);toast('Yangi sahifa ochildi')});
@@ -278,6 +290,8 @@
   title.addEventListener('input',()=>{state.title=title.value.trim()||'Yangi kitob';updateCover();scheduleSave()});
   $('soundToggle').addEventListener('click',()=>{state.sound=!state.sound;library.sound=state.sound;persist();$('soundToggle').setAttribute('aria-pressed',String(state.sound));$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';$('soundToggle').title=state.sound?'Ovoz effektlarini o‘chirish':'Ovoz effektlarini yoqish';if(state.sound)play('click')});
   $('exportBook').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;const text=`${state.title||'Yangi kitob'}\n\n`+state.pages.map((p,i)=>`— ${i+1}-sahifa —\n${p}`).join('\n\n');const blob=new Blob([text],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(state.title||'yangi-kitob').replace(/[^\p{L}\p{N}-]+/gu,'-').replace(/^-|-$/g,'').toLowerCase()+'.txt';a.click();URL.revokeObjectURL(a.href);play('click');toast('Qo‘lyozma TXT fayl sifatida yuklandi')});
+  function flushSave(){clearTimeout(saveTimer);captureEditor();persist()}
+  window.addEventListener('pagehide',flushSave);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushSave()});
   document.addEventListener('keydown',e=>{if(!work.classList.contains('active'))return;if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;persist();toast('Qo‘lyozma saqlandi')}if((e.metaKey||e.ctrlKey)&&e.key==='ArrowRight'){e.preventDefault();if(state.current===state.pages.length-1){state.pages.push('');state.cursors.push(0)}go(state.current+1,true)}if((e.metaKey||e.ctrlKey)&&e.key==='ArrowLeft'){e.preventDefault();go(state.current-1,true)}});
   title.value=state.title||'Yangi kitob';$('soundToggle').setAttribute('aria-pressed',String(!!state.sound));$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';$('soundToggle').title=state.sound?'Ovoz effektlarini o‘chirish':'Ovoz effektlarini yoqish';renderLibrary();updatePage();persist();
 })();
