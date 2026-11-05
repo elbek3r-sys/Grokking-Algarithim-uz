@@ -190,7 +190,7 @@
   if(typeof library.sound!=='boolean')library.sound=legacy?.sound!==false;
   let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;let bookWordCounts=state.pages.map(wordCount);
   let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false;
-  let coverEditId=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',saveTimer=null,saveStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,printOriginalTitle=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})();
+  let coverEditId=null,coverEditorReturnFocus=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',saveTimer=null,saveStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,printOriginalTitle=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})();
   const $=id=>document.getElementById(id);
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle');
   function persist(){
@@ -208,7 +208,8 @@
     }catch{$('saveNote').classList.add('save-error');$('saveLabel').textContent='Xotira to‘ldi — zaxira nusxa yuklang';toast('Saqlash amalga oshmadi. JSON zaxira nusxasini yuklab oling yoki xotiradan joy bo‘shating.')}
   }
   function scheduleSave(){pendingEdits=true;clearTimeout(saveStatusTimer);$('saveLabel').textContent='Saqlanmoqda…';clearTimeout(saveTimer);saveTimer=setTimeout(persist,280)}
-  function updateBackupStatus(){const status=$('backupStatus'),stamp=Date.parse(lastBackupAt),hasBooks=library.books.length>0,expired=!Number.isFinite(stamp)||Date.now()-stamp>7*86400000;status.classList.toggle('backup-due',hasBooks&&expired);if(!Number.isFinite(stamp)){status.textContent=hasBooks?'Hali zaxira olinmagan. JSON nusxasini yuklab, xavfsiz joyda saqlang.':'Kitob yozishni boshlang; keyin javonning zaxira nusxasini olishingiz mumkin.';return}const date=new Date(stamp).toLocaleDateString('uz-UZ',{year:'numeric',month:'long',day:'numeric'});status.textContent=expired&&hasBooks?`Oxirgi zaxira: ${date}. Yangi nusxa olish vaqti keldi.`:`Oxirgi zaxira: ${date}.`}\n  function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1900)}
+  function updateBackupStatus(){const status=$('backupStatus'),stamp=Date.parse(lastBackupAt),hasBooks=library.books.length>0,expired=!Number.isFinite(stamp)||Date.now()-stamp>7*86400000;status.classList.toggle('backup-due',hasBooks&&expired);if(!Number.isFinite(stamp)){status.textContent=hasBooks?'Hali zaxira olinmagan. JSON nusxasini yuklab, xavfsiz joyda saqlang.':'Kitob yozishni boshlang; keyin javonning zaxira nusxasini olishingiz mumkin.';return}const date=new Date(stamp).toLocaleDateString('uz-UZ',{year:'numeric',month:'long',day:'numeric'});status.textContent=expired&&hasBooks?`Oxirgi zaxira: ${date}. Yangi nusxa olish vaqti keldi.`:`Oxirgi zaxira: ${date}.`}
+  function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1900)}
   function play(type='page'){
     if(!state.sound)return;
     try{audioContext||=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type=type==='page'?'triangle':'sine';osc.frequency.setValueAtTime(type==='page'?540:760,now);osc.frequency.exponentialRampToValueAtTime(type==='page'?250:460,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
@@ -216,7 +217,7 @@
   function renderLibrary(){
     const list=$('libraryCovers');list.replaceChildren();if(!library.books.length){const empty=document.createElement('p');empty.className='shelf-empty';empty.textContent='Javoningiz hozircha bo‘sh. Yangi kitobdan boshlang.';list.append(empty)}
     library.books.forEach(book=>{
-      const item=document.createElement('article');item.className='shelf-item';
+      const item=document.createElement('article');item.className='shelf-item';item.dataset.bookId=book.id;
       const open=document.createElement('button');open.type='button';open.className='book-button';open.setAttribute('aria-label',`${book.title} kitobini ochish`);
       const coverArt=document.createElement('div');coverArt.className='book-cover';coverArt.style.background=book.coverImage?`linear-gradient(rgba(20,27,22,.34),rgba(20,27,22,.48)),url("${book.coverImage}") center/cover`:themes[book.theme]||themes.forest;
       const spine=document.createElement('div');spine.className='cover-spine';
@@ -262,13 +263,13 @@
     if(bitmap.close)bitmap.close();throw new Error('Rasm hajmini kichraytirib bo‘lmadi');
   }
   function openCoverEditor(bookId=null){
-    coverEditId=bookId;const existing=bookId?library.books.find(b=>b.id===bookId):null;
+    coverEditorReturnFocus=document.activeElement;coverEditId=bookId;const existing=bookId?library.books.find(b=>b.id===bookId):null;
     $('coverEditorHeading').textContent=existing?'Muqovani tahrirlash':'Yangi kitobingizga nom bering.';
     $('saveCover').textContent=existing?'O‘zgarishlarni saqlash':'Muqovani saqlab, kitobni ochish';
     $('editTitle').value=existing?.title||'Yangi kitob';$('editSubtitle').value=existing?.subtitle||'';$('editAuthor').value=existing?.author||'';selectedTheme=existing?.theme||'forest';selectedCoverImage=existing?.coverImage||'';selectedCoverName=selectedCoverImage?'Saqlangan muqova rasmi':'';$('coverImageInput').value='';
     updateCoverPreview();$('coverEditor').hidden=false;setTimeout(()=>$('editTitle').focus(),50);
   }
-  function closeCoverEditor(){$('coverEditor').hidden=true;coverEditId=null}
+  function closeCoverEditor(){const editedId=coverEditId,returnFocus=coverEditorReturnFocus;$('coverEditor').hidden=true;coverEditId=null;coverEditorReturnFocus=null;const recreatedEdit=editedId?[...document.querySelectorAll('.shelf-item')].find(item=>item.dataset.bookId===editedId)?.querySelector('.shelf-edit'):null;(returnFocus?.isConnected?returnFocus:recreatedEdit||$('newBookButton'))?.focus()}
   function saveCover(){
     const name=$('editTitle').value.trim();if(!name){$('editTitle').focus();toast('Avval kitob nomini yozing');return}
     const details={title:name,subtitle:$('editSubtitle').value.trim(),author:$('editAuthor').value.trim(),theme:selectedTheme,coverImage:selectedCoverImage};
