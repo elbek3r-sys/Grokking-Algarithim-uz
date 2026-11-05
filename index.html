@@ -21,6 +21,7 @@
 
     .cover-stage.library-stage{flex-direction:column;gap:24px;perspective:none;align-items:center}.library-covers{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:28px 24px;max-width:650px}.shelf-item{position:relative;width:clamp(185px,18vw,225px);display:flex;flex-direction:column;align-items:center;gap:11px;animation:fadeUp .45s ease both}.shelf-item .book-button{transform:rotateY(-12deg) rotateZ(-1.5deg);filter:drop-shadow(14px 18px 14px rgba(35,40,31,.2))}.shelf-item .book-button:hover{transform:rotateY(-4deg) translateY(-6px)}.shelf-item .book-cover{width:clamp(180px,18vw,215px);height:clamp(265px,27vw,315px);background:var(--cover-color,radial-gradient(ellipse at 30% 20%,#526352 0,#35493c 45%,#23392e 100%))}.shelf-item .cover-inner{inset:46px 28px 40px 38px}.shelf-item .cover-title{font-size:26px;white-space:normal;overflow-wrap:anywhere}.shelf-item .cover-subtitle{font-size:12px}.shelf-item .cover-author{font-size:8px}.shelf-item .cover-flower{font-size:58px}.shelf-item .cover-cta{top:calc(100% + 14px)}.shelf-edit{border:0;background:transparent;color:#6d7567;font-size:10px;padding:5px 9px;border-radius:999px}.shelf-edit:hover{background:rgba(255,255,255,.52);color:var(--forest)}.new-book-button{border:1px solid rgba(36,55,47,.22);background:rgba(255,255,255,.38);color:var(--forest);border-radius:999px;padding:12px 18px;font-size:12px;letter-spacing:.02em;transition:.2s}.new-book-button span{font-size:17px;vertical-align:-1px;margin-right:5px}.new-book-button:hover{background:white;transform:translateY(-2px);box-shadow:0 8px 20px rgba(35,40,31,.08)}
     .cover-editor-backdrop{position:fixed;inset:0;z-index:20;background:rgba(27,37,30,.55);backdrop-filter:blur(5px);display:grid;place-items:center;padding:20px}.cover-editor-backdrop[hidden]{display:none}.cover-editor-dialog{width:min(860px,100%);max-height:min(90vh,760px);overflow:auto;background:#f8f3e7;border:1px solid rgba(255,255,255,.52);border-radius:16px;box-shadow:0 30px 90px rgba(15,25,19,.35);padding:26px clamp(20px,4vw,38px) 30px;animation:fadeUp .25s ease both}.cover-editor-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;border-bottom:1px solid rgba(36,55,47,.13);padding-bottom:19px}.cover-editor-head h2{font-family:var(--serif);font-size:clamp(24px,3vw,34px);font-weight:400;color:var(--forest);margin:8px 0 0}.cover-editor-body{display:grid;grid-template-columns:minmax(220px,300px) minmax(280px,1fr);gap:clamp(25px,5vw,58px);align-items:center;padding-top:23px}.cover-preview-column{display:flex;align-items:center;flex-direction:column}.cover-preview{width:clamp(200px,24vw,260px);height:clamp(295px,34vw,370px);background:radial-gradient(ellipse at 30% 20%,#526352 0,#35493c 45%,#23392e 100%)}.cover-preview .cover-inner{inset:54px 31px 48px 40px}.cover-preview .cover-title{font-size:28px;overflow-wrap:anywhere}.cover-preview .cover-subtitle{max-width:180px}.preview-caption{margin-top:14px;color:#898879;font-size:10px;letter-spacing:.05em}.cover-form{display:grid;grid-template-columns:1fr;gap:8px}.cover-form label,.theme-label{font-size:11px;color:#5d675a;font-weight:600;margin-top:6px}.cover-form label span{font-weight:400;color:#969487}.cover-form input{width:100%;border:1px solid #d8d1bf;border-radius:8px;background:rgba(255,255,255,.57);padding:11px 12px;color:var(--ink);font-size:13px}.cover-form input::placeholder{color:#aaa696}.theme-options{display:flex;gap:11px;margin:3px 0 12px}.theme-swatch{width:28px;height:28px;border-radius:50%;border:2px solid #f8f3e7;box-shadow:0 0 0 1px rgba(36,55,47,.23);background:#35493c}.theme-swatch[data-theme="terracotta"]{background:#785040}.theme-swatch[data-theme="midnight"]{background:#3c4c64}.theme-swatch[data-theme="plum"]{background:#624c60}.theme-swatch[data-theme="ochre"]{background:#887044}.theme-swatch.selected{box-shadow:0 0 0 2px #c28b50}.cover-form-actions{display:flex;justify-content:flex-end;gap:9px;align-items:center;margin-top:8px}.cover-form-actions .quiet-btn{background:transparent}.create-book-button{border:0;border-radius:999px;background:var(--forest);color:#f7f1e3;padding:11px 16px;font-size:11px;transition:.2s}.create-book-button:hover{background:#395747;transform:translateY(-1px)}
+    .cover-image-tools{display:flex;gap:8px;margin-top:12px;justify-content:center}.cover-image-tools button{border:1px solid rgba(36,55,47,.2);border-radius:999px;background:rgba(255,255,255,.55);color:var(--forest);padding:8px 12px;font-size:10px}.cover-image-tools button:hover{background:#fff}.cover-image-tools .remove-image{color:#8b594b}.cover-image-status{max-width:260px;min-height:15px;margin:7px 0 0;color:#818275;font-size:10px;text-align:center;overflow-wrap:anywhere}.cover-image-help{font-size:10px;color:#898879;line-height:1.45;margin:0}
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}@keyframes pageTurn{0%{transform:rotateY(0)}45%{transform:rotateY(-7deg)}100%{transform:rotateY(0)}}
     @media(max-width:900px){.cover-screen{gap:38px;padding-left:5vw;padding-right:5vw}.book-workspace{grid-template-columns:170px minmax(0,1fr);gap:14px}.nav-row{padding-left:184px}.leaf{padding:35px 30px;min-height:560px}.side-panel{padding-left:0}}
@@ -68,6 +69,9 @@
                 <div class="cover-rule"></div><div class="cover-author" id="previewAuthor">Muallif</div>
               </div>
             </div>
+            <div class="cover-image-tools"><button type="button" id="chooseCoverImage">Rasm tanlash</button><button class="remove-image" type="button" id="removeCoverImage" hidden>Rasmni olib tashlash</button></div>
+            <input id="coverImageInput" type="file" accept="image/*" hidden aria-label="Muqova rasmi">
+            <div class="cover-image-status" id="coverImageStatus" aria-live="polite">Rasm qurilmangizda saqlanadi.</div>
             <div class="preview-caption">Muqovaning ko‘rinishi</div>
           </div>
           <div class="cover-form">
@@ -150,7 +154,7 @@
     const pages=Array.isArray(b.pages)&&b.pages.length?b.pages:[''];
     const cursors=Array.isArray(b.cursors)?[...b.cursors]:[];
     while(cursors.length<pages.length)cursors.push(0);
-    return {id:b.id||`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:b.title||'Yangi kitob',subtitle:b.subtitle??'hali yozilmagan hikoya',author:b.author??'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',pages:[...pages],current:Math.max(0,Math.min(Number(b.current)||0,pages.length-1)),cursors};
+    return {id:b.id||`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:b.title||'Yangi kitob',subtitle:b.subtitle??'hali yozilmagan hikoya',author:b.author??'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage:typeof b.coverImage==='string'?b.coverImage:'',pages:[...pages],current:Math.max(0,Math.min(Number(b.current)||0,pages.length-1)),cursors};
   };
   const read=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}};
   const legacy=read(STORE)||{};
@@ -161,7 +165,7 @@
   if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0].id;
   if(typeof library.sound!=='boolean')library.sound=legacy.sound!==false;
   let state=copyBook(library.books.find(b=>b.id===library.activeId));state.sound=library.sound;
-  let coverEditId=null,selectedTheme='forest',saveTimer=null,toastTimer=null,audioContext=null;
+  let coverEditId=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',saveTimer=null,toastTimer=null,audioContext=null;
   const $=id=>document.getElementById(id);
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle');
   function persist(){
@@ -186,7 +190,7 @@
     library.books.forEach(book=>{
       const item=document.createElement('article');item.className='shelf-item';
       const open=document.createElement('button');open.type='button';open.className='book-button';open.setAttribute('aria-label',`${book.title} kitobini ochish`);
-      const coverArt=document.createElement('div');coverArt.className='book-cover';coverArt.style.background=themes[book.theme]||themes.forest;
+      const coverArt=document.createElement('div');coverArt.className='book-cover';coverArt.style.background=book.coverImage?`linear-gradient(rgba(20,27,22,.34),rgba(20,27,22,.48)),url("${book.coverImage}") center/cover`:themes[book.theme]||themes.forest;
       const spine=document.createElement('div');spine.className='cover-spine';
       const inner=document.createElement('div');inner.className='cover-inner';
       const ornament=document.createElement('div');ornament.className='cover-ornament';ornament.setAttribute('aria-hidden','true');ornament.textContent='✳';
@@ -210,20 +214,35 @@
     const titleText=$('editTitle').value.trim()||'Yangi kitob';
     $('previewTitle').textContent=titleText;$('previewSubtitle').textContent=$('editSubtitle').value.trim()||' ';
     $('previewAuthor').textContent=$('editAuthor').value.trim()||' ';
-    $('coverPreview').style.background=themes[selectedTheme];
+    $('coverPreview').style.background=selectedCoverImage?`linear-gradient(rgba(20,27,22,.34),rgba(20,27,22,.48)),url("${selectedCoverImage}") center/cover`:themes[selectedTheme];
+    $('removeCoverImage').hidden=!selectedCoverImage;$('coverImageStatus').textContent=selectedCoverImage?(selectedCoverName||'Muqova rasmi tanlandi.'): 'Rasm qurilmangizda saqlanadi.';
     document.querySelectorAll('.theme-swatch').forEach(b=>{const chosen=b.dataset.theme===selectedTheme;b.classList.toggle('selected',chosen);b.setAttribute('aria-pressed',String(chosen))});
+  }
+  async function compressCoverImage(file){
+    let bitmap;
+    if(window.createImageBitmap)bitmap=await createImageBitmap(file);
+    else bitmap=await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Rasmni ochib bo‘lmadi'));image.src=URL.createObjectURL(file)});
+    const maxSide=1100,scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));let width=Math.max(1,Math.round(bitmap.width*scale)),height=Math.max(1,Math.round(bitmap.height*scale));
+    const canvas=document.createElement('canvas');
+    for(let attempt=0;attempt<4;attempt++){
+      canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0,width,height);
+      const quality=[.82,.72,.62,.54][attempt];let data=canvas.toDataURL('image/webp',quality);if(!data.startsWith('data:image/webp'))data=canvas.toDataURL('image/jpeg',quality);
+      if(data.length<260000||attempt===3){if(bitmap.close)bitmap.close();return data}
+      width=Math.max(1,Math.round(width*.78));height=Math.max(1,Math.round(height*.78));
+    }
+    if(bitmap.close)bitmap.close();throw new Error('Rasm hajmini kichraytirib bo‘lmadi');
   }
   function openCoverEditor(bookId=null){
     coverEditId=bookId;const existing=bookId?library.books.find(b=>b.id===bookId):null;
     $('coverEditorHeading').textContent=existing?'Muqovani tahrirlash':'Yangi kitobingizga nom bering.';
     $('saveCover').textContent=existing?'O‘zgarishlarni saqlash':'Muqovani saqlab, kitobni ochish';
-    $('editTitle').value=existing?.title||'Yangi kitob';$('editSubtitle').value=existing?.subtitle||'';$('editAuthor').value=existing?.author||'';selectedTheme=existing?.theme||'forest';
+    $('editTitle').value=existing?.title||'Yangi kitob';$('editSubtitle').value=existing?.subtitle||'';$('editAuthor').value=existing?.author||'';selectedTheme=existing?.theme||'forest';selectedCoverImage=existing?.coverImage||'';selectedCoverName=selectedCoverImage?'Saqlangan muqova rasmi':'';$('coverImageInput').value='';
     updateCoverPreview();$('coverEditor').hidden=false;setTimeout(()=>$('editTitle').focus(),50);
   }
   function closeCoverEditor(){$('coverEditor').hidden=true;coverEditId=null}
   function saveCover(){
     const name=$('editTitle').value.trim();if(!name){$('editTitle').focus();toast('Avval kitob nomini yozing');return}
-    const details={title:name,subtitle:$('editSubtitle').value.trim(),author:$('editAuthor').value.trim(),theme:selectedTheme};
+    const details={title:name,subtitle:$('editSubtitle').value.trim(),author:$('editAuthor').value.trim(),theme:selectedTheme,coverImage:selectedCoverImage};
     if(coverEditId){
       const book=library.books.find(b=>b.id===coverEditId);if(!book)return;Object.assign(book,details);
       if(book.id===library.activeId){Object.assign(state,details);title.value=state.title}
@@ -244,6 +263,9 @@
   function focusEditor(){const pos=Math.max(0,Math.min(Number(state.cursors[state.current])||0,editor.value.length));editor.focus();editor.setSelectionRange(pos,pos)}
   function go(index,focus=false){if(index<0)return;while(state.pages.length<=index){state.pages.push('');state.cursors.push(0)}if(index===state.current)return;state.current=index;updatePage();const spread=$('bookSpread');spread.classList.remove('turning');void spread.offsetWidth;spread.classList.add('turning');play('page');scheduleSave();if(focus)setTimeout(focusEditor,100)}
   $('newBookButton').addEventListener('click',()=>openCoverEditor());$('saveCover').addEventListener('click',saveCover);$('cancelCover').addEventListener('click',closeCoverEditor);$('cancelCoverX').addEventListener('click',closeCoverEditor);
+  $('chooseCoverImage').addEventListener('click',()=>$('coverImageInput').click());
+  $('coverImageInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Rasm faylini tanlang');e.target.value='';return}if(file.size>15*1024*1024){toast('Rasm 15 MB dan kichik bo‘lishi kerak');e.target.value='';return}$('coverImageStatus').textContent='Rasm kichraytirilmoqda…';try{selectedCoverImage=await compressCoverImage(file);selectedCoverName=`${file.name} · optimallashtirildi`;updateCoverPreview()}catch(err){selectedCoverImage='';selectedCoverName='';updateCoverPreview();toast(err.message||'Rasmni yuklab bo‘lmadi')}finally{e.target.value=''}});
+  $('removeCoverImage').addEventListener('click',()=>{selectedCoverImage='';selectedCoverName='';updateCoverPreview()});
   ['editTitle','editSubtitle','editAuthor'].forEach(id=>$(id).addEventListener('input',updateCoverPreview));
   $('themeOptions').addEventListener('click',e=>{const swatch=e.target.closest('.theme-swatch');if(!swatch)return;selectedTheme=swatch.dataset.theme;updateCoverPreview()});
   $('coverEditor').addEventListener('click',e=>{if(e.target===$('coverEditor'))closeCoverEditor()});
