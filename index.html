@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#24372f">
+  <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
+  <title>Kitob Daftari — yozish uchun sokin joy</title>
+  <style>
+    :root{--forest:#24372f;--forest-2:#31493e;--moss:#77836b;--paper:#f4eedf;--paper-2:#fbf7ec;--ink:#262b26;--muted:#7a7a6f;--line:#ded6c3;--gold:#c28b50;--shadow:0 28px 72px rgba(32,37,31,.2);--serif:Georgia,'Times New Roman',serif;--sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#e9e5d9;color:var(--ink);font-family:var(--sans)}button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #c28b50;outline-offset:3px}
+    .app-shell{min-height:100vh;background:radial-gradient(ellipse at 51% 21%,rgba(255,255,255,.8),transparent 58%),linear-gradient(135deg,#e9e5d9,#dedccf 55%,#e9e5d9);overflow:hidden;position:relative}.app-shell:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E")}
+    .topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,72px);position:relative;z-index:2}.brand{display:flex;align-items:center;gap:12px;color:var(--forest);font-family:var(--serif);font-size:21px;letter-spacing:-.03em}.brand-mark{height:34px;width:29px;position:relative;border:1.4px solid var(--forest);border-radius:3px 7px 7px 3px;box-shadow:inset 4px 0 0 rgba(36,55,47,.12);transform:perspective(60px) rotateY(-8deg)}.brand-mark:after{content:"";position:absolute;top:0;bottom:0;left:5px;width:1px;background:rgba(36,55,47,.35)}.top-actions{display:flex;gap:10px;align-items:center}.quiet-btn{border:1px solid rgba(36,55,47,.17);color:var(--forest);background:rgba(255,255,255,.36);border-radius:999px;padding:10px 14px;display:flex;gap:8px;align-items:center;font-size:12px;transition:.2s}.quiet-btn:hover{background:#fff}.save-note{font-size:12px;color:var(--muted);display:flex;gap:7px;align-items:center;margin-right:7px}.save-dot{width:7px;height:7px;border-radius:50%;background:#78916d;box-shadow:0 0 0 3px rgba(120,145,109,.12)}
+    .screen{display:none;position:relative;z-index:1}.screen.active{display:block}.cover-screen{min-height:calc(100vh - 76px);display:grid;grid-template-columns:minmax(280px,440px) minmax(320px,520px);align-items:center;justify-content:center;gap:clamp(50px,10vw,150px);padding:32px 7vw 92px}.intro-copy{max-width:410px;animation:fadeUp .7s ease both}.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:10px;color:#7e826f;font-weight:650}.intro-copy h1{font-family:var(--serif);font-weight:400;font-size:clamp(42px,5.3vw,68px);line-height:.99;letter-spacing:-.055em;color:var(--forest);margin:20px 0 18px}.intro-copy p{font-family:var(--serif);font-size:17px;line-height:1.65;color:#676c62;max-width:360px;margin:0}.progress-card{border-top:1px solid rgba(36,55,47,.15);margin-top:36px;padding-top:18px;max-width:330px;display:flex;align-items:center;justify-content:space-between;color:#737669;font-size:12px}.progress-card strong{font-family:var(--serif);font-weight:400;font-size:17px;color:var(--forest)}.cover-stage{display:flex;align-items:center;justify-content:center;perspective:1200px;animation:fadeUp .85s .1s ease both}.cover-shadow{position:absolute;width:min(360px,74vw);height:40px;background:rgba(36,41,33,.28);filter:blur(25px);border-radius:50%;transform:translate(18px,193px)}.book-button{border:0;background:none;padding:0;position:relative;transform:rotateY(-13deg) rotateZ(-2deg);transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(24px 24px 20px rgba(35,40,31,.23))}.book-button:hover{transform:rotateY(-5deg) rotateZ(0) translateY(-8px)}.book-cover{width:clamp(230px,27vw,320px);height:clamp(330px,39vw,450px);border-radius:4px 12px 12px 4px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 30% 20%,#526352 0,#35493c 45%,#23392e 100%);border:1px solid rgba(18,30,24,.65);box-shadow:inset 7px 0 9px rgba(0,0,0,.18),inset -1px 0 0 rgba(255,255,255,.14);color:#f3e8cc;text-align:left}.book-cover:before{content:"";position:absolute;inset:16px;border:1px solid rgba(212,174,111,.52);border-radius:2px 8px 8px 2px}.book-cover:after{content:"";position:absolute;inset:24px;border:1px solid rgba(212,174,111,.19);border-radius:1px 6px 6px 1px}.cover-spine{position:absolute;left:12px;top:0;bottom:0;width:20px;background:linear-gradient(90deg,rgba(0,0,0,.2),rgba(255,255,255,.035),rgba(0,0,0,.12));border-right:1px solid rgba(212,174,111,.25);z-index:1}.cover-inner{position:absolute;inset:61px 37px 55px 47px;display:flex;flex-direction:column;align-items:center;z-index:2;text-align:center}.cover-ornament{font-size:22px;color:#d3aa6e;margin:0 0 auto}.cover-title{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.1;letter-spacing:.015em;margin:0 auto 10px;text-wrap:balance}.cover-subtitle{font-family:var(--serif);font-style:italic;color:#d5c6a5;font-size:14px}.cover-rule{width:42px;height:1px;background:#c89a5b;margin:23px 0 17px}.cover-author{font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:#d8c9a8;margin-top:auto}.cover-flower{position:absolute;color:rgba(207,172,115,.7);font-family:var(--serif);font-size:68px;left:50%;top:41%;transform:translate(-50%,-50%);z-index:1}.cover-cta{position:absolute;left:50%;top:calc(100% + 33px);transform:translateX(-50%);white-space:nowrap;font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#73786c;display:flex;align-items:center;gap:8px}.cover-cta span{font-size:16px;transition:transform .2s}.book-button:hover .cover-cta span{transform:translateX(5px)}
+    .work-screen{min-height:calc(100vh - 76px);padding:0 20px 50px}
+    .screen:not(.active){display:none}.work-toolbar{max-width:1180px;margin:0 auto 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:2px 5px}.toolbar-left,.toolbar-right{display:flex;align-items:center;gap:11px}.back-btn{border:0;background:transparent;color:var(--forest);padding:10px 8px 10px 0;font-size:13px;display:flex;align-items:center;gap:9px}.back-btn:hover{color:#60765e}.divider{height:21px;width:1px;background:rgba(36,55,47,.18)}.work-title{border:0;background:transparent;color:var(--forest);font-family:var(--serif);font-size:19px;width:min(290px,35vw);padding:7px 3px;border-bottom:1px solid transparent}.work-title:hover,.work-title:focus{border-bottom-color:rgba(36,55,47,.25);outline:none}.word-count{font-size:11px;color:#74776d;min-width:75px;text-align:right}.tool-icon{border:1px solid rgba(36,55,47,.16);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.4);color:var(--forest);display:grid;place-items:center;font-size:16px;transition:.2s}.tool-icon:hover{background:white;transform:translateY(-1px)}
+    .book-workspace{max-width:1180px;margin:auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}.side-panel{padding:18px 8px 0 3px}.side-title{font-family:var(--serif);font-size:17px;color:var(--forest);margin:0 0 7px}.side-hint{font-size:11px;line-height:1.5;color:#858678;margin:0 0 18px}.page-list{display:flex;flex-direction:column;gap:6px;max-height:50vh;overflow:auto;padding-right:4px}.page-chip{display:flex;align-items:center;gap:11px;border:0;text-align:left;background:transparent;color:#73776c;border-radius:8px;padding:9px 10px;font-size:12px;transition:.18s}.page-chip:hover{background:rgba(255,255,255,.4)}.page-chip.active{background:#fffdf6;box-shadow:0 2px 12px rgba(49,54,44,.06);color:var(--forest)}.page-chip-num{width:24px;height:28px;display:grid;place-items:center;background:#eee8d8;border-radius:4px 6px 6px 4px;font-family:var(--serif);font-size:13px;color:#73745f}.page-chip.active .page-chip-num{background:#dce2d5;color:#36513c}.page-chip-preview{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px;color:#88887c;font-size:10px}.add-page{border:1px dashed rgba(36,55,47,.25);border-radius:8px;background:transparent;color:#646d5f;font-size:11px;width:100%;padding:10px;margin-top:12px;transition:.2s}.add-page:hover{background:rgba(255,255,255,.4);border-color:#829079}.local-note{margin-top:20px;font-size:10px;color:#8e8e82;line-height:1.5;display:flex;gap:7px;align-items:flex-start}
+    .book-wrap{position:relative;perspective:1700px}.book-spread{min-height:min(72vh,720px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);filter:drop-shadow(0 20px 30px rgba(48,48,39,.16));transform-style:preserve-3d}.leaf{position:relative;background:var(--paper-2);min-height:560px;padding:clamp(30px,5vw,65px) clamp(25px,5vw,66px);overflow:hidden}.leaf.left{border-radius:6px 0 0 6px;background:linear-gradient(90deg,#eee8d9 0,#fbf7ec 9%,#f8f3e6 100%);border-right:1px solid #dfd7c7;box-shadow:inset -15px 0 18px -19px rgba(64,56,42,.35)}.leaf.right{border-radius:0 6px 6px 0;background:linear-gradient(90deg,#fbf7ec 0,#fbf7ec 90%,#f0eadb 100%);box-shadow:inset 15px 0 18px -19px rgba(64,56,42,.32)}.leaf:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;background:repeating-linear-gradient(0deg,rgba(122,110,85,.025) 0 1px,transparent 1px 4px)}.gutter{position:absolute;z-index:2;left:50%;top:0;bottom:0;width:28px;transform:translateX(-50%);background:linear-gradient(90deg,rgba(42,40,33,.09),rgba(255,255,255,.18) 48%,rgba(42,40,33,.055));pointer-events:none}.leaf-kicker{font-size:9px;text-transform:uppercase;letter-spacing:.19em;color:#9a927d;position:relative;z-index:1}.left-copy{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}.left-leaf-title{font-family:var(--serif);font-weight:400;color:#53664f;font-size:clamp(24px,3vw,34px);line-height:1.12;margin:30px 0 18px}.left-excerpt{font-family:var(--serif);font-size:15px;line-height:1.8;color:#7c7b6f;white-space:pre-wrap;overflow:hidden;display:-webkit-box;-webkit-line-clamp:12;-webkit-box-orient:vertical}.left-empty{font-family:var(--serif);font-style:italic;color:#9a9689;font-size:15px;line-height:1.6;margin-top:28px;max-width:240px}.left-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:end;color:#a29b88;font-family:var(--serif);font-size:11px}.left-flourish{color:#c2a375;font-size:23px}
+    .editor-page{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}.page-topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.page-number{font-family:var(--serif);font-size:13px;color:#9b927f}.chapter-label{font-size:9px;color:#aaa28f;text-transform:uppercase;letter-spacing:.14em}.page-editor{border:0;resize:none;flex:1;min-height:390px;width:100%;background:transparent;color:#343830;font-family:var(--serif);font-size:clamp(16px,1.45vw,19px);line-height:1.9;letter-spacing:.005em;padding:0 4px 25px 0;outline:none;position:relative;z-index:2}.page-editor::placeholder{color:#b2ad9e;font-style:italic;opacity:1}.editor-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(115,108,90,.17);padding-top:13px;color:#a09a8b;font-size:10px;position:relative;z-index:2}.editor-bottom strong{font-family:var(--serif);font-size:12px;font-weight:400;color:#77796b}.page-turn{position:absolute;z-index:4;bottom:0;width:64px;height:60px;border:0;background:linear-gradient(135deg,transparent 49%,rgba(209,200,178,.7) 50%,#f1ecdf 70%);opacity:.5;transition:.2s}.page-turn:hover{opacity:1}.page-turn.next{right:0;border-radius:0 0 6px 0}.page-turn.prev{left:0;transform:scaleX(-1);border-radius:0 0 6px 0}.book-spread.turning{animation:pageTurn .45s ease}
+    .nav-row{max-width:1180px;margin:16px auto 0;display:flex;justify-content:space-between;align-items:center;padding-left:244px}.nav-btn{border:1px solid rgba(36,55,47,.2);border-radius:999px;padding:10px 17px;background:rgba(255,255,255,.43);color:var(--forest);font-size:12px;display:flex;align-items:center;gap:8px;transition:.2s}.nav-btn:hover:not(:disabled){background:#fff;transform:translateY(-1px)}.nav-btn:disabled{opacity:.35;cursor:not-allowed}.page-progress{font-size:11px;color:#818275;letter-spacing:.04em}.page-progress strong{color:var(--forest);font-weight:600}.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#24372f;color:#f7f1e3;padding:10px 15px;border-radius:99px;font-size:11px;box-shadow:0 8px 20px rgba(0,0,0,.14);transition:.25s;z-index:10}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+    .cover-stage.library-stage{flex-direction:column;gap:24px;perspective:none;align-items:center}.library-covers{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:28px 24px;max-width:650px}.shelf-item{position:relative;width:clamp(185px,18vw,225px);display:flex;flex-direction:column;align-items:center;gap:11px;animation:fadeUp .45s ease both}.shelf-item .book-button{transform:rotateY(-12deg) rotateZ(-1.5deg);filter:drop-shadow(14px 18px 14px rgba(35,40,31,.2))}.shelf-item .book-button:hover{transform:rotateY(-4deg) translateY(-6px)}.shelf-item .book-cover{width:clamp(180px,18vw,215px);height:clamp(265px,27vw,315px);background:var(--cover-color,radial-gradient(ellipse at 30% 20%,#526352 0,#35493c 45%,#23392e 100%))}.shelf-item .cover-inner{inset:46px 28px 40px 38px}.shelf-item .cover-title{font-size:26px;white-space:normal;overflow-wrap:anywhere}.shelf-item .cover-subtitle{font-size:12px}.shelf-item .cover-author{font-size:8px}.shelf-item .cover-flower{font-size:58px}.shelf-item .cover-cta{top:calc(100% + 14px)}.shelf-edit{border:0;background:transparent;color:#6d7567;font-size:10px;padding:5px 9px;border-radius:999px}.shelf-edit:hover{background:rgba(255,255,255,.52);color:var(--forest)}.new-book-button{border:1px solid rgba(36,55,47,.22);background:rgba(255,255,255,.38);color:var(--forest);border-radius:999px;padding:12px 18px;font-size:12px;letter-spacing:.02em;transition:.2s}.new-book-button span{font-size:17px;vertical-align:-1px;margin-right:5px}.new-book-button:hover{background:white;transform:translateY(-2px);box-shadow:0 8px 20px rgba(35,40,31,.08)}
+    .cover-editor-backdrop{position:fixed;inset:0;z-index:20;background:rgba(27,37,30,.55);backdrop-filter:blur(5px);display:grid;place-items:center;padding:20px}.cover-editor-backdrop[hidden]{display:none}.cover-editor-dialog{width:min(860px,100%);max-height:min(90vh,760px);overflow:auto;background:#f8f3e7;border:1px solid rgba(255,255,255,.52);border-radius:16px;box-shadow:0 30px 90px rgba(15,25,19,.35);padding:26px clamp(20px,4vw,38px) 30px;animation:fadeUp .25s ease both}.cover-editor-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;border-bottom:1px solid rgba(36,55,47,.13);padding-bottom:19px}.cover-editor-head h2{font-family:var(--serif);font-size:clamp(24px,3vw,34px);font-weight:400;color:var(--forest);margin:8px 0 0}.cover-editor-body{display:grid;grid-template-columns:minmax(220px,300px) minmax(280px,1fr);gap:clamp(25px,5vw,58px);align-items:center;padding-top:23px}.cover-preview-column{display:flex;align-items:center;flex-direction:column}.cover-preview{width:clamp(200px,24vw,260px);height:clamp(295px,34vw,370px);background:radial-gradient(ellipse at 30% 20%,#526352 0,#35493c 45%,#23392e 100%)}.cover-preview .cover-inner{inset:54px 31px 48px 40px}.cover-preview .cover-title{font-size:28px;overflow-wrap:anywhere}.cover-preview .cover-subtitle{max-width:180px}.preview-caption{margin-top:14px;color:#898879;font-size:10px;letter-spacing:.05em}.cover-form{display:grid;grid-template-columns:1fr;gap:8px}.cover-form label,.theme-label{font-size:11px;color:#5d675a;font-weight:600;margin-top:6px}.cover-form label span{font-weight:400;color:#969487}.cover-form input{width:100%;border:1px solid #d8d1bf;border-radius:8px;background:rgba(255,255,255,.57);padding:11px 12px;color:var(--ink);font-size:13px}.cover-form input::placeholder{color:#aaa696}.theme-options{display:flex;gap:11px;margin:3px 0 12px}.theme-swatch{width:28px;height:28px;border-radius:50%;border:2px solid #f8f3e7;box-shadow:0 0 0 1px rgba(36,55,47,.23);background:#35493c}.theme-swatch[data-theme="terracotta"]{background:#785040}.theme-swatch[data-theme="midnight"]{background:#3c4c64}.theme-swatch[data-theme="plum"]{background:#624c60}.theme-swatch[data-theme="ochre"]{background:#887044}.theme-swatch.selected{box-shadow:0 0 0 2px #c28b50}.cover-form-actions{display:flex;justify-content:flex-end;gap:9px;align-items:center;margin-top:8px}.cover-form-actions .quiet-btn{background:transparent}.create-book-button{border:0;border-radius:999px;background:var(--forest);color:#f7f1e3;padding:11px 16px;font-size:11px;transition:.2s}.create-book-button:hover{background:#395747;transform:translateY(-1px)}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}@keyframes pageTurn{0%{transform:rotateY(0)}45%{transform:rotateY(-7deg)}100%{transform:rotateY(0)}}
+    @media(max-width:900px){.cover-screen{gap:38px;padding-left:5vw;padding-right:5vw}.book-workspace{grid-template-columns:170px minmax(0,1fr);gap:14px}.nav-row{padding-left:184px}.leaf{padding:35px 30px;min-height:560px}.side-panel{padding-left:0}}
+    @media(max-width:680px){.topbar{height:64px;padding:0 16px}.brand{font-size:18px}.save-note{display:none}.cover-screen{min-height:calc(100vh - 64px);grid-template-columns:1fr;gap:35px;padding:25px 24px 80px;text-align:center}.intro-copy{margin:auto}.intro-copy h1{font-size:43px;margin:14px 0}.intro-copy p{font-size:15px;margin:auto}.progress-card{margin:22px auto 0}.book-cover{width:215px;height:302px}.cover-inner{inset:48px 32px 44px 40px}.cover-title{font-size:29px}.cover-flower{font-size:58px}.cover-shadow{width:230px;transform:translate(13px,150px)}.work-screen{padding:0 10px 28px}.work-toolbar{margin-bottom:12px;padding:0 4px}.work-title{font-size:16px;width:34vw}.toolbar-left{gap:5px}.back-btn{font-size:11px}.quiet-btn{padding:8px 10px;font-size:11px}.tool-icon{height:32px;width:32px}.word-count{display:none}.book-workspace{grid-template-columns:1fr;gap:12px}.side-panel{order:2;padding:0 6px}.side-title,.side-hint,.local-note{display:none}.page-list{flex-direction:row;max-height:none;overflow:auto;padding:4px 0}.page-chip{flex:0 0 auto;padding:6px 8px}.page-chip-preview{display:none}.page-chip-num{width:22px;height:26px}.add-page{margin-top:4px;padding:8px}.book-wrap{order:1}.book-spread{min-height:72vh;grid-template-columns:1fr;filter:drop-shadow(0 12px 20px rgba(48,48,39,.14))}.leaf.left{display:none}.leaf.right{min-height:72vh;border-radius:6px;padding:34px 28px;background:linear-gradient(90deg,#f0eadc 0,#fbf7ec 8%,#fbf7ec 94%,#eee7d8 100%)}.gutter{display:none}.page-editor{min-height:52vh;font-size:18px}.nav-row{padding:0 5px;margin-top:12px}.nav-btn{padding:9px 13px;font-size:11px}.page-progress{font-size:10px}}
+    @media(max-width:680px){.cover-stage.library-stage{gap:20px}.library-covers{gap:20px 14px}.shelf-item{width:calc(50% - 12px);max-width:200px}.shelf-item .book-cover{width:100%;height:auto;aspect-ratio:2/3}.shelf-item .cover-inner{inset:41px 22px 35px 31px}.shelf-item .cover-title{font-size:21px}.shelf-item .cover-flower{font-size:47px}.cover-editor-backdrop{padding:10px}.cover-editor-dialog{max-height:94vh;padding:20px 18px}.cover-editor-body{grid-template-columns:1fr;gap:20px;padding-top:16px}.cover-preview{width:165px;height:240px}.cover-preview .cover-inner{inset:42px 22px 34px 31px}.cover-preview .cover-title{font-size:23px}.cover-preview .cover-flower{font-size:48px}.cover-form-actions{flex-wrap:wrap}.create-book-button{flex:1}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Kitob Daftari</span></div>
+    <div class="top-actions">
+      <span class="save-note" id="saveNote"><span class="save-dot"></span><span id="saveLabel">Brauzeringizda saqlanadi</span></span>
+      <button class="quiet-btn" id="soundToggle" type="button" aria-pressed="true" title="Ovoz effektlarini o‘chirish"><span id="soundIcon" aria-hidden="true">♪</span><span id="soundLabel">Ovoz yoqilgan</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="screen cover-screen active" id="coverScreen" aria-label="Kitob muqovasi">
+      <div class="intro-copy">
+        <div class="eyebrow">Sokin yozuv makoni</div>
+        <h1>Fikrlaringizga<br>joy oching.</h1>
+        <p>Bo‘sh sahifadan boshlang. Kitobingizni yoping, qaytib keling — oxirgi yozgan joyingiz o‘sha yerda kutadi.</p>
+        <div class="progress-card"><span>Hozirgi holat</span><strong id="coverProgress">Hali boshlanmadi</strong></div>
+      </div>
+      <div class="cover-stage library-stage">
+        <div class="library-covers" id="libraryCovers" aria-label="Kitoblarim"></div>
+        <button class="new-book-button" id="newBookButton" type="button"><span aria-hidden="true">＋</span> Yangi kitob qo‘shish</button>
+      </div>
+    </section>
+
+    <section class="cover-editor-backdrop" id="coverEditor" hidden aria-label="Muqova muharriri">
+      <div class="cover-editor-dialog" role="dialog" aria-modal="true" aria-labelledby="coverEditorHeading">
+        <div class="cover-editor-head">
+          <div><div class="eyebrow">Avval muqova</div><h2 id="coverEditorHeading">Yangi kitobingizga nom bering.</h2></div>
+          <button class="tool-icon" id="cancelCoverX" type="button" aria-label="Muqova muharririni yopish">×</button>
+        </div>
+        <div class="cover-editor-body">
+          <div class="cover-preview-column">
+            <div class="book-cover cover-preview" id="coverPreview">
+              <div class="cover-spine"></div><div class="cover-inner">
+                <div class="cover-ornament" aria-hidden="true">✳</div><div class="cover-flower" aria-hidden="true">❧</div>
+                <h3 class="cover-title" id="previewTitle">Yangi kitob</h3><div class="cover-subtitle" id="previewSubtitle">Hali yozilmagan hikoya</div>
+                <div class="cover-rule"></div><div class="cover-author" id="previewAuthor">Muallif</div>
+              </div>
+            </div>
+            <div class="preview-caption">Muqovaning ko‘rinishi</div>
+          </div>
+          <div class="cover-form">
+            <label for="editTitle">Kitob nomi</label><input id="editTitle" maxlength="70" placeholder="Masalan, Kuzgi xotiralar">
+            <label for="editSubtitle">Taglavha <span>(ixtiyoriy)</span></label><input id="editSubtitle" maxlength="90" placeholder="Hali yozilmagan hikoya">
+            <label for="editAuthor">Muallif yozuvi</label><input id="editAuthor" maxlength="50" placeholder="Muallif">
+            <div class="theme-label">Muqova rangi</div>
+            <div class="theme-options" id="themeOptions" role="group" aria-label="Muqova rangini tanlang">
+              <button type="button" class="theme-swatch selected" data-theme="forest" aria-label="Yashil muqova" aria-pressed="true"></button>
+              <button type="button" class="theme-swatch" data-theme="terracotta" aria-label="G‘isht rang muqova" aria-pressed="false"></button>
+              <button type="button" class="theme-swatch" data-theme="midnight" aria-label="Ko‘k muqova" aria-pressed="false"></button>
+              <button type="button" class="theme-swatch" data-theme="plum" aria-label="Olxo‘ri rang muqova" aria-pressed="false"></button>
+              <button type="button" class="theme-swatch" data-theme="ochre" aria-label="Sarg‘ish muqova" aria-pressed="false"></button>
+            </div>
+            <div class="cover-form-actions"><button class="quiet-btn" id="cancelCover" type="button">Bekor qilish</button><button class="create-book-button" id="saveCover" type="button">Muqovani saqlab, kitobni ochish</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen work-screen" id="workScreen" aria-label="Kitob sahifalari">
+      <div class="work-toolbar">
+        <div class="toolbar-left">
+          <button class="back-btn" id="closeBook" type="button"><span aria-hidden="true">←</span> Muqova</button>
+          <span class="divider" aria-hidden="true"></span>
+          <input class="work-title" id="bookTitle" aria-label="Kitob nomi" value="Yangi kitob" maxlength="70">
+        </div>
+        <div class="toolbar-right">
+          <span class="word-count" id="wordCount">0 ta so‘z</span>
+          <button class="tool-icon" id="exportBook" type="button" title="Matnni yuklab olish" aria-label="Matnni yuklab olish">↓</button>
+        </div>
+      </div>
+      <div class="book-workspace">
+        <aside class="side-panel" aria-label="Sahifalar ro‘yxati">
+          <h2 class="side-title">Qo‘lyozma</h2>
+          <p class="side-hint">Sahifalar o‘z-o‘zidan saqlanadi. Xohlagan sahifangizga qayting.</p>
+          <div class="page-list" id="pageList"></div>
+          <button class="add-page" id="addPage" type="button">＋ Yangi sahifa</button>
+          <div class="local-note"><span aria-hidden="true">◌</span><span>Yozuvlaringiz shu brauzerda saqlanadi.</span></div>
+        </aside>
+        <div class="book-wrap">
+          <div class="book-spread" id="bookSpread">
+            <section class="leaf left" aria-label="Oldingi sahifa">
+              <div class="left-copy" id="leftCopy"></div>
+            </section>
+            <section class="leaf right" aria-label="Joriy yozuv sahifasi">
+              <div class="editor-page">
+                <div class="page-topline"><span class="chapter-label" id="chapterLabel">Birinchi bob</span><span class="page-number" id="pageNumber">1</span></div>
+                <textarea class="page-editor" id="pageEditor" placeholder="Bu yerga yozishni boshlang…" spellcheck="true" aria-label="Kitob sahifasidagi matn"></textarea>
+                <div class="editor-bottom"><span id="pageWordCount">Bo‘sh sahifa</span><strong>✦</strong></div>
+              </div>
+              <button class="page-turn next" id="turnCornerNext" type="button" aria-label="Keyingi sahifaga o‘tish"></button>
+            </section>
+            <div class="gutter" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="nav-btn" id="previousPage" type="button"><span aria-hidden="true">←</span> Oldingi</button>
+        <div class="page-progress" id="pageProgress"><strong>1</strong> / 1-sahifa</div>
+        <button class="nav-btn" id="nextPage" type="button">Keyingi <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+<script>
+(()=>{
+  const STORE='kitob-daftari-v1',SHELF='kitob-daftari-shelf-v1';
+  const themes={
+    forest:'radial-gradient(ellipse at 30% 20%,#526352 0,#35493c 45%,#23392e 100%)',
+    terracotta:'radial-gradient(ellipse at 30% 20%,#9b6b54 0,#785040 48%,#56382e 100%)',
+    midnight:'radial-gradient(ellipse at 30% 20%,#60708a 0,#3c4c64 48%,#29364b 100%)',
+    plum:'radial-gradient(ellipse at 30% 20%,#80657b 0,#624c60 48%,#453649 100%)',
+    ochre:'radial-gradient(ellipse at 30% 20%,#ad9364 0,#887044 48%,#66512f 100%)'
+  };
+  const wordCount=text=>(text.trim().match(/\S+/g)||[]).length;
+  const copyBook=b=>({...b,pages:[...(b.pages||[''])],cursors:[...(b.cursors||[])]});
+  const normalizeBook=(b={})=>{
+    const pages=Array.isArray(b.pages)&&b.pages.length?b.pages:[''];
+    const cursors=Array.isArray(b.cursors)?[...b.cursors]:[];
+    while(cursors.length<pages.length)cursors.push(0);
+    return {id:b.id||`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:b.title||'Yangi kitob',subtitle:b.subtitle??'hali yozilmagan hikoya',author:b.author??'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',pages:[...pages],current:Math.max(0,Math.min(Number(b.current)||0,pages.length-1)),cursors};
+  };
+  const read=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}};
+  const legacy=read(STORE)||{};
+  const savedShelf=read(SHELF);
+  let library=savedShelf&&Array.isArray(savedShelf.books)?savedShelf:{books:[normalizeBook(legacy)],activeId:null,sound:legacy.sound!==false};
+  if(!library.books.length)library.books.push(normalizeBook({title:'Yangi kitob'}));
+  library.books=library.books.map(normalizeBook);
+  if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0].id;
+  if(typeof library.sound!=='boolean')library.sound=legacy.sound!==false;
+  let state=copyBook(library.books.find(b=>b.id===library.activeId));state.sound=library.sound;
+  let coverEditId=null,selectedTheme='forest',saveTimer=null,toastTimer=null,audioContext=null;
+  const $=id=>document.getElementById(id);
+  const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle');
+  function persist(){
+    try{
+      const i=library.books.findIndex(b=>b.id===library.activeId);
+      const saved={...state,pages:[...state.pages],cursors:[...state.cursors]};
+      if(i>=0)library.books[i]=saved;else library.books.push(saved);
+      library.sound=state.sound;
+      localStorage.setItem(SHELF,JSON.stringify(library));
+      localStorage.setItem(STORE,JSON.stringify(state));
+      $('saveLabel').textContent='Saqlandi';setTimeout(()=>{$('saveLabel').textContent='Brauzeringizda saqlanadi'},1300);
+    }catch{$('saveLabel').textContent='Saqlash imkoni yo‘q'}
+  }
+  function scheduleSave(){$('saveLabel').textContent='Saqlanmoqda…';clearTimeout(saveTimer);saveTimer=setTimeout(persist,280)}
+  function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1900)}
+  function play(type='page'){
+    if(!state.sound)return;
+    try{audioContext||=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type=type==='page'?'triangle':'sine';osc.frequency.setValueAtTime(type==='page'?540:760,now);osc.frequency.exponentialRampToValueAtTime(type==='page'?250:460,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(type==='page'?.055:.025,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
+  }
+  function renderLibrary(){
+    const list=$('libraryCovers');list.replaceChildren();
+    library.books.forEach(book=>{
+      const item=document.createElement('article');item.className='shelf-item';
+      const open=document.createElement('button');open.type='button';open.className='book-button';open.setAttribute('aria-label',`${book.title} kitobini ochish`);
+      const coverArt=document.createElement('div');coverArt.className='book-cover';coverArt.style.background=themes[book.theme]||themes.forest;
+      const spine=document.createElement('div');spine.className='cover-spine';
+      const inner=document.createElement('div');inner.className='cover-inner';
+      const ornament=document.createElement('div');ornament.className='cover-ornament';ornament.setAttribute('aria-hidden','true');ornament.textContent='✳';
+      const flower=document.createElement('div');flower.className='cover-flower';flower.setAttribute('aria-hidden','true');flower.textContent='❧';
+      const coverTitle=document.createElement('h2');coverTitle.className='cover-title';coverTitle.textContent=book.title;
+      const subtitle=document.createElement('div');subtitle.className='cover-subtitle';subtitle.textContent=book.subtitle||'';
+      const rule=document.createElement('div');rule.className='cover-rule';
+      const author=document.createElement('div');author.className='cover-author';author.textContent=book.author||'';
+      inner.append(ornament,flower,coverTitle,subtitle,rule,author);coverArt.append(spine,inner);
+      const cta=document.createElement('div');cta.className='cover-cta';const ctaText=document.createElement('span');ctaText.textContent=book.id===library.activeId&&book.pages.some(p=>p.trim())?`Davom ettirish · ${book.current+1}-sahifa`:'Kitobni ochish';const arrow=document.createElement('span');arrow.textContent='→';arrow.setAttribute('aria-hidden','true');cta.append(ctaText,arrow);
+      open.append(coverArt,cta);open.addEventListener('click',()=>openBook(book.id));
+      const edit=document.createElement('button');edit.type='button';edit.className='shelf-edit';edit.textContent='✎ Muqovani tahrirlash';edit.addEventListener('click',()=>openCoverEditor(book.id));
+      item.append(open,edit);list.append(item);
+    });
+    $('coverProgress').textContent=`${library.books.length} ta kitob`;
+  }
+  function updateCover(){
+    $('coverProgress').textContent=`${library.books.length} ta kitob`;
+  }
+  function updateCoverPreview(){
+    const titleText=$('editTitle').value.trim()||'Yangi kitob';
+    $('previewTitle').textContent=titleText;$('previewSubtitle').textContent=$('editSubtitle').value.trim()||' ';
+    $('previewAuthor').textContent=$('editAuthor').value.trim()||' ';
+    $('coverPreview').style.background=themes[selectedTheme];
+    document.querySelectorAll('.theme-swatch').forEach(b=>{const chosen=b.dataset.theme===selectedTheme;b.classList.toggle('selected',chosen);b.setAttribute('aria-pressed',String(chosen))});
+  }
+  function openCoverEditor(bookId=null){
+    coverEditId=bookId;const existing=bookId?library.books.find(b=>b.id===bookId):null;
+    $('coverEditorHeading').textContent=existing?'Muqovani tahrirlash':'Yangi kitobingizga nom bering.';
+    $('saveCover').textContent=existing?'O‘zgarishlarni saqlash':'Muqovani saqlab, kitobni ochish';
+    $('editTitle').value=existing?.title||'Yangi kitob';$('editSubtitle').value=existing?.subtitle||'';$('editAuthor').value=existing?.author||'';selectedTheme=existing?.theme||'forest';
+    updateCoverPreview();$('coverEditor').hidden=false;setTimeout(()=>$('editTitle').focus(),50);
+  }
+  function closeCoverEditor(){$('coverEditor').hidden=true;coverEditId=null}
+  function saveCover(){
+    const name=$('editTitle').value.trim();if(!name){$('editTitle').focus();toast('Avval kitob nomini yozing');return}
+    const details={title:name,subtitle:$('editSubtitle').value.trim(),author:$('editAuthor').value.trim(),theme:selectedTheme};
+    if(coverEditId){
+      const book=library.books.find(b=>b.id===coverEditId);if(!book)return;Object.assign(book,details);
+      if(book.id===library.activeId){Object.assign(state,details);title.value=state.title}
+      persist();renderLibrary();updateCover();closeCoverEditor();toast('Muqova yangilandi');return;
+    }
+    const book=normalizeBook({...details,pages:[''],current:0,cursors:[0]});library.books.unshift(book);library.activeId=book.id;state={...copyBook(book),sound:library.sound};persist();renderLibrary();closeCoverEditor();openBook(book.id);
+  }
+  function switchBook(id){const book=library.books.find(b=>b.id===id);if(!book)return;library.activeId=id;state=copyBook(book);state.sound=library.sound;title.value=state.title||'Yangi kitob'}
+  function openBook(id=library.activeId){if(id&&id!==library.activeId)switchBook(id);cover.classList.remove('active');work.classList.add('active');title.value=state.title||'Yangi kitob';updatePage();play('page');setTimeout(focusEditor,180)}
+  function renderList(){
+    const list=$('pageList');list.replaceChildren();
+    state.pages.forEach((txt,i)=>{const b=document.createElement('button');b.type='button';b.className='page-chip'+(i===state.current?' active':'');b.setAttribute('aria-current',i===state.current?'page':'false');const num=document.createElement('span');num.className='page-chip-num';num.textContent=String(i+1);const preview=document.createElement('span');preview.className='page-chip-preview';preview.textContent=txt.trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa';b.append(num,preview);b.addEventListener('click',()=>go(i,true));list.append(b)});
+  }
+  function updatePage(){
+    const current=state.pages[state.current]||'';editor.value=current;$('pageNumber').textContent=String(state.current+1);$('chapterLabel').textContent=state.current===0?'Birinchi bob':'Davomi';$('pageWordCount').textContent=current.trim()?`${wordCount(current)} ta so‘z`:'Bo‘sh sahifa';$('wordCount').textContent=`${state.pages.reduce((n,p)=>n+wordCount(p),0)} ta so‘z`;$('pageProgress').innerHTML=`<strong>${state.current+1}</strong> / ${state.pages.length}-sahifa`;$('previousPage').disabled=state.current===0;$('nextPage').disabled=state.current===state.pages.length-1;
+    const left=$('leftCopy');left.replaceChildren();const kicker=document.createElement('div');kicker.className='leaf-kicker';kicker.textContent=state.current===0?'Sizning qo‘lyozmangiz':`Oldingi sahifa · ${state.current}`;const heading=document.createElement('h2');heading.className='left-leaf-title';heading.textContent=state.current===0?'Har bir kitob birinchi jumladan boshlanadi.':(state.title||'Yangi kitob');const prev=state.current>0?(state.pages[state.current-1]||'').trim():'';const excerpt=document.createElement('div');excerpt.className=prev?'left-excerpt':'left-empty';excerpt.textContent=prev||'Bu yerda oxirgi sahifangiz ko‘rinadi. O‘ng betga yozing — sahifangiz saqlanib boradi.';const foot=document.createElement('div');foot.className='left-foot';foot.innerHTML=`<span>${state.current===0?'Yozish uchun tayyor':'Davomi bor'}</span><span class="left-flourish" aria-hidden="true">❧</span>`;left.append(kicker,heading,excerpt,foot);renderList();updateCover();
+  }
+  function focusEditor(){const pos=Math.max(0,Math.min(Number(state.cursors[state.current])||0,editor.value.length));editor.focus();editor.setSelectionRange(pos,pos)}
+  function go(index,focus=false){if(index<0)return;while(state.pages.length<=index){state.pages.push('');state.cursors.push(0)}if(index===state.current)return;state.current=index;updatePage();const spread=$('bookSpread');spread.classList.remove('turning');void spread.offsetWidth;spread.classList.add('turning');play('page');scheduleSave();if(focus)setTimeout(focusEditor,100)}
+  $('newBookButton').addEventListener('click',()=>openCoverEditor());$('saveCover').addEventListener('click',saveCover);$('cancelCover').addEventListener('click',closeCoverEditor);$('cancelCoverX').addEventListener('click',closeCoverEditor);
+  ['editTitle','editSubtitle','editAuthor'].forEach(id=>$(id).addEventListener('input',updateCoverPreview));
+  $('themeOptions').addEventListener('click',e=>{const swatch=e.target.closest('.theme-swatch');if(!swatch)return;selectedTheme=swatch.dataset.theme;updateCoverPreview()});
+  $('coverEditor').addEventListener('click',e=>{if(e.target===$('coverEditor'))closeCoverEditor()});
+  $('coverEditor').addEventListener('keydown',e=>{if(e.key==='Escape')closeCoverEditor();if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();if(e.target.id==='editTitle')$('editSubtitle').focus();else if(e.target.id==='editSubtitle')$('editAuthor').focus();else saveCover()}});
+  $('closeBook').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;state.title=title.value.trim()||'Yangi kitob';persist();play('page');work.classList.remove('active');cover.classList.add('active');renderLibrary();updateCover()});
+  $('previousPage').addEventListener('click',()=>go(state.current-1,true));$('nextPage').addEventListener('click',()=>go(state.current+1,true));$('turnCornerNext').addEventListener('click',()=>go(state.current+1,true));
+  $('addPage').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.pages.splice(state.current+1,0,'');state.cursors.splice(state.current+1,0,0);go(state.current+1,true);toast('Yangi sahifa ochildi')});
+  editor.addEventListener('input',()=>{state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;$('pageWordCount').textContent=editor.value.trim()?`${wordCount(editor.value)} ta so‘z`:'Bo‘sh sahifa';$('wordCount').textContent=`${state.pages.reduce((n,p)=>n+wordCount(p),0)} ta so‘z`;$('pageProgress').innerHTML=`<strong>${state.current+1}</strong> / ${state.pages.length}-sahifa`;renderList();updateCover();scheduleSave()});
+  editor.addEventListener('keyup',()=>{state.cursors[state.current]=editor.selectionStart});editor.addEventListener('mouseup',()=>{state.cursors[state.current]=editor.selectionStart});editor.addEventListener('blur',()=>{state.cursors[state.current]=editor.selectionStart;scheduleSave()});
+  title.addEventListener('input',()=>{state.title=title.value.trim()||'Yangi kitob';updateCover();scheduleSave()});
+  $('soundToggle').addEventListener('click',()=>{state.sound=!state.sound;library.sound=state.sound;persist();$('soundToggle').setAttribute('aria-pressed',String(state.sound));$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';$('soundToggle').title=state.sound?'Ovoz effektlarini o‘chirish':'Ovoz effektlarini yoqish';if(state.sound)play('click')});
+  $('exportBook').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;const text=`${state.title||'Yangi kitob'}\n\n`+state.pages.map((p,i)=>`— ${i+1}-sahifa —\n${p}`).join('\n\n');const blob=new Blob([text],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(state.title||'yangi-kitob').replace(/[^\p{L}\p{N}-]+/gu,'-').replace(/^-|-$/g,'').toLowerCase()+'.txt';a.click();URL.revokeObjectURL(a.href);play('click');toast('Qo‘lyozma TXT fayl sifatida yuklandi')});
+  document.addEventListener('keydown',e=>{if(!work.classList.contains('active'))return;if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;persist();toast('Qo‘lyozma saqlandi')}if((e.metaKey||e.ctrlKey)&&e.key==='ArrowRight'){e.preventDefault();if(state.current===state.pages.length-1){state.pages.push('');state.cursors.push(0)}go(state.current+1,true)}if((e.metaKey||e.ctrlKey)&&e.key==='ArrowLeft'){e.preventDefault();go(state.current-1,true)}});
+  title.value=state.title||'Yangi kitob';$('soundToggle').setAttribute('aria-pressed',String(!!state.sound));$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';$('soundToggle').title=state.sound?'Ovoz effektlarini o‘chirish':'Ovoz effektlarini yoqish';renderLibrary();updatePage();persist();
+})();
+
+</script>
+</body>
+</html>
