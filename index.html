@@ -172,6 +172,7 @@
   if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0]?.id||null;
   if(typeof library.sound!=='boolean')library.sound=legacy.sound!==false;
   let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;let bookWordCounts=state.pages.map(wordCount);
+  let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false;
   let coverEditId=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',saveTimer=null,toastTimer=null,audioContext=null;
   const $=id=>document.getElementById(id);
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle');
@@ -184,10 +185,11 @@
       if(hadShelf)localStorage.removeItem(STORE);
       localStorage.setItem(SHELF,JSON.stringify(library));
       if(!hadShelf)localStorage.removeItem(STORE);
+      activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state));pendingEdits=false;
       $('saveNote').classList.remove('save-error');$('saveLabel').textContent='Saqlandi';setTimeout(()=>{if(!$('saveNote').classList.contains('save-error'))$('saveLabel').textContent='Brauzeringizda saqlanadi'},1300);
     }catch{$('saveNote').classList.add('save-error');$('saveLabel').textContent='Xotira to‘ldi — zaxira nusxa yuklang';toast('Saqlash amalga oshmadi. JSON zaxira nusxasini yuklab oling yoki xotiradan joy bo‘shating.')}
   }
-  function scheduleSave(){$('saveLabel').textContent='Saqlanmoqda…';clearTimeout(saveTimer);saveTimer=setTimeout(persist,280)}
+  function scheduleSave(){pendingEdits=true;$('saveLabel').textContent='Saqlanmoqda…';clearTimeout(saveTimer);saveTimer=setTimeout(persist,280)}
   function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1900)}
   function play(type='page'){
     if(!state.sound)return;
@@ -259,7 +261,7 @@
     }
     const book=normalizeBook({...details,pages:[''],current:0,cursors:[0]});library.books.unshift(book);library.activeId=book.id;state={...copyBook(book),sound:library.sound};bookWordCounts=state.pages.map(wordCount);persist();renderLibrary();closeCoverEditor();openBook(book.id);
   }
-  function switchBook(id){const book=library.books.find(b=>b.id===id);if(!book)return;library.activeId=id;state=copyBook(book);state.sound=library.sound;bookWordCounts=state.pages.map(wordCount);title.value=state.title||'Yangi kitob'}
+  function switchBook(id){const book=library.books.find(b=>b.id===id);if(!book)return;library.activeId=id;state=copyBook(book);state.sound=library.sound;bookWordCounts=state.pages.map(wordCount);activeBaseline=JSON.stringify(normalizeBook(book));pendingEdits=false;title.value=state.title||'Yangi kitob'}
   function openBook(id=library.activeId){if(id&&id!==library.activeId)switchBook(id);cover.classList.remove('active');work.classList.add('active');title.value=state.title||'Yangi kitob';updatePage();play('page');setTimeout(focusEditor,180)}
   function renderList(){
     const list=$('pageList');list.replaceChildren();
@@ -297,6 +299,25 @@
   $('soundToggle').addEventListener('click',()=>{state.sound=!state.sound;library.sound=state.sound;persist();$('soundToggle').setAttribute('aria-pressed',String(state.sound));$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';$('soundToggle').title=state.sound?'Ovoz effektlarini o‘chirish':'Ovoz effektlarini yoqish';if(state.sound)play('click')});
   $('exportBook').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;const text=`${state.title||'Yangi kitob'}\n\n`+state.pages.map((p,i)=>`— ${i+1}-sahifa —\n${p}`).join('\n\n');const blob=new Blob([text],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(state.title||'yangi-kitob').replace(/[^\p{L}\p{N}-]+/gu,'-').replace(/^-|-$/g,'').toLowerCase()+'.txt';a.click();URL.revokeObjectURL(a.href);play('click');toast('Qo‘lyozma TXT fayl sifatida yuklandi')});
   function flushSave(){clearTimeout(saveTimer);captureEditor();persist()}
+  function syncExternalShelf(event){
+    if(event.key!==SHELF||!event.newValue)return;
+    let raw;try{raw=JSON.parse(event.newValue)}catch{return}if(!Array.isArray(raw?.books))return;
+    const next={books:raw.books.map(normalizeBook),activeId:raw.activeId,sound:typeof raw.sound==='boolean'?raw.sound:library.sound};
+    if(!next.books.some(b=>b.id===next.activeId))next.activeId=next.books[0]?.id||null;
+    const selectedId=library.activeId,wasWork=work.classList.contains('active'),hadFocus=document.activeElement===editor;
+    captureEditor();const localBook=normalizeBook(state),localChanged=pendingEdits||JSON.stringify(localBook)!==activeBaseline;
+    const remoteCurrent=next.books.find(b=>b.id===selectedId)||null;
+    const remoteSignature=JSON.stringify(remoteCurrent);
+    const conflict=localChanged&&remoteSignature!==activeBaseline;
+    library=next;library.activeId=library.books.some(b=>b.id===selectedId)?selectedId:(next.activeId||null);library.sound=next.sound;
+    if(conflict){
+      const copy=normalizeBook({...localBook,id:'',title:`${localBook.title.slice(0,62)} — nusxa`});library.books.unshift(copy);library.activeId=copy.id;state=copyBook(copy);state.sound=library.sound;bookWordCounts=state.pages.map(wordCount);title.value=state.title;persist();toast('Boshqa tabda shu kitob o‘zgardi. Bu tabdagi yozuvlar alohida nusxa sifatida saqlandi.');
+    }else if(!localChanged){
+      const latest=library.books.find(b=>b.id===library.activeId)||normalizeBook();state=copyBook(latest);state.sound=library.sound;bookWordCounts=state.pages.map(wordCount);activeBaseline=JSON.stringify(normalizeBook(latest));pendingEdits=false;title.value=state.title||'Yangi kitob';toast('Boshqa tabdagi saqlangan o‘zgarishlar yuklandi');
+    }
+    renderLibrary();updateCover();if(wasWork){updatePage();if(hadFocus)setTimeout(focusEditor,0)}
+  }
+  window.addEventListener('storage',syncExternalShelf);
   window.addEventListener('pagehide',flushSave);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushSave()});
   document.addEventListener('keydown',e=>{if(!work.classList.contains('active'))return;if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;persist();toast('Qo‘lyozma saqlandi')}if((e.metaKey||e.ctrlKey)&&e.key==='ArrowRight'){e.preventDefault();go(state.current+1,true)}if((e.metaKey||e.ctrlKey)&&e.key==='ArrowLeft'){e.preventDefault();go(state.current-1,true)}});
   title.value=state.title||'Yangi kitob';$('soundToggle').setAttribute('aria-pressed',String(!!state.sound));$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';$('soundToggle').title=state.sound?'Ovoz effektlarini o‘chirish':'Ovoz effektlarini yoqish';renderLibrary();updatePage();persist();
