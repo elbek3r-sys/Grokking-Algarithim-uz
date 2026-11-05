@@ -1,4 +1,4 @@
-Warning: truncated output (original token count: 22867)
+Warning: truncated output (original token count: 22900)
 Total output lines: 431
 
 <!doctype html>
@@ -159,8 +159,7 @@ Total output lines: 431
       </div>
       <div class="nav-row">
         <button class="nav-btn" id="previousPage" type="button" aria-keyshortcuts="Control+ArrowLeft Meta+ArrowLeft"><span aria-hidden="true">←</span> Oldingi</button>
-        <div class="page-progress" id="pageProgress"><strong>1</st…2867 tokens truncated…=document.createElement('div');subtitle.className='cover-subtitle';subtitle.textContent=book.subtitle||'';
-      const rule=document.createElement('div');rule.className='cover-rule';
+        <div class="page-progress" id="pageProgress"><strong>1</st…2900 tokens truncated…createElement('div');rule.className='cover-rule';
       const author=document.createElement('div');author.className='cover-author';author.textContent=book.author||'';
       inner.append(ornament,flower,coverTitle,subtitle,rule,author);coverArt.append(spine,inner);
       const cta=document.createElement('div');cta.className='cover-cta';const ctaText=document.createElement('span');ctaText.textContent=book.pages.some(p=>p.trim())?`Davom ettirish · ${book.current+1}-sahifa`:'Kitobni ochish';const arrow=document.createElement('span');arrow.textContent='→';arrow.setAttribute('aria-hidden','true');cta.append(ctaText,arrow);
@@ -189,13 +188,13 @@ Total output lines: 431
     try{
       const maxSide=1100,scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));let width=Math.max(1,Math.round(bitmap.width*scale)),height=Math.max(1,Math.round(bitmap.height*scale));
       const canvas=document.createElement('canvas');
-      for(let attempt=0;attempt<4;attempt++){
+      for(let attempt=0;attempt<9;attempt++){
         canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Rasmni qayta ishlash uchun canvas ochilmadi');ctx.drawImage(bitmap,0,0,width,height);
-        const quality=[.82,.72,.62,.54][attempt];let data=canvas.toDataURL('image/webp',quality);if(!data.startsWith('data:image/webp'))data=canvas.toDataURL('image/jpeg',quality);
-        if(data.length<260000||attempt===3)return data;
-        width=Math.max(1,Math.round(width*.78));height=Math.max(1,Math.round(height*.78));
+        const quality=[.82,.72,.62,.54][Math.min(attempt,3)];let data=canvas.toDataURL('image/webp',quality);if(!data.startsWith('data:image/webp'))data=canvas.toDataURL('image/jpeg',quality);
+        if(data.length<=260000)return data;
+        const nextWidth=Math.max(1,Math.round(width*.78)),nextHeight=Math.max(1,Math.round(height*.78));if(nextWidth===width&&nextHeight===height)break;width=nextWidth;height=nextHeight;
       }
-      throw new Error('Rasm hajmini kichraytirib bo‘lmadi');
+      throw new Error('Muqova rasmini 260 KB gacha kichraytirib bo‘lmadi. Boshqa rasm tanlang.');
     }finally{bitmap.close?.();if(objectUrl)URL.revokeObjectURL(objectUrl)}
   }
   function openCoverEditor(bookId=null){
