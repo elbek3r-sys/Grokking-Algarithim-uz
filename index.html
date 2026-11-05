@@ -71,7 +71,7 @@
             </div>
             <div class="cover-image-tools"><button type="button" id="chooseCoverImage">Rasm tanlash</button><button class="remove-image" type="button" id="removeCoverImage" hidden>Rasmni olib tashlash</button></div>
             <input id="coverImageInput" type="file" accept="image/*" hidden aria-label="Muqova rasmi">
-            <div class="cover-image-status" id="coverImageStatus" aria-live="polite">Rasm qurilmangizda saqlanadi.</div>
+            <div class="cover-image-status" id="coverImageStatus" aria-live="polite">Rasm shu brauzerda saqlanadi.</div>
             <div class="preview-caption">Muqovaning ko‘rinishi</div>
           </div>
           <div class="cover-form">
@@ -215,7 +215,7 @@
     $('previewTitle').textContent=titleText;$('previewSubtitle').textContent=$('editSubtitle').value.trim()||' ';
     $('previewAuthor').textContent=$('editAuthor').value.trim()||' ';
     $('coverPreview').style.background=selectedCoverImage?`linear-gradient(rgba(20,27,22,.34),rgba(20,27,22,.48)),url("${selectedCoverImage}") center/cover`:themes[selectedTheme];
-    $('removeCoverImage').hidden=!selectedCoverImage;$('coverImageStatus').textContent=selectedCoverImage?(selectedCoverName||'Muqova rasmi tanlandi.'): 'Rasm qurilmangizda saqlanadi.';
+    $('removeCoverImage').hidden=!selectedCoverImage;$('coverImageStatus').textContent=selectedCoverImage?(selectedCoverName||'Muqova rasmi tanlandi.'): 'Rasm shu brauzerda saqlanadi.';
     document.querySelectorAll('.theme-swatch').forEach(b=>{const chosen=b.dataset.theme===selectedTheme;b.classList.toggle('selected',chosen);b.setAttribute('aria-pressed',String(chosen))});
   }
   async function compressCoverImage(file){
