@@ -181,12 +181,13 @@
   };
   const bookSignature=book=>JSON.stringify({title:book.title,subtitle:book.subtitle,author:book.author,theme:book.theme,coverImage:book.coverImage,pages:book.pages});
   const read=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}};
-  const legacy=read(STORE)||{};
+  const legacyData=read(STORE),legacy=legacyData&&typeof legacyData==='object'&&!Array.isArray(legacyData)?legacyData:null;
+  const hasLegacyBook=!!legacy&&['pages','title','subtitle','author','coverImage'].some(key=>Object.prototype.hasOwnProperty.call(legacy,key));
   const savedShelf=read(SHELF);
-  let library=savedShelf&&Array.isArray(savedShelf.books)?savedShelf:{books:[normalizeBook(legacy)],activeId:null,sound:legacy.sound!==false};
+  let library=savedShelf&&Array.isArray(savedShelf.books)?savedShelf:{books:hasLegacyBook?[normalizeBook(legacy)]:[],activeId:null,sound:legacy?.sound!==false};
   library.books=library.books.map(normalizeBook);
   if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0]?.id||null;
-  if(typeof library.sound!=='boolean')library.sound=legacy.sound!==false;
+  if(typeof library.sound!=='boolean')library.sound=legacy?.sound!==false;
   let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;let bookWordCounts=state.pages.map(wordCount);
   let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false;
   let coverEditId=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',saveTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})();
