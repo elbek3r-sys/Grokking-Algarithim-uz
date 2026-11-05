@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 22285)
-Total output lines: 426
+Warning: truncated output (original token count: 22697)
+Total output lines: 430
 
 <!doctype html>
 <html lang="uz">
@@ -44,6 +44,7 @@ Total output lines: 426
     @media(max-width:380px){.topbar{padding:0 12px}.brand{gap:8px}.top-actions{gap:6px}#soundLabel{display:none}#soundToggle{justify-content:center;width:34px;height:34px;padding:0}}
     .work-backup{margin-top:14px;padding:12px 10px;border-top:1px solid rgba(36,55,47,.12)}.work-backup-button{width:100%;border:1px solid rgba(36,55,47,.18);border-radius:8px;background:rgba(255,255,255,.48);color:var(--forest);padding:9px 10px;font-size:10px;line-height:1.35}.work-backup-button:hover{background:#fff}.work-backup-status{margin:7px 0 0;color:#858678;font-size:10px;line-height:1.45}.work-backup-status.backup-due{color:#8b6043;font-weight:600}
     @media(max-width:680px){.work-backup{margin-top:8px;padding:8px 0 0;border-top:0}.work-backup-button{width:auto;max-width:100%;padding:8px 12px}.work-backup-status{text-align:center;max-width:420px;margin:6px auto 0}}
+    .page-move-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.page-move-actions button{border:1px solid rgba(36,55,47,.16);border-radius:7px;background:rgba(255,255,255,.42);color:#5f6c5d;padding:8px 5px;font-size:10px;line-height:1.3}.page-move-actions button:hover:not(:disabled){background:#fff}.page-move-actions button:disabled{opacity:.38;cursor:not-allowed}
   </style>
 </head>
 <body>
@@ -134,6 +135,7 @@ Total output lines: 426
           <p class="side-hint">Sahifalar avtomatik saqlanadi. Matn maydonidan tashqarida Ctrl/Cmd + ←/→ — sahifalar. Ctrl/Cmd + F — qidiruv; Ctrl/Cmd + S — saqlash.</p>
           <div class="page-jump"><label for="pageJump">Sahifaga o‘tish</label><div><input id="pageJump" type="number" min="1" step="1" value="1" inputmode="numeric"><button id="jumpPage" type="button">O‘tish</button></div><p id="pageListRange" aria-live="polite"></p></div>
           <div class="page-list" id="pageList"></div>
+          <div class="page-move-actions" role="group" aria-label="Joriy sahifani tartiblash"><button id="movePageUp" type="button" title="Joriy sahifani oldingi o‘ringa ko‘chirish">↑ Oldingi o‘rin</button><button id="movePageDown" type="button" title="Joriy sahifani keyingi o‘ringa ko‘chirish">↓ Keyingi o‘rin</button></div>
           <button class="add-page" id="addPage" type="button">＋ Yangi sahifa</button>
           <div class="local-note"><span aria-hidden="true">◌</span><span>Yozuvlaringiz shu brauzerda saqlanadi.</span></div>
           <div class="work-backup"><button class="work-backup-button" id="backupWorkButton" type="button">Javon zaxirasini yuklab olish</button><p class="work-backup-status" id="backupStatusWork" role="status" aria-live="polite"></p></div>
@@ -157,19 +159,7 @@ Total output lines: 426
       </div>
       <div class="nav-row">
         <button class="nav-btn" id="previousPage" type="button" aria-keyshortcuts="Control+ArrowLeft Meta+ArrowLeft"><span aria-hidden="true">←</span> Oldingi</button>
-        <div class="page-progress" id="pageProgress"><strong>1</strong> / 1-sahifa</div>
-        <button class="nav-btn" id="nextPage" type="button" aria-keyshortcuts="Control+ArrowRight Meta+ArrowRight">Keyingi <span aria-hidden="true">→</span></button>
-      </div>
-    </section>
-  </main>
-  <dialog class="restore-dialog" id="restoreDialog" aria-labelledby="restoreHeading"><form class="restore-dialog-card" method="dialog"><h2 id="restoreHeading">Zaxirani qanday tiklaymiz?</h2><p id="restoreExplanation">Zaxira fayli tahlil qilindi. Qanday davom etishni tanlang.</p><p class="restore-summary" id="restoreSummary"></p><div class="restore-actions"><button type="submit" value="cancel">Bekor qilish</button><button class="restore-merge" type="submit" value="merge" autofocus>Javonga qo‘shish</bu…2285 tokens truncated….exponentialRampToValueAtTime(.0001,now+.13);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.14)}catch{}
-  }
-  function renderLibrary(){
-    const list=$('libraryCovers');list.replaceChildren();if(!library.books.length){const empty=document.createElement('p');empty.className='shelf-empty';empty.textContent='Javoningiz hozircha bo‘sh. Yangi kitobdan boshlang.';list.append(empty)}
-    library.books.forEach(book=>{
-      const item=document.createElement('article');item.className='shelf-item';item.dataset.bookId=book.id;
-      const open=document.createElement('button');open.type='button';open.className='book-button';open.setAttribute('aria-label',`${book.title} kitobini ochish`);
-      const coverArt=document.createElement('div');coverArt.className='book-cover';coverArt.style.background=book.coverImage?`linear-gradient(rgba(20,27,22,.34),rgba(20,27,22,.48)),url("${book.coverImage}") center/cover`:themes[book.theme]||themes.forest;
+        <div class="page-progress" id="pageProgress"><strong>1</st…2697 tokens truncated…"${book.coverImage}") center/cover`:themes[book.theme]||themes.forest;
       const spine=document.createElement('div');spine.className='cover-spine';
       const inner=document.createElement('div');inner.className='cover-inner';
       const ornament=document.createElement('div');ornament.className='cover-ornament';ornament.setAttribute('aria-hidden','true');ornament.textContent='✳';
@@ -236,9 +226,10 @@ Total output lines: 426
   function openBook(id=library.activeId){if(id&&id!==library.activeId)switchBook(id);clearTimeout(searchTimer);$('findPanel').hidden=true;$('bookSearch').value='';$('bookSearchStatus').textContent='';$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;cover.classList.remove('active');work.classList.add('active');title.value=state.title||'Yangi kitob';updatePage();play('page');setTimeout(focusEditor,180)}
   function renderList(){
     const list=$('pageList');list.replaceChildren();const total=state.pages.length,windowSize=30,start=Math.max(0,Math.min(state.current-Math.floor(windowSize/2),total-windowSize)),end=Math.min(total,start+windowSize);
-    $('pageListRange').textContent=`Sahifalar ${start+1}–${end} / ${total}`;$('pageJump').max=String(total);$('pageJump').value=String(state.current+1);
+    $('pageListRange').textContent=`Sahifalar ${start+1}–${end} / ${total}`;$('pageJump').max=String(total);$('pageJump').value=String(state.current+1);$('movePageUp').disabled=state.current===0;$('movePageDown').disabled=state.current===total-1;$('movePageUp').setAttribute('aria-label',`${state.current+1}-sahifani oldingi o‘ringa ko‘chirish`);$('movePageDown').setAttribute('aria-label',`${state.current+1}-sahifani keyingi o‘ringa ko‘chirish`);
     for(let i=start;i<end;i++){const txt=state.pages[i];const row=document.createElement('div');row.className='page-chip-row';row.dataset.pageIndex=String(i);const b=document.createElement('button');b.type='button';b.className='page-chip'+(i===state.current?' active':'');b.setAttribute('aria-current',i===state.current?'page':'false');const num=document.createElement('span');num.className='page-chip-num';num.textContent=String(i+1);const preview=document.createElement('span');preview.className='page-chip-preview';preview.textContent=pagePreview(txt);b.append(num,preview);b.addEventListener('click',()=>go(i,true));const remove=document.createElement('button');remove.type='button';remove.className='page-delete';if(state.pages.length===1){if(!txt.trim())remove.hidden=true;else{remove.textContent='⌫';remove.title='Yagona sahifani bo‘shatish';remove.setAttribute('aria-label','Yagona sahifani bo‘shatish')}}else{remove.textContent='×';remove.title=`${i+1}-sahifani o‘chirish`;remove.setAttribute('aria-label',`${i+1}-sahifani o‘chirish`)}remove.addEventListener('click',()=>deletePage(i));row.append(b,remove);list.append(row)}
   }
+  function moveCurrentPage(direction){const from=state.current,to=from+direction;if(to<0||to>=state.pages.length)return;captureEditor();for(const items of [state.pages,state.cursors,bookWordCounts])[items[from],items[to]]=[items[to],items[from]];state.current=to;updatePage();persist();const saved=!$('saveNote').classList.contains('save-error');focusEditor();toast(saved?`Sahifa ${from+1} boshqa o‘ringa ko‘chirildi`:'Sahifa ko‘chirildi, lekin saqlanmadi',!saved)}
   function pagePreview(text){return text.trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa'}
   function scheduleSearch(queryText){clearTimeout(searchTimer);if(!queryText.trim()){searchBook('');return}$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;$('bookSearchStatus').textContent='Qidirilmoqda…';searchTimer=setTimeout(()=>searchBook(queryText),140)}
   function foldWithOffsets(text){const folded=text.toLowerCase(),starts=[],ends=[];for(let offset=0;offset<text.length;){const character=String.fromCodePoint(text.codePointAt(offset)),lower=character.toLowerCase(),end=offset+character.length;for(let i=0;i<lower.length;i++){starts.push(offset);ends.push(end)}offset=end}return {folded,starts,ends}}
@@ -317,6 +308,7 @@ Total output lines: 426
   $('closeBook').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;state.title=title.value.trim()||'Yangi kitob';persist();if($('saveNote').classList.contains('save-error')){if(storageRecoveryRaw!==null){if(!confirm('Javon ma’lumoti buzilgan. Bu kitobdagi saqlanmagan matn hozircha faqat shu oynada qoladi. Javonga qaytib, avval ma’lumotni tiklaysizmi?'))return}else{downloadJSON();if(!confirm('Saqlash amalga oshmadi. Butun javonning JSON zaxirasi yuklab olindi. Javonga qaytib, xotiradan joy bo‘shatishni davom ettirasizmi?'))return}}play('page');work.classList.remove('active');cover.classList.add('active');renderLibrary();updateCover();focusShelfBook()});
   $('previousPage').addEventListener('click',()=>go(state.current-1,true));$('nextPage').addEventListener('click',()=>go(state.current+1,true));$('turnCornerNext').addEventListener('click',()=>go(state.current+1,true));
   $('jumpPage').addEventListener('click',jumpToPage);$('pageJump').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();jumpToPage()}});
+  $('movePageUp').addEventListener('click',()=>moveCurrentPage(-1));$('movePageDown').addEventListener('click',()=>moveCurrentPage(1));
   $('findText').addEventListener('click',()=>{const panel=$('findPanel');panel.hidden=!panel.hidden;if(!panel.hidden){$('bookSearch').focus();$('bookSearch').select()}});
   $('closeFind').addEventListener('click',()=>{clearTimeout(searchTimer);$('findPanel').hidden=true;$('bookSearch').value='';searchBook('');$('findText').focus()});
   $('bookSearch').addEventListener('input',e=>scheduleSearch(e.target.value));
