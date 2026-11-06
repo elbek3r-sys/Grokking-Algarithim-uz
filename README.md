@@ -10,7 +10,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Javondagi kitobdan sahifalari, muqovasi va yozilgan joyi bilan nusxa yaratish
 - Matn, kursor joyi va oxirgi ochilgan sahifani avtomatik saqlash
 - Ochiq kitob nomi va sahifa raqamini brauzer tabida ko‘rish
-- Yuqori panelda oxirgi muvaffaqiyatli saqlangan vaqtni ko‘rish
+- Yuqori panelda oxirgi muvaffaqiyatli saqlangan vaqtni, sahifa yangilangandan keyin ham, ko‘rish
 - Har bir sahifaga ixtiyoriy sarlavha qo‘shish; sarlavha sahifani ko‘chirganda saqlanadi va TXT/PDF eksportiga kiradi
 - Sahifa va kitobdagi so‘zlar sonini, jumladan sarlavhalarni, ko‘rish
 - Har bir kitob uchun ixtiyoriy so‘z maqsadini belgilab, bajarilishini kuzatish
@@ -26,6 +26,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Kitobni TXT fayl qilib yuklab olish yoki chop etish oynasidan PDF qilib saqlash
 - Kitobni sahifa sarlavhalari bilan Markdown (`.md`) fayl qilib yuklab olish yoki buferga nusxalash
 - Sahifa ovoz effektlarini yoqish yoki o‘chirish
+- Tizimdagi harakatni kamaytirish sozlamasi yoqilganda animatsiyalarni kamaytirish
 - Chalg‘imasdan yozish uchun diqqat rejimi; `Esc` bilan undan chiqish
 - Birinchi internetli ochilishdan so‘ng ilovani oflayn ochish va yozishni davom ettirish
 - Qo‘llab-quvvatlaydigan brauzerlarda avtomatik tozalanishdan himoya so‘rash
