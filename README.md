@@ -36,7 +36,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Sahifa ovoz effektlarini yoqish yoki o‘chirish
 - Tizimdagi harakatni kamaytirish sozlamasi yoqilganda animatsiyalarni kamaytirish
 - Chalg‘imasdan yozish uchun diqqat rejimi; `Esc` bilan undan chiqish
-- Telefonda yozish oynasida klaviatura yorliqlarini ko‘rish
+- Telefonda yozish oynasida sahifa boshqaruvlarini qulay bosish va klaviatura yorliqlarini ko‘rish
 - Birinchi internetli ochilishdan so‘ng ilovani oflayn ochish va yozishni davom ettirish
 - Brauzerdan ilovani qurilmaga o‘rnatish yoki o‘rnatish bo‘yicha yo‘riqnomani ko‘rish
 - Qo‘llab-quvvatlaydigan brauzerlarda avtomatik tozalanishdan himoya so‘rash
