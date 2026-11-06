@@ -1,4 +1,4 @@
-Warning: truncated output (original token count: 34987)
+Warning: truncated output (original token count: 35137)
 Total output lines: 538
 
 <!doctype html>
@@ -232,9 +232,7 @@ Total output lines: 538
     const wordGoal=Number.isFinite(Number(b.wordGoal))?Math.min(1000000,Math.max(0,Math.trunc(Number(b.wordGoal)))):0;
     return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.author:'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage,wordGoal,modifiedAt:typeof b.modifiedAt==='string'?b.modifiedAt:'',pages,current,cursors:cursors.slice(0,pages.length),pageTitles:pageTitles.slice(0,pages.length)};
   };
-  const bookSig…4987 tokens truncated…leString('uz-UZ')} so‘z · ${percent}%`;goalDetails.append(progress,summary)}
-      const actions=document.createElement('div');actions.className='shelf-actions';const edit=document.createElement('button');edit.type='button';edit.className='shelf-edit';edit.textContent='✎ Muqova';edit.setAttribute('aria-label',`${book.title} muqovasini tahrirlash`);edit.addEventListener('click',()=>openCoverEditor(book.id));
-      const duplicate=document.createElement('button');duplicate.type='button';duplicate.className='shelf-duplicate';duplicate.textContent='⧉ Nusxa';duplicate.setAttribute('aria-label',`${book.title} kitobidan nusxa olish`);duplicate.addEventListener('click',()=>duplicateBook(book.id));
+  const bookSig…5137 tokens truncated…el',`${book.title} kitobidan nusxa olish`);duplicate.addEventListener('click',()=>duplicateBook(book.id));
       const remove=document.createElement('button');remove.type='button';remove.className='shelf-delete';remove.textContent='O‘chirish';remove.setAttribute('aria-label',`${book.title} kitobini o‘chirish`);remove.addEventListener('click',()=>deleteBook(book.id));
       actions.append(edit,duplicate,remove);item.append(open,stats);if(goalDetails)item.append(goalDetails);item.append(actions);list.append(item);
     });
@@ -426,7 +424,7 @@ Total output lines: 538
     const conflict=localChanged&&remoteSignature!==activeBaseline&&!sameContent;
     library=next;library.activeId=library.books.some(b=>b.id===selectedId)?selectedId:(next.activeId||null);library.sound=next.sound;lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();
     if(conflict){
-      const copy=normalizeBook({...localBook,id:'',title:`${localBook.title.slice(0,62)} — nusxa`});library.books.unshift(copy);library.activeId=copy.id;state=copyBook(copy);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));title.value=state.title;if(persistConflict)persist();toast('Boshqa tabda shu kitob o‘zgardi. Bu tabdagi yozuvlar alohida nusxa sifatida saqlandi.');
+      const copy=normalizeBook({...localBook,id:'',title:`${localBook.title.slice(0,62)} — nusxa`});library.books.unshift(copy);library.activeId=copy.id;state=copyBook(copy);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));title.value=state.title;if(persistConflict){persist();const saved=!$('saveNote').classList.contains('save-error'),recovery=storageRecoveryRaw!==null;toast(saved?'Boshqa tabdagi tahrir bilan to‘qnashuv aniqlandi. Bu tabdagi yozuvlar alohida nusxa sifatida saqlandi.':recovery?'Alohida nusxa saqlanmadi. Javon buzilgan; avval xom nusxani yuklab oling.':'Alohida nusxa saqlanmadi. JSON zaxira yuklab oling.',!saved,saved?null:recovery?{label:'Xom nusxani yuklab olish',ariaLabel:'Buzilgan javonning xom nusxasini yuklab olish',run:()=>$('downloadRecoveryData').click()}:{label:'JSON zaxiralash',ariaLabel:'Javonni JSON fayliga zaxiralash',run:downloadJSON})}else toast('Boshqa tabdagi o‘zgarish sabab bu kitob alohida nusxa sifatida saqlanmoqda.');
     }else if(!localChanged){
       const latest=library.books.find(b=>b.id===library.activeId)||normalizeBook();state=copyBook(latest);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));activeBaseline=JSON.stringify(normalizeBook(latest));pendingEdits=false;title.value=state.title||'Yangi kitob';toast('Boshqa tabdagi saqlangan o‘zgarishlar yuklandi');
     }
