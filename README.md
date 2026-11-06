@@ -42,6 +42,7 @@ Xotira to‘lsa, yuqoridagi saqlash holati xato haqida xabar beradi. Yozuvlaring
 - `Ctrl/Cmd + S` — qo‘lyozmani saqlash
 - `Ctrl/Cmd + F` — ochiq kitob ichidan qidirish
 - `Ctrl/Cmd + ←/→` — oldingi yoki keyingi sahifaga o‘tish (matn maydonidan tashqarida)
+- `Ctrl/Cmd + Shift + F` — diqqat rejimini yoqish yoki o‘chirish
 - `Esc` — diqqat rejimidan chiqish (qidiruv ochiq bo‘lsa, avval qidiruv yopiladi)
 
 Sayt `dist/index.html` va oflayn ishlash uchun `dist/sw.js`, `dist/manifest.webmanifest`, `dist/icon.svg` fayllaridan foydalanadi.
