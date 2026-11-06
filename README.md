@@ -22,7 +22,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Qorong‘ida yozish uchun tungi sahifa rangini yoqish; tanlov shu brauzerda eslab qolinadi
 - Sahifalarni qo‘shish, nusxalash, tartiblash, o‘chirish va o‘chirilganini qaytarish
 - Sahifani o‘chirishdan oldin uning sarlavhasini tasdiq oynasida ko‘rish
-- O‘chirilgan kitoblarni alohida bo‘limdan tiklash yoki tasdiqlab butunlay o‘chirish; bu kitoblar javonning JSON zaxira nusxasiga ham kiradi
+- O‘chirilgan kitoblarni alohida bo‘limdan tiklash yoki tasdiqlab butunlay o‘chirish; aynan shu nusxa javonda bo‘lsa takror yaratmaydi, mazmuni farq qilsa alohida nusxa tiklaydi; o‘chirilganlar JSON zaxirasiga ham kiradi
 - O‘chirilgan kitoblarni nomi, taglavhasi yoki muallifi bo‘yicha qidirish
 - O‘chirilganlar ro‘yxatidagi amallarning ekranni o‘qib beruvchi dasturlar uchun kitob nomi bilan aniq aytilishi; amal bajarilgach klaviatura fokusi qidiruvga qaytadi
 - O‘chirilganlar oynasida telefonda qulay bosish uchun keng amallar tugmalari
