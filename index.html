@@ -68,6 +68,35 @@
     .install-guide{width:min(440px,calc(100% - 28px));padding:0;border:1px solid rgba(36,55,47,.18);border-radius:14px;background:#f8f3e7;color:var(--ink);box-shadow:0 26px 80px rgba(15,25,19,.35)}.install-guide::backdrop{background:rgba(27,37,30,.58);backdrop-filter:blur(4px)}.install-guide-card{padding:24px}.install-guide h2{font-family:var(--serif);font-weight:400;font-size:25px;color:var(--forest);margin:0 0 9px}.install-guide p{font-size:13px;line-height:1.6;color:#697064;margin:0}
     .install-app-button[hidden]{display:none}
     @media(max-width:380px){#installLabel{display:none}#installApp{justify-content:center;width:34px;height:34px;padding:0}}
+    /* Keep small helper text readable on the light paper theme. */
+    body:not(.dark-paper) .eyebrow,
+    body:not(.dark-paper) .progress-card,
+    body:not(.dark-paper) .side-hint,
+    body:not(.dark-paper) .page-chip,
+    body:not(.dark-paper) .page-chip-num,
+    body:not(.dark-paper) .page-chip-preview,
+    body:not(.dark-paper) .local-note,
+    body:not(.dark-paper) .page-number,
+    body:not(.dark-paper) .chapter-label,
+    body:not(.dark-paper) .editor-bottom,
+    body:not(.dark-paper) .save-note #saveTime,
+    body:not(.dark-paper) .page-jump label,
+    body:not(.dark-paper) .page-jump p,
+    body:not(.dark-paper) .find-row label,
+    body:not(.dark-paper) .find-panel p,
+    body:not(.dark-paper) .shelf-stats,
+    body:not(.dark-paper) .work-backup-status,
+    body:not(.dark-paper) .storage-protection p,
+    body:not(.dark-paper) .cover-image-status,
+    body:not(.dark-paper) .cover-image-help,
+    body:not(.dark-paper) .mobile-word-count,
+    body:not(.dark-paper) .library-search-status,
+    body:not(.dark-paper) .trash-search-status,
+    body:not(.dark-paper) .trash-empty,
+    body:not(.dark-paper) .goal-row span,
+    body:not(.dark-paper) .reader-controls span { color:#5d6256; }
+    body:not(.dark-paper) .page-editor::placeholder,
+    body:not(.dark-paper) .page-title-input::placeholder { color:#6d7065; }
   </style>
 </head>
 <body>
