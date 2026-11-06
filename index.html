@@ -7,6 +7,7 @@
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <title>Kitob Daftari — yozish uchun sokin joy</title>
   <style>
     :root{--forest:#24372f;--forest-2:#31493e;--moss:#77836b;--paper:#f4eedf;--paper-2:#fbf7ec;--ink:#262b26;--muted:#7a7a6f;--line:#ded6c3;--gold:#c28b50;--shadow:0 28px 72px rgba(32,37,31,.2);--serif:Georgia,'Times New Roman',serif;--sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
@@ -62,6 +63,9 @@
     .save-note #saveTime{color:#858678;font-size:10px;font-variant-numeric:tabular-nums}@media(max-width:680px){.save-note #saveTime{font-size:9px}.save-note.save-error #saveTime{display:none}}
     .shortcut-help{display:none}.shortcut-help summary{cursor:pointer;color:#65705f;font-size:10px;text-align:center;padding:7px}.shortcut-help ul{margin:2px 0 0;padding:10px 12px 10px 28px;border:1px solid rgba(36,55,47,.12);border-radius:8px;background:rgba(255,255,255,.45);display:grid;gap:6px;color:#707669;font-size:10px}.shortcut-help kbd{font:inherit;font-weight:650;color:var(--forest)}
     @media(max-width:680px){.book-workspace{grid-template-areas:"page-list" "duplicate-page" "add-page" "book" "page-jump" "page-move" "shortcuts" "local-note" "work-backup"}.shortcut-help{display:block;grid-area:shortcuts;width:min(100%,420px);margin:2px auto}}
+    .install-guide{width:min(440px,calc(100% - 28px));padding:0;border:1px solid rgba(36,55,47,.18);border-radius:14px;background:#f8f3e7;color:var(--ink);box-shadow:0 26px 80px rgba(15,25,19,.35)}.install-guide::backdrop{background:rgba(27,37,30,.58);backdrop-filter:blur(4px)}.install-guide-card{padding:24px}.install-guide h2{font-family:var(--serif);font-weight:400;font-size:25px;color:var(--forest);margin:0 0 9px}.install-guide p{font-size:13px;line-height:1.6;color:#697064;margin:0}
+    .install-app-button[hidden]{display:none}
+    @media(max-width:380px){#installLabel{display:none}#installApp{justify-content:center;width:34px;height:34px;padding:0}}
   </style>
 </head>
 <body>
@@ -71,6 +75,7 @@
     <div class="top-actions">
       <span class="save-note" id="saveNote" data-state="idle" role="status" aria-live="polite"><span class="save-dot"></span><span id="saveLabel">Brauzeringizda saqlanadi</span><time id="saveTime" aria-label="Oxirgi muvaffaqiyatli saqlash vaqti"></time></span>
       <span class="network-note" id="networkNote" role="status" aria-live="polite" hidden><span class="network-full">Oflayn · yozuv shu brauzerda saqlanadi</span><span class="network-short">Oflayn</span></span>
+    <button class="quiet-btn install-app-button" id="installApp" type="button" aria-label="Kitob Daftarini qurilmaga o‘rnatish" title="Kitob Daftarini qurilmaga o‘rnatish"><span aria-hidden="true">↥</span><span id="installLabel">O‘rnatish</span></button>
     <button class="quiet-btn" id="soundToggle" type="button" aria-label="Ovoz yoqilgan" aria-pressed="true" title="Ovoz effektlarini o‘chirish"><span id="soundIcon" aria-hidden="true">♪</span><span id="soundLabel">Ovoz yoqilgan</span></button>
     </div>
   </header>
@@ -188,6 +193,7 @@
       </div>
     </section>
   </main>
+  <dialog class="install-guide" id="installGuide" aria-labelledby="installGuideHeading"><form method="dialog" class="install-guide-card"><h2 id="installGuideHeading">Kitob Daftarini o‘rnatish</h2><p id="installGuideText"></p><div class="restore-actions"><button type="submit">Tushunarli</button></div></form></dialog>
   <dialog class="restore-dialog" id="restoreDialog" aria-labelledby="restoreHeading"><form class="restore-dialog-card" method="dialog"><h2 id="restoreHeading">Zaxirani qanday tiklaymiz?</h2><p id="restoreExplanation">Zaxira fayli tahlil qilindi. Qanday davom etishni tanlang.</p><p class="restore-summary" id="restoreSummary"></p><div class="restore-actions"><button type="submit" value="cancel">Bekor qilish</button><button class="restore-merge" type="submit" value="merge" autofocus>Javonga qo‘shish</button><button class="restore-replace" id="replaceBackupButton" type="submit" value="replace">Javonni almashtirish</button></div></form></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMessage"></span><button class="toast-action" id="toastAction" type="button" hidden></button></div>
 </div>
@@ -240,7 +246,7 @@
   if(typeof library.sound!=='boolean')library.sound=legacy?.sound!==false;
   let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;let bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index)),bookWordTotalCount=bookWordCounts.reduce((total,count)=>total+count,0);
   let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false,lastShelfSnapshot=shelfSignature(),lastShelfContentSnapshot=shelfContentSignature();
-  let coverEditId=null,coverEditorReturnFocus=null,coverEditBaseline=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',coverImageRequest=0,saveTimer=null,saveStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,printOriginalTitle=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})(),lastChangeAt=(()=>{try{return localStorage.getItem(CHANGE_META)||''}catch{return ''}})(),lastSavedAt=(()=>{try{return localStorage.getItem(SAVE_META)||''}catch{return ''}})();
+  let coverEditId=null,coverEditorReturnFocus=null,coverEditBaseline=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',coverImageRequest=0,saveTimer=null,saveStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,printOriginalTitle=null,deferredInstallPrompt=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})(),lastChangeAt=(()=>{try{return localStorage.getItem(CHANGE_META)||''}catch{return ''}})(),lastSavedAt=(()=>{try{return localStorage.getItem(SAVE_META)||''}catch{return ''}})();
   const $=id=>document.getElementById(id);
   const savedLibrarySort=readRaw(LIBRARY_SORT_KEY);if(['shelf','recent','title','words'].includes(savedLibrarySort))$('librarySort').value=savedLibrarySort;
   function setPaperMode(enabled,save=true){document.body.classList.toggle('dark-paper',enabled);const button=$('paperModeToggle');button.setAttribute('aria-pressed',String(enabled));button.setAttribute('aria-label',enabled?'Tungi sahifa rejimini o‘chirish':'Tungi sahifa rejimini yoqish');button.title=enabled?'Kunduzgi sahifa rejimiga o‘tish':'Tungi sahifa rejimini yoqish';button.textContent=enabled?'☀':'☾';if(save)try{localStorage.setItem(PAPER_MODE_KEY,String(enabled))}catch{}}
@@ -248,6 +254,11 @@
   function setSaveState(status,message){const note=$('saveNote');note.dataset.state=status;note.title=message;$('saveLabel').textContent=message}
   function recordBookOpen(id){if(!id)return;recentBookOpens.set(id,Date.now());const recent=[...recentBookOpens.entries()].sort((a,b)=>b[1]-a[1]).slice(0,100);recentBookOpens.clear();for(const entry of recent)recentBookOpens.set(...entry);try{localStorage.setItem(BOOK_OPENED_KEY,JSON.stringify(Object.fromEntries(recentBookOpens)))}catch{}}
   function updateNetworkNote(){const note=$('networkNote');note.hidden=navigator.onLine!==false;note.title='Tarmoq aloqasi uzilgan. Yozuvlar shu brauzerda saqlanadi va boshqa qurilmaga sinxronlanmaydi.'}
+  function showInstallGuide(){const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),safari=/Safari/i.test(ua)&&!/Chrome|Chromium|CriOS|Edg|OPR|FxiOS/i.test(ua);$('installGuideText').textContent=ios?(safari?'Safari brauzerida Ulashish tugmasini bosing, so‘ng “Bosh ekranga qo‘shish”ni tanlang.':'Brauzerning Ulashish menyusidan “Bosh ekranga qo‘shish”ni tanlang. Bu band bo‘lmasa, sahifani Safari’da oching.') :safari?'Safari menyusidan “File” → “Add to Dock” bandini tanlang.':/Android/i.test(ua)?'Brauzer menyusini oching va “Ilovani o‘rnatish” yoki “Bosh ekranga qo‘shish” bandini tanlang.':'Brauzer menyusi yoki manzil satridagi o‘rnatish belgisini tanlab, “Kitob Daftari”ni qurilmaga qo‘shing.';$('installGuide').showModal()}
+  const installButton=$('installApp'),standaloneMode=()=>!!(window.matchMedia?.('(display-mode: standalone)').matches||navigator.standalone===true);installButton.hidden=standaloneMode();
+  window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event});
+  installButton.addEventListener('click',async()=>{if(!deferredInstallPrompt){showInstallGuide();return}const promptEvent=deferredInstallPrompt;deferredInstallPrompt=null;try{await promptEvent.prompt();const choice=await promptEvent.userChoice;if(choice?.outcome==='accepted'){installButton.hidden=true;toast('Kitob Daftari qurilmaga o‘rnatilmoqda')}else toast('O‘rnatish bekor qilindi. Uni brauzer menyusidan keyinroq tanlashingiz mumkin.')}catch{showInstallGuide()}});
+  window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;installButton.hidden=true;toast('Kitob Daftari qurilmaga o‘rnatildi')});
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle'),pageTitle=$('pageTitle');
   function updateSaveTimestamp(value){const time=$('saveTime'),stamp=Date.parse(value);if(!Number.isFinite(stamp)){time.textContent='';time.removeAttribute('datetime');time.setAttribute('aria-label','Oxirgi saqlash vaqti mavjud emas');time.removeAttribute('title');return}const savedAt=new Date(stamp),timeText=savedAt.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'}),fullText=savedAt.toLocaleString('uz-UZ',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});time.textContent=timeText;time.dateTime=savedAt.toISOString();time.setAttribute('aria-label',`Oxirgi muvaffaqiyatli saqlash: ${fullText}`);time.title=`Oxirgi saqlash: ${fullText}`}
   updateSaveTimestamp(lastSavedAt);
