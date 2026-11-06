@@ -1,4 +1,4 @@
-Warning: truncated output (original token count: 35340)
+Warning: truncated output (original token count: 35383)
 Total output lines: 538
 
 <!doctype html>
@@ -230,7 +230,7 @@ Total output lines: 538
     const coverImage=rawImage.length<=360000&&/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(rawImage)?rawImage:'';
     const current=Math.max(0,Math.min(Number.isFinite(Number(b.current))?Math.trunc(Number(b.current)):0,pages.length-1));
     const wordGoal=Number.isFinite(Number(b.wordGoal))?Math.min(1000000,Math.max(0,Math.trunc(Number(b.wordGoal)))):0;
-    return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.author:'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage,wordGoal,modifiedAt:typeof b.modifiedAt==='string'?b.modifiedAt:'',pages,current,cursors:cursors.slice(0,pages.length),pageTitles:pageTitl…5340 tokens truncated…cate,remove);item.append(open,stats);if(editedAt)item.append(editedAt);if(goalDetails)item.append(goalDetails);item.append(actions);list.append(item);
+    return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.author:'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage,wordGoal,modifiedAt:typeof b.modifiedAt==='string'?b.modifiedAt:'',pages,current,cursors:cursors.slice(0,pages.length),pageTitles:pageTitl…5383 tokens truncated…cate,remove);item.append(open,stats);if(editedAt)item.append(editedAt);if(goalDetails)item.append(goalDetails);item.append(actions);list.append(item);
     });
     $('openTrash').hidden=!library.trash.length;$('openTrash').textContent=`O‘chirilganlar · ${library.trash.length}`;updateCover();updateBackupStatus();
   }
