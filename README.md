@@ -21,6 +21,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Yozuv matnini kattalashtirish yoki kichraytirish; o‘lcham shu brauzerda eslab qolinadi
 - Qorong‘ida yozish uchun tungi sahifa rangini yoqish; tanlov shu brauzerda eslab qolinadi
 - Sahifalarni qo‘shish, nusxalash, tartiblash, o‘chirish va o‘chirilganini qaytarish
+- Sahifani o‘chirishdan oldin uning sarlavhasini tasdiq oynasida ko‘rish
 - O‘chirilgan kitoblarni alohida bo‘limdan tiklash yoki tasdiqlab butunlay o‘chirish; bu kitoblar javonning JSON zaxira nusxasiga ham kiradi
 - O‘chirilganlar ro‘yxatidagi amallarning ekranni o‘qib beruvchi dasturlar uchun kitob nomi bilan aniq aytilishi
 - Kitob ichidan matn qidirish
