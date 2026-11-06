@@ -444,7 +444,7 @@
     library.books.splice(index,1);library.trash.unshift({id:trashId,deletedAt:new Date().toISOString(),originalIndex:index,book:removed});if(wasActive){library.activeId=library.books[0]?.id||null;state=copyBook(library.books[0]||normalizeBook());state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index))}const activeAfterDelete=library.activeId;
     persist();const saved=!$('saveNote').classList.contains('save-error');renderLibrary();updateCover();focusShelfBook();
     toast(saved?'Kitob o‘chirildi':'O‘chirish saqlanmadi',!saved,{label:'Qaytarish',ariaLabel:`${book.title} kitobini qaytarish`,run:()=>{
-      if(library.books.some(item=>item.id===removed.id)){toast('Bu kitob boshqa tabda allaqachon mavjud');return}
+      if(library.books.some(item=>item.id===removed.id)){if(library.trash.some(item=>item.id===trashId)){restoreDeletedBook(trashId);return}toast('Bu kitob boshqa tabda allaqachon qaytarilgan');return}
       library.trash=library.trash.filter(item=>item.id!==trashId);library.books.splice(Math.min(index,library.books.length),0,removed);
       const restoreSelection=wasActive&&cover.classList.contains('active')&&library.activeId===activeAfterDelete;
       if(restoreSelection){library.activeId=removed.id;state={...copyBook(removed),sound:library.sound};bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index))}
