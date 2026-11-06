@@ -219,7 +219,7 @@
   function setSaveState(status,message){const note=$('saveNote');note.dataset.state=status;note.title=message;$('saveLabel').textContent=message}
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle'),pageTitle=$('pageTitle');
   function persist(){
-    clearTimeout(saveStatusTimer);
+    clearTimeout(saveTimer);saveTimer=null;clearTimeout(saveStatusTimer);
     if(storageRecoveryRaw!==null){pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');return}
     try{
       const i=library.books.findIndex(b=>b.id===library.activeId);
