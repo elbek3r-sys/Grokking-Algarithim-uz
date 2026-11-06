@@ -57,6 +57,7 @@
     @media(max-width:680px){.goal-row{padding:0 4px;margin-bottom:10px;gap:7px}.goal-row input{width:82px}.goal-row progress{width:min(110px,26vw)}}
     body.focus-mode .topbar{height:42px;padding:0 22px;justify-content:flex-end}body.focus-mode .brand,body.focus-mode .top-actions>.quiet-btn{display:none}body.focus-mode .work-screen{min-height:calc(100vh - 42px);padding:0 20px 20px}body.focus-mode .work-toolbar{max-width:1060px;margin:0 auto 12px;justify-content:flex-end}body.focus-mode .goal-row{max-width:920px}body.focus-mode .toolbar-left,body.focus-mode .side-panel,body.focus-mode .nav-row{display:none}body.focus-mode .book-workspace{max-width:920px;grid-template-columns:minmax(0,1fr);justify-content:center}body.focus-mode .book-spread{min-height:calc(100vh - 116px);grid-template-columns:minmax(0,1fr);filter:drop-shadow(0 16px 28px rgba(48,48,39,.12))}body.focus-mode .leaf.left,body.focus-mode .gutter{display:none}body.focus-mode .leaf.right{min-height:calc(100vh - 116px);border-radius:8px}body.focus-mode .page-editor{min-height:calc(100vh - 245px)}
     @media(max-width:680px){body.focus-mode .topbar{height:36px;padding:0 12px}body.focus-mode .work-screen{min-height:calc(100vh - 36px);padding:0 8px 10px}body.focus-mode .work-toolbar{margin-bottom:8px}body.focus-mode .book-workspace{gap:0}body.focus-mode .book-spread,body.focus-mode .leaf.right{min-height:calc(100vh - 100px)}body.focus-mode .leaf.right{padding:22px 20px}body.focus-mode .page-editor{min-height:calc(100vh - 220px)}}
+    .save-note #saveTime{color:#858678;font-size:10px;font-variant-numeric:tabular-nums}@media(max-width:680px){.save-note #saveTime{font-size:9px}.save-note.save-error #saveTime{display:none}}
   </style>
 </head>
 <body>
@@ -64,7 +65,7 @@
   <header class="topbar">
     <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Kitob Daftari</span></div>
     <div class="top-actions">
-      <span class="save-note" id="saveNote" data-state="idle" role="status" aria-live="polite"><span class="save-dot"></span><span id="saveLabel">Brauzeringizda saqlanadi</span></span>
+      <span class="save-note" id="saveNote" data-state="idle" role="status" aria-live="polite"><span class="save-dot"></span><span id="saveLabel">Brauzeringizda saqlanadi</span><time id="saveTime" aria-label="Oxirgi muvaffaqiyatli saqlash vaqti"></time></span>
       <span class="network-note" id="networkNote" role="status" aria-live="polite" hidden><span class="network-full">Oflayn · yozuv shu brauzerda saqlanadi</span><span class="network-short">Oflayn</span></span>
     <button class="quiet-btn" id="soundToggle" type="button" aria-label="Ovoz yoqilgan" aria-pressed="true" title="Ovoz effektlarini o‘chirish"><span id="soundIcon" aria-hidden="true">♪</span><span id="soundLabel">Ovoz yoqilgan</span></button>
     </div>
@@ -255,7 +256,7 @@
       lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();approvedCorruptShelfRaw=null;recoveryRawDownloaded=false;$('continueWithoutRecovery').disabled=true;
       if(shelfChanged){const previousChange=Date.parse(lastChangeAt);lastChangeAt=new Date(Math.max(Date.now(),Number.isFinite(previousChange)?previousChange+1:0)).toISOString();try{localStorage.setItem(CHANGE_META,lastChangeAt)}catch{}updateBackupStatus()}
       activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state));pendingEdits=false;
-      $('saveNote').classList.remove('save-error');setSaveState('saved','Saqlandi');saveStatusTimer=setTimeout(()=>{if(!pendingEdits&&!$('saveNote').classList.contains('save-error'))setSaveState('saved','Brauzeringizda saqlanadi')},1300);
+      $('saveNote').classList.remove('save-error');const savedAt=new Date(),savedTime=savedAt.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'}),saveTime=$('saveTime');saveTime.textContent=savedTime;saveTime.dateTime=savedAt.toISOString();saveTime.setAttribute('aria-label',`Oxirgi muvaffaqiyatli saqlash ${savedTime}`);setSaveState('saved','Saqlandi');saveStatusTimer=setTimeout(()=>{if(!pendingEdits&&!$('saveNote').classList.contains('save-error'))setSaveState('saved','Brauzeringizda saqlanadi')},1300);
     }catch(error){pendingEdits=true;$('saveNote').classList.add('save-error');const quotaError=error?.name==='QuotaExceededError'||error?.name==='NS_ERROR_DOM_QUOTA_REACHED'||error?.code===22||error?.code===1014,blocked=error?.name==='SecurityError';const label=quotaError?'Xotira to‘ldi — JSON zaxira yuklang':'Saqlash xatosi — JSON zaxira yuklang',message=quotaError?'Brauzer xotirasi to‘ldi. JSON zaxira nusxasini yuklab oling yoki brauzer xotirasidan joy bo‘shating.':blocked?'Brauzer saqlashni blokladi. Sayt uchun brauzer xotirasiga ruxsat bering yoki yozuvni JSON fayl qilib yuklab oling.':'Saqlash amalga oshmadi. Yozuvni JSON zaxira fayli sifatida yuklab oling.';setSaveState('error',label);toast(message,true)}
   }
   function scheduleSave(){pendingEdits=true;clearTimeout(saveStatusTimer);setSaveState('saving','Saqlanmoqda…');clearTimeout(saveTimer);saveTimer=setTimeout(persist,280)}
