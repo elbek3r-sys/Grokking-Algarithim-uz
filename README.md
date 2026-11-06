@@ -20,6 +20,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Kitob ichidan matn qidirish
 - Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash
 - Ochiq kitobni alohida JSON fayl qilib zaxiralash va uni javonga qayta qo‘shish
+- Zaxira tiklash oynasida bitta kitobli faylni qo‘shish yoki butun javonni almashtirish oqibatini ko‘rish
 - Kitobni TXT fayl qilib yuklab olish yoki chop etish oynasidan PDF qilib saqlash
 - Kitobni sahifa sarlavhalari bilan Markdown (`.md`) fayl qilib yuklab olish yoki buferga nusxalash
 - Sahifa ovoz effektlarini yoqish yoki o‘chirish
