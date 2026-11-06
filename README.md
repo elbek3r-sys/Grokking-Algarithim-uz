@@ -10,6 +10,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Kitoblarni javon tartibi, yaqinda ochilgani, yaqinda tahrirlangani, nomi yoki so‘zlar soni bo‘yicha saralash; tanlov va ochilgan vaqt shu brauzerda saqlanadi
 - Javondagi kitobdan sahifalari, muqovasi va yozilgan joyi bilan nusxa yaratish
 - Matn, kursor joyi va oxirgi ochilgan sahifani avtomatik saqlash
+- Bir kitob bir nechta tabda bir vaqtda tahrirlanganida, yozuvlar to‘qnashuvini alohida nusxa qilib saqlashga urinish; saqlash xatosida zaxira yo‘lini ko‘rsatish
 - Ochiq kitob nomi va sahifa raqamini brauzer tabida ko‘rish
 - Yuqori panelda oxirgi muvaffaqiyatli saqlangan vaqtni, sahifa yangilangandan keyin ham, ko‘rish
 - Har bir sahifaga ixtiyoriy sarlavha qo‘shish; sarlavha sahifani ko‘chirganda saqlanadi va TXT/PDF eksportiga kiradi
