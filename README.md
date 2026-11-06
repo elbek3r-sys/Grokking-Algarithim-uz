@@ -43,7 +43,7 @@ Kitoblar va muqova rasmlari ishlatilayotgan brauzerning `localStorage` xotirasid
 
 Ilovani oflayn ochish uchun saytni avval internet bor paytda oching. Yangi versiya internetli ochilganda oflayn nusxa ham yangilanadi. Oflayn yozuvlar shu brauzerda qoladi va boshqa qurilmaga avtomatik yuborilmaydi.
 
-Xotira to‘lsa, yuqoridagi saqlash holati xato haqida xabar beradi. Yozuvlaringizni yo‘qotmaslik uchun javonning JSON zaxirasini yuklab oling.
+Xotira to‘lsa yoki saqlash xatosi yuz bersa, ogohlantirish ichidagi **JSON zaxiralash** tugmasi bilan javoningizni faylga yuklab oling.
 
 ## Klaviatura yorliqlari
 
