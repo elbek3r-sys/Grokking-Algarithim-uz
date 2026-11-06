@@ -7,6 +7,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Javonda bir nechta kitob yaratish, muqovasiga nom, taglavha, muallif, rang va rasm qo‘shish
 - Kitoblarni javonda nomi, taglavhasi yoki muallifi bo‘yicha qidirish
 - Matn, kursor joyi va oxirgi ochilgan sahifani avtomatik saqlash
+- Yuqori panelda oxirgi muvaffaqiyatli saqlangan vaqtni ko‘rish
 - Har bir sahifaga ixtiyoriy sarlavha qo‘shish; sarlavha sahifani ko‘chirganda saqlanadi va TXT/PDF eksportiga kiradi
 - Sahifa va kitobdagi so‘zlar sonini, jumladan sarlavhalarni, ko‘rish
 - Har bir kitob uchun ixtiyoriy so‘z maqsadini belgilab, bajarilishini kuzatish
