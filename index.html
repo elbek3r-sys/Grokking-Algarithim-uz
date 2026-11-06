@@ -214,7 +214,7 @@
   if(typeof library.sound!=='boolean')library.sound=legacy?.sound!==false;
   let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;let bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));
   let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false,lastShelfSnapshot=shelfSignature();
-  let coverEditId=null,coverEditorReturnFocus=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',coverImageRequest=0,saveTimer=null,saveStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,printOriginalTitle=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})(),lastChangeAt=(()=>{try{return localStorage.getItem(CHANGE_META)||''}catch{return ''}})();
+  let coverEditId=null,coverEditorReturnFocus=null,coverEditBaseline=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',coverImageRequest=0,saveTimer=null,saveStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,printOriginalTitle=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})(),lastChangeAt=(()=>{try{return localStorage.getItem(CHANGE_META)||''}catch{return ''}})();
   const $=id=>document.getElementById(id);
   function setSaveState(status,message){const note=$('saveNote');note.dataset.state=status;note.title=message;$('saveLabel').textContent=message}
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle'),pageTitle=$('pageTitle');
@@ -301,20 +301,20 @@
   }
   function openCoverEditor(bookId=null){
     coverImageRequest++;$('saveCover').disabled=false;$('saveCover').removeAttribute('aria-busy');$('chooseCoverImage').disabled=false;
-    coverEditorReturnFocus=document.activeElement;coverEditId=bookId;const existing=bookId?library.books.find(b=>b.id===bookId):null;
+    coverEditorReturnFocus=document.activeElement;coverEditId=bookId;const existing=bookId?library.books.find(b=>b.id===bookId):null;coverEditBaseline=existing?{title:existing.title,subtitle:existing.subtitle,author:existing.author,theme:existing.theme,coverImage:existing.coverImage}:null;
     $('coverEditorHeading').textContent=existing?'Muqovani tahrirlash':'Yangi kitobingizga nom bering.';
     $('saveCover').textContent=existing?'O‘zgarishlarni saqlash':'Muqovani saqlab, kitobni ochish';
     $('editTitle').value=existing?.title||'Yangi kitob';$('editSubtitle').value=existing?.subtitle||'';$('editAuthor').value=existing?.author||'';selectedTheme=existing?.theme||'forest';selectedCoverImage=existing?.coverImage||'';selectedCoverName=selectedCoverImage?'Saqlangan muqova rasmi':'';$('coverImageInput').value='';
     updateCoverPreview();$('coverEditor').hidden=false;setTimeout(()=>$('editTitle').focus(),50);
   }
-  function closeCoverEditor(){coverImageRequest++;$('saveCover').disabled=false;$('saveCover').removeAttribute('aria-busy');$('chooseCoverImage').disabled=false;const editedId=coverEditId,returnFocus=coverEditorReturnFocus;$('coverEditor').hidden=true;coverEditId=null;coverEditorReturnFocus=null;const recreatedEdit=editedId?[...document.querySelectorAll('.shelf-item')].find(item=>item.dataset.bookId===editedId)?.querySelector('.shelf-edit'):null;(returnFocus?.isConnected?returnFocus:recreatedEdit||$('newBookButton'))?.focus()}
+  function closeCoverEditor(){coverImageRequest++;$('saveCover').disabled=false;$('saveCover').removeAttribute('aria-busy');$('chooseCoverImage').disabled=false;const editedId=coverEditId,returnFocus=coverEditorReturnFocus;$('coverEditor').hidden=true;coverEditId=null;coverEditBaseline=null;coverEditorReturnFocus=null;const recreatedEdit=editedId?[...document.querySelectorAll('.shelf-item')].find(item=>item.dataset.bookId===editedId)?.querySelector('.shelf-edit'):null;(returnFocus?.isConnected?returnFocus:recreatedEdit||$('newBookButton'))?.focus()}
   function saveCover(){
     const name=$('editTitle').value.trim();if(!name){$('editTitle').focus();toast('Avval kitob nomini yozing');return}
     const details={title:name,subtitle:$('editSubtitle').value.trim(),author:$('editAuthor').value.trim(),theme:selectedTheme,coverImage:selectedCoverImage};
     if(coverEditId){
-      const book=library.books.find(b=>b.id===coverEditId);if(!book)return;Object.assign(book,details);
-      if(book.id===library.activeId){Object.assign(state,details);title.value=state.title}
-      persist();const saved=!$('saveNote').classList.contains('save-error');renderLibrary();updateCover();closeCoverEditor();if(saved)toast('Muqova yangilandi');return;
+      const book=library.books.find(b=>b.id===coverEditId);if(!book){toast('Kitob boshqa oynada o‘chirilgan. Muqova tahriri ochiq qoldi.');return}const baseline=coverEditBaseline||details,keys=Object.keys(details),hasConflict=keys.some(key=>details[key]!==baseline[key]&&book[key]!==baseline[key]&&book[key]!==details[key]);if(hasConflict&&!confirm('Boshqa oynada shu muqova maydonlari ham o‘zgartirilgan. Qarama-qarshi maydonlarni sizning tahriringiz bilan almashtirasizmi?'))return;const merged={};for(const key of keys)merged[key]=details[key]===baseline[key]?book[key]:details[key];Object.assign(book,merged);coverEditBaseline={...merged};$('editTitle').value=merged.title;$('editSubtitle').value=merged.subtitle;$('editAuthor').value=merged.author;selectedTheme=merged.theme;selectedCoverImage=merged.coverImage;selectedCoverName=merged.coverImage?'Saqlangan muqova rasmi':'';updateCoverPreview();
+      if(book.id===library.activeId){Object.assign(state,merged);title.value=state.title}
+      persist();const saved=!$('saveNote').classList.contains('save-error');renderLibrary();updateCover();if(!saved){toast('Muqova hozircha saqlanmadi. Xatoni bartaraf etib, qayta urinib ko‘ring.',true);return}closeCoverEditor();toast('Muqova yangilandi');return;
     }
     const book=normalizeBook({...details,pages:[''],current:0,cursors:[0]});$('librarySearch').value='';library.books.unshift(book);library.activeId=book.id;state={...copyBook(book),sound:library.sound};bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));persist();renderLibrary();closeCoverEditor();openBook(book.id);
   }
