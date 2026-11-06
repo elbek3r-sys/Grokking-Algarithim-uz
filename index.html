@@ -427,7 +427,8 @@
     captureEditor();const localBook=normalizeBook(state),localChanged=pendingEdits||JSON.stringify(localBook)!==activeBaseline;
     const remoteCurrent=next.books.find(b=>b.id===selectedId)||null;
     const remoteSignature=JSON.stringify(remoteCurrent);
-    const conflict=localChanged&&remoteSignature!==activeBaseline;
+    const sameContent=!!remoteCurrent&&bookSignature(localBook)===bookSignature(remoteCurrent);
+    const conflict=localChanged&&remoteSignature!==activeBaseline&&!sameContent;
     library=next;library.activeId=library.books.some(b=>b.id===selectedId)?selectedId:(next.activeId||null);library.sound=next.sound;lastShelfSnapshot=shelfSignature();
     if(conflict){
       const copy=normalizeBook({...localBook,id:'',title:`${localBook.title.slice(0,62)} — nusxa`});library.books.unshift(copy);library.activeId=copy.id;state=copyBook(copy);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));title.value=state.title;persist();toast('Boshqa tabda shu kitob o‘zgardi. Bu tabdagi yozuvlar alohida nusxa sifatida saqlandi.');
