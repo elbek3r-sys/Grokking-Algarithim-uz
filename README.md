@@ -21,7 +21,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Sahifalarni qo‘shish, nusxalash, tartiblash, o‘chirish va o‘chirilganini qaytarish
 - O‘chirilgan kitoblarni alohida bo‘limdan tiklash yoki tasdiqlab butunlay o‘chirish; bu kitoblar javonning JSON zaxira nusxasiga ham kiradi
 - Kitob ichidan matn qidirish
-- Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash
+- Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash; tiklash yakunida qo‘shilgan o‘chirilgan kitoblar sonini ham ko‘rish
 - Zaxira faylidagi sahifalar yoki o‘chirilgan kitoblar qismi buzilgan bo‘lsa, tiklashni to‘xtatish va joriy javonni saqlab qolish
 - Ochiq kitobni alohida JSON fayl qilib zaxiralash va uni javonga qayta qo‘shish
 - Zaxira tiklash oynasida almashtirish tugmasi zaxiradagi kitoblar soniga mos ravishda nomlanadi
