@@ -27,7 +27,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - O‘chirilganlar ro‘yxatidagi amallarning ekranni o‘qib beruvchi dasturlar uchun kitob nomi bilan aniq aytilishi; amal bajarilgach klaviatura fokusi qidiruvga qaytadi
 - O‘chirilganlar oynasida telefonda qulay bosish uchun keng amallar tugmalari
 - Kitob ichidan matn qidirish
-- Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash; bir xil ID bilan tahrirlangan jonli va o‘chirilgan nusxalarni alohida saqlash, takrorlanganlarini esa qayta qo‘shmaslik
+- Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash; bir xil ID bilan tahrirlangan jonli va o‘chirilgan nusxalarni alohida saqlash, o‘chirilgan zaxira nusxalarini belgilash va takrorlarini qayta qo‘shmaslik
 - Zaxira faylidagi sahifalar yoki o‘chirilgan kitoblar qismi buzilgan bo‘lsa, tiklashni to‘xtatish va joriy javonni saqlab qolish
 - Ochiq kitobni alohida JSON fayl qilib zaxiralash va uni javonga qayta qo‘shish
 - Zaxira tiklash oynasida almashtirish tugmasi zaxiradagi kitoblar soniga mos ravishda nomlanadi
