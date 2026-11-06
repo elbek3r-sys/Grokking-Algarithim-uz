@@ -12,6 +12,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Sahifa va kitobdagi so‘zlar sonini, jumladan sarlavhalarni, ko‘rish
 - Har bir kitob uchun ixtiyoriy so‘z maqsadini belgilab, bajarilishini kuzatish
 - Yozuv matnini kattalashtirish yoki kichraytirish; o‘lcham shu brauzerda eslab qolinadi
+- Qorong‘ida yozish uchun tungi sahifa rangini yoqish; tanlov shu brauzerda eslab qolinadi
 - Sahifalarni qo‘shish, nusxalash, tartiblash, o‘chirish va o‘chirilganini qaytarish
 - Kitob ichidan matn qidirish
 - Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash
