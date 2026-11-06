@@ -25,6 +25,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - O‘chirilgan kitoblarni alohida bo‘limdan tiklash yoki tasdiqlab butunlay o‘chirish; bu kitoblar javonning JSON zaxira nusxasiga ham kiradi
 - O‘chirilgan kitoblarni nomi, taglavhasi yoki muallifi bo‘yicha qidirish
 - O‘chirilganlar ro‘yxatidagi amallarning ekranni o‘qib beruvchi dasturlar uchun kitob nomi bilan aniq aytilishi; amal bajarilgach klaviatura fokusi qidiruvga qaytadi
+- O‘chirilganlar oynasida telefonda qulay bosish uchun keng amallar tugmalari
 - Kitob ichidan matn qidirish
 - Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash; tiklash yakunida qo‘shilgan o‘chirilgan kitoblar sonini ham ko‘rish
 - Zaxira faylidagi sahifalar yoki o‘chirilgan kitoblar qismi buzilgan bo‘lsa, tiklashni to‘xtatish va joriy javonni saqlab qolish
