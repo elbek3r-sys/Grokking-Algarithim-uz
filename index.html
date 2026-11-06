@@ -1,4 +1,4 @@
-Warning: truncated output (original token count: 34330)
+Warning: truncated output (original token count: 34382)
 Total output lines: 536
 
 <!doctype html>
@@ -232,8 +232,7 @@ Total output lines: 536
     const wordGoal=Number.isFinite(Number(b.wordGoal))?Math.min(1000000,Math.max(0,Math.trunc(Number(b.wordGoal)))):0;
     return {id:typeof b.id==='string'&&b.id?b.id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:typeof b.title==='string'&&b.title?b.title:'Yangi kitob',subtitle:typeof b.subtitle==='string'?b.subtitle:'Hali yozilmagan hikoya',author:typeof b.author==='string'?b.author:'Sizning qo‘lyozmangiz',theme:themes[b.theme]?b.theme:'forest',coverImage,wordGoal,pages,current,cursors:cursors.slice(0,pages.length),pageTitles:pageTitles.slice(0,pages.length)};
   };
-  const bookSignature=book=>JSON.stringify({title:book.title,subtitle:book.subtitle,author:book.author,theme:book.theme,coverIm…4330 tokens truncated…ent.createElement('h2');coverTitle.className='cover-title';coverTitle.textContent=book.title;
-      const subtitle=document.createElement('div');subtitle.className='cover-subtitle';subtitle.textContent=book.subtitle||'';
+  const bookSignature=book=>JSON.stringify({title:book.title,subtitle:book.subtitle,author:book.author,theme:book.theme,coverIm…4382 tokens truncated… const subtitle=document.createElement('div');subtitle.className='cover-subtitle';subtitle.textContent=book.subtitle||'';
       const rule=document.createElement('div');rule.className='cover-rule';
       const author=document.createElement('div');author.className='cover-author';author.textContent=book.author||'';
       inner.append(ornament,flower,coverTitle,subtitle,rule,author);coverArt.append(spine,inner);
@@ -251,7 +250,7 @@ Total output lines: 536
   function renderTrash(){const list=$('trashList');list.replaceChildren();if(!library.trash.length){const empty=document.createElement('li');empty.className='trash-empty';empty.textContent='O‘chirilgan kitoblar yo‘q.';list.append(empty);$('emptyTrash').hidden=true;return}$('emptyTrash').hidden=false;[...library.trash].sort((a,b)=>Date.parse(b.deletedAt)-Date.parse(a.deletedAt)).forEach(entry=>{const row=document.createElement('li');row.className='trash-row';const info=document.createElement('div');info.className='trash-book-info';const name=document.createElement('strong');name.textContent=entry.book.title;const date=document.createElement('span'),stamp=Date.parse(entry.deletedAt);date.textContent=`${entry.book.pages.length} sahifa · ${bookWordTotal(entry.book)} so‘z · ${Number.isFinite(stamp)?new Date(stamp).toLocaleDateString('uz-UZ'):'sana noma’lum'}`;info.append(name,date);const actions=document.createElement('div');actions.className='trash-row-actions';const restore=document.createElement('button');restore.type='button';restore.textContent='Qaytarish';restore.addEventListener('click',()=>restoreDeletedBook(entry.id));const remove=document.createElement('button');remove.type='button';remove.className='trash-permanent';remove.textContent='Butunlay o‘chirish';remove.addEventListener('click',()=>{if(!confirm(`“${entry.book.title}” kitobini butunlay o‘chirasizmi? Buni qaytarib bo‘lmaydi.`))return;library.trash=library.trash.filter(item=>item.id!==entry.id);persist();renderLibrary();renderTrash();toast('Kitob butunlay o‘chirildi')});actions.append(restore,remove);row.append(info,actions);list.append(row)})}
   function restoreDeletedBook(id){const index=library.trash.findIndex(item=>item.id===id);if(index<0)return;const [entry]=library.trash.splice(index,1),book=copyBook(entry.book);if(library.books.some(item=>item.id===book.id)){book.id=`book-${Date.now()}-${Math.random().toString(36).slice(2,9)}`;book.title=`${book.title.slice(0,62)} — tiklandi`}library.books.splice(Math.min(entry.originalIndex,library.books.length),0,book);persist();renderLibrary();renderTrash();toast('Kitob javonga qaytarildi')}
   function updateCover(){
-    if(!library.books.length){$('coverProgress').textContent='Hali boshlanmadi';return}
+    if(!library.books.length){$('coverProgress').textContent=library.trash.length?`Javonda kitob yo‘q · O‘chirilganlarda ${library.trash.length} ta kitob`:'Hali boshlanmadi';return}
     let pages=0,words=0;for(const book of library.books){pages+=book.pages.length;words+=bookWordTotal(book)}
     $('coverProgress').textContent=`${library.books.length} ta kitob · ${pages} ta sahifa · ${words.toLocaleString('uz-UZ')} ta so‘z`;
   }
