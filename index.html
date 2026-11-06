@@ -203,12 +203,13 @@
   const shelfContentSignature=(books=library.books,sound=library.sound)=>JSON.stringify({books:books.map(normalizeBook),sound});
   const readRaw=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
   const parseStored=raw=>{try{return JSON.parse(raw||'null')}catch{return null}};
+  const isUsableShelf=shelf=>!!shelf&&Array.isArray(shelf.books)&&shelf.books.every(book=>book&&typeof book==='object'&&!Array.isArray(book)&&Array.isArray(book.pages)&&book.pages.every(page=>typeof page==='string'));
   const legacyRaw=readRaw(STORE),legacyData=parseStored(legacyRaw),legacy=legacyData&&typeof legacyData==='object'&&!Array.isArray(legacyData)?legacyData:null;
   const hasLegacyBook=!!legacy&&['pages','title','subtitle','author','coverImage'].some(key=>Object.prototype.hasOwnProperty.call(legacy,key));
   const savedShelfRaw=readRaw(SHELF),savedShelf=parseStored(savedShelfRaw);
-  const shelfIsUsable=!!savedShelf&&Array.isArray(savedShelf.books)&&savedShelf.books.every(book=>book&&typeof book==='object'&&!Array.isArray(book)&&Array.isArray(book.pages)&&book.pages.every(page=>typeof page==='string'));
+  const shelfIsUsable=isUsableShelf(savedShelf);
   const legacyIsUsable=!hasLegacyBook||(Array.isArray(legacy.pages)&&legacy.pages.every(page=>typeof page==='string'));
-  let storageRecoveryRaw=savedShelfRaw!==null&&!shelfIsUsable?savedShelfRaw:(savedShelfRaw===null&&legacyRaw!==null&&(!legacyData||!legacyIsUsable)?legacyRaw:null);
+  let storageRecoveryRaw=savedShelfRaw!==null&&!shelfIsUsable?savedShelfRaw:(savedShelfRaw===null&&legacyRaw!==null&&(!legacyData||!legacyIsUsable)?legacyRaw:null),approvedCorruptShelfRaw=null;
   let library=shelfIsUsable?savedShelf:{books:hasLegacyBook?[normalizeBook(legacy)]:[],activeId:null,sound:legacy?.sound!==false};
   library.books=library.books.map(normalizeBook);
   if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0]?.id||null;
@@ -223,8 +224,9 @@
     clearTimeout(saveTimer);saveTimer=null;clearTimeout(saveStatusTimer);
     if(storageRecoveryRaw!==null){pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');return}
     try{
-      const liveShelfRaw=localStorage.getItem(SHELF);
-      if(liveShelfRaw!==null){let liveShelf;try{liveShelf=JSON.parse(liveShelfRaw)}catch{}if(Array.isArray(liveShelf?.books)&&liveShelf.books.every(book=>book&&typeof book==='object'&&!Array.isArray(book)&&Array.isArray(book.pages)&&book.pages.every(page=>typeof page==='string'))){const liveBooks=liveShelf.books.map(normalizeBook),liveSound=typeof liveShelf.sound==='boolean'?liveShelf.sound:library.sound;if(shelfContentSignature(liveBooks,liveSound)!==lastShelfContentSnapshot)syncExternalShelf({key:SHELF,newValue:liveShelfRaw},false)}}
+      const liveShelfRaw=localStorage.getItem(SHELF),liveShelf=parseStored(liveShelfRaw);
+      if(liveShelfRaw!==null&&!isUsableShelf(liveShelf)&&approvedCorruptShelfRaw!==liveShelfRaw){storageRecoveryRaw=liveShelfRaw;$('storageRecovery').hidden=false;pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');toast('Javon ma’lumotini o‘qib bo‘lmadi. Xom nusxani yuklab olib, keyin davom eting.',true);return}
+      if(isUsableShelf(liveShelf)){const liveBooks=liveShelf.books.map(normalizeBook),liveSound=typeof liveShelf.sound==='boolean'?liveShelf.sound:library.sound;if(shelfContentSignature(liveBooks,liveSound)!==lastShelfContentSnapshot)syncExternalShelf({key:SHELF,newValue:liveShelfRaw},false)}
       const i=library.books.findIndex(b=>b.id===library.activeId);
       if(i>=0)library.books[i]={...state,pages:[...state.pages],cursors:[...state.cursors]};
       library.sound=state.sound;
@@ -233,7 +235,7 @@
       if(hadShelf)localStorage.removeItem(STORE);
       localStorage.setItem(SHELF,JSON.stringify(library));
       if(!hadShelf)localStorage.removeItem(STORE);
-      lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();
+      lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();approvedCorruptShelfRaw=null;
       if(shelfChanged){const previousChange=Date.parse(lastChangeAt);lastChangeAt=new Date(Math.max(Date.now(),Number.isFinite(previousChange)?previousChange+1:0)).toISOString();try{localStorage.setItem(CHANGE_META,lastChangeAt)}catch{}updateBackupStatus()}
       activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state));pendingEdits=false;
       $('saveNote').classList.remove('save-error');setSaveState('saved','Saqlandi');saveStatusTimer=setTimeout(()=>{if(!pendingEdits&&!$('saveNote').classList.contains('save-error'))setSaveState('saved','Brauzeringizda saqlanadi')},1300);
@@ -395,7 +397,7 @@
   function jumpToPage(){const page=Number($('pageJump').value);if(!Number.isInteger(page)||page<1||page>state.pages.length){toast(`Sahifa raqamini 1 dan ${state.pages.length} gacha kiriting`);$('pageJump').value=String(state.current+1);return}go(page-1,true)}
   $('newBookButton').addEventListener('click',()=>openCoverEditor());$('saveCover').addEventListener('click',saveCover);$('cancelCover').addEventListener('click',closeCoverEditor);$('cancelCoverX').addEventListener('click',closeCoverEditor);$('librarySearch').addEventListener('input',renderLibrary);
   $('downloadRecoveryData').addEventListener('click',()=>{if(downloadRecoveryRaw())toast('Buzilgan xom nusxa yuklandi. Uni xavfsiz joyda saqlang.')});
-  $('continueWithoutRecovery').addEventListener('click',()=>{if(!confirm('Davom etsangiz, buzilgan fayl keyingi saqlashda almashtiriladi. Xom nusxani yuklab olganingizga ishonch hosil qiling. Baribir davom etilsinmi?'))return;storageRecoveryRaw=null;$('storageRecovery').hidden=true;$('saveNote').classList.remove('save-error');setSaveState('idle','Brauzeringizda saqlanadi');pendingEdits=false;toast('Buzilgan nusxa almashtirilishi mumkin; yangi kitobingizni zaxiralab boring.')});
+  $('continueWithoutRecovery').addEventListener('click',()=>{if(!confirm('Davom etsangiz, buzilgan fayl keyingi saqlashda almashtiriladi. Xom nusxani yuklab olganingizga ishonch hosil qiling. Baribir davom etilsinmi?'))return;approvedCorruptShelfRaw=storageRecoveryRaw;storageRecoveryRaw=null;$('storageRecovery').hidden=true;$('saveNote').classList.remove('save-error');setSaveState('idle','Brauzeringizda saqlanadi');pendingEdits=false;toast('Buzilgan nusxa almashtirilishi mumkin; yangi kitobingizni zaxiralab boring.')});
   $('exportBackup').addEventListener('click',downloadJSON);$('backupWorkButton').addEventListener('click',downloadJSON);$('importBackupButton').addEventListener('click',()=>$('importBackupFile').click());$('importBackupFile').addEventListener('change',e=>restoreJSON(e.target.files?.[0]));
   $('chooseCoverImage').addEventListener('click',()=>$('coverImageInput').click());
   $('coverImageInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Rasm faylini tanlang');e.target.value='';return}if(file.size>15*1024*1024){toast('Rasm 15 MB dan kichik bo‘lishi kerak');e.target.value='';return}const request=++coverImageRequest,previousImage=selectedCoverImage,previousName=selectedCoverName;$('saveCover').disabled=true;$('saveCover').setAttribute('aria-busy','true');$('chooseCoverImage').disabled=true;$('coverImageStatus').textContent='Rasm kichraytirilmoqda…';try{const compressed=await compressCoverImage(file);if(request!==coverImageRequest||$('coverEditor').hidden)return;selectedCoverImage=compressed;selectedCoverName=`${file.name} · optimallashtirildi`;updateCoverPreview()}catch(err){if(request!==coverImageRequest||$('coverEditor').hidden)return;selectedCoverImage=previousImage;selectedCoverName=previousName;updateCoverPreview();toast(err.message||'Rasmni yuklab bo‘lmadi')}finally{e.target.value='';if(request===coverImageRequest&&!$('coverEditor').hidden){$('saveCover').disabled=false;$('saveCover').removeAttribute('aria-busy');$('chooseCoverImage').disabled=false}}});
