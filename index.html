@@ -46,6 +46,7 @@
     .page-move-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.page-move-actions button{border:1px solid rgba(36,55,47,.16);border-radius:7px;background:rgba(255,255,255,.42);color:#5f6c5d;padding:8px 5px;font-size:10px;line-height:1.3}.page-move-actions button:hover:not(:disabled){background:#fff}.page-move-actions button:disabled{opacity:.38;cursor:not-allowed}
     .page-title-input{position:relative;z-index:2;width:100%;border:0;border-bottom:1px solid rgba(115,108,90,.12);background:transparent;color:#53664f;font-family:var(--serif);font-size:clamp(20px,2vw,25px);line-height:1.25;padding:0 3px 10px;margin:0 0 14px}.page-title-input::placeholder{color:#b2ad9e;font-style:italic;font-size:16px}.page-title-input:focus{border-bottom-color:rgba(124,146,119,.5);outline:0}.page-title-input:focus-visible{outline:2px solid #c28b50;outline-offset:3px}@media(min-width:681px){.page-editor{min-height:300px}}
     @media(max-width:680px){.book-workspace{grid-template-areas:"page-list" "add-page" "book" "page-jump" "page-move" "local-note" "work-backup"}.side-panel{display:contents}.page-list{grid-area:page-list;min-width:0}.add-page{grid-area:add-page;margin-top:0}.book-wrap{grid-area:book}.page-jump{grid-area:page-jump}.page-move-actions{grid-area:page-move}.local-note{grid-area:local-note}.work-backup{grid-area:work-backup}.page-chip-row{flex:0 0 auto}.page-chip-row .page-chip{flex:0 0 auto;gap:7px;padding:6px 7px}.page-chip-preview{display:block;max-width:84px}}
+    .storage-recovery-actions button:disabled{opacity:.55;cursor:not-allowed}
   </style>
 </head>
 <body>
@@ -60,7 +61,7 @@
 
   <main>
     <section class="screen cover-screen active" id="coverScreen" aria-label="Kitob muqovasi">
-      <div class="storage-recovery" id="storageRecovery" role="alert" hidden><strong>Javon ma’lumotini o‘qib bo‘lmadi</strong><p>Avvalgi saqlangan fayl buzilgan ko‘rinadi. Yangi yozuvlar uni almashtirmasligi uchun saqlash vaqtincha to‘xtatildi. Xom nusxani yuklab oling yoki buzilgan nusxa o‘rniga mavjud javon bilan davom eting.</p><div class="storage-recovery-actions"><button id="downloadRecoveryData" type="button">Xom nusxani yuklab olish</button><button class="continue-anyway" id="continueWithoutRecovery" type="button">Buzilgan nusxani almashtirish</button></div></div>
+      <div class="storage-recovery" id="storageRecovery" role="alert" hidden><strong>Javon ma’lumotini o‘qib bo‘lmadi</strong><p>Avvalgi saqlangan fayl buzilgan ko‘rinadi. Yangi yozuvlar uni almashtirmasligi uchun saqlash vaqtincha to‘xtatildi. Avval xom nusxani yuklab oling, keyin mavjud javon bilan davom eting.</p><div class="storage-recovery-actions"><button id="downloadRecoveryData" type="button">Xom nusxani yuklab olish</button><button class="continue-anyway" id="continueWithoutRecovery" type="button" disabled>Buzilgan nusxani almashtirish</button></div></div>
       <div class="intro-copy">
         <div class="eyebrow">Sokin yozuv makoni</div>
         <h1>Fikrlaringizga<br>joy oching.</h1>
@@ -209,7 +210,7 @@
   const savedShelfRaw=readRaw(SHELF),savedShelf=parseStored(savedShelfRaw);
   const shelfIsUsable=isUsableShelf(savedShelf);
   const legacyIsUsable=!hasLegacyBook||(Array.isArray(legacy.pages)&&legacy.pages.every(page=>typeof page==='string'));
-  let storageRecoveryRaw=savedShelfRaw!==null&&!shelfIsUsable?savedShelfRaw:(savedShelfRaw===null&&legacyRaw!==null&&(!legacyData||!legacyIsUsable)?legacyRaw:null),approvedCorruptShelfRaw=null;
+  let storageRecoveryRaw=savedShelfRaw!==null&&!shelfIsUsable?savedShelfRaw:(savedShelfRaw===null&&legacyRaw!==null&&(!legacyData||!legacyIsUsable)?legacyRaw:null),approvedCorruptShelfRaw=null,recoveryRawDownloaded=false;
   let library=shelfIsUsable?savedShelf:{books:hasLegacyBook?[normalizeBook(legacy)]:[],activeId:null,sound:legacy?.sound!==false};
   library.books=library.books.map(normalizeBook);
   if(!library.books.some(b=>b.id===library.activeId))library.activeId=library.books[0]?.id||null;
@@ -225,7 +226,7 @@
     if(storageRecoveryRaw!==null){pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');return}
     try{
       const liveShelfRaw=localStorage.getItem(SHELF),liveShelf=parseStored(liveShelfRaw);
-      if(liveShelfRaw!==null&&!isUsableShelf(liveShelf)&&approvedCorruptShelfRaw!==liveShelfRaw){storageRecoveryRaw=liveShelfRaw;$('storageRecovery').hidden=false;pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');toast('Javon ma’lumotini o‘qib bo‘lmadi. Xom nusxani yuklab olib, keyin davom eting.',true);return}
+      if(liveShelfRaw!==null&&!isUsableShelf(liveShelf)&&approvedCorruptShelfRaw!==liveShelfRaw){storageRecoveryRaw=liveShelfRaw;recoveryRawDownloaded=false;$('continueWithoutRecovery').disabled=true;$('storageRecovery').hidden=false;pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');toast('Javon ma’lumotini o‘qib bo‘lmadi. Xom nusxani yuklab olib, keyin davom eting.',true);return}
       if(isUsableShelf(liveShelf)){const liveBooks=liveShelf.books.map(normalizeBook),liveSound=typeof liveShelf.sound==='boolean'?liveShelf.sound:library.sound;if(shelfContentSignature(liveBooks,liveSound)!==lastShelfContentSnapshot)syncExternalShelf({key:SHELF,newValue:liveShelfRaw},false)}
       const i=library.books.findIndex(b=>b.id===library.activeId);
       if(i>=0)library.books[i]={...state,pages:[...state.pages],cursors:[...state.cursors]};
@@ -235,7 +236,7 @@
       if(hadShelf)localStorage.removeItem(STORE);
       localStorage.setItem(SHELF,JSON.stringify(library));
       if(!hadShelf)localStorage.removeItem(STORE);
-      lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();approvedCorruptShelfRaw=null;
+      lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();approvedCorruptShelfRaw=null;recoveryRawDownloaded=false;$('continueWithoutRecovery').disabled=true;
       if(shelfChanged){const previousChange=Date.parse(lastChangeAt);lastChangeAt=new Date(Math.max(Date.now(),Number.isFinite(previousChange)?previousChange+1:0)).toISOString();try{localStorage.setItem(CHANGE_META,lastChangeAt)}catch{}updateBackupStatus()}
       activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state));pendingEdits=false;
       $('saveNote').classList.remove('save-error');setSaveState('saved','Saqlandi');saveStatusTimer=setTimeout(()=>{if(!pendingEdits&&!$('saveNote').classList.contains('save-error'))setSaveState('saved','Brauzeringizda saqlanadi')},1300);
@@ -396,8 +397,8 @@
   function go(index,focus=false){if(index<0)return;if(index===state.current){if(focus)setTimeout(focusEditor,0);return}while(state.pages.length<=index){state.pages.push('');state.cursors.push(0);bookWordCounts.push(0);state.pageTitles.push('')}state.current=index;updatePage();const spread=$('bookSpread');spread.classList.remove('turning');void spread.offsetWidth;spread.classList.add('turning');play('page');scheduleSave();if(focus)setTimeout(focusEditor,100)}
   function jumpToPage(){const page=Number($('pageJump').value);if(!Number.isInteger(page)||page<1||page>state.pages.length){toast(`Sahifa raqamini 1 dan ${state.pages.length} gacha kiriting`);$('pageJump').value=String(state.current+1);return}go(page-1,true)}
   $('newBookButton').addEventListener('click',()=>openCoverEditor());$('saveCover').addEventListener('click',saveCover);$('cancelCover').addEventListener('click',closeCoverEditor);$('cancelCoverX').addEventListener('click',closeCoverEditor);$('librarySearch').addEventListener('input',renderLibrary);
-  $('downloadRecoveryData').addEventListener('click',()=>{if(downloadRecoveryRaw())toast('Buzilgan xom nusxa yuklandi. Uni xavfsiz joyda saqlang.')});
-  $('continueWithoutRecovery').addEventListener('click',()=>{if(!confirm('Davom etsangiz, buzilgan fayl keyingi saqlashda almashtiriladi. Xom nusxani yuklab olganingizga ishonch hosil qiling. Baribir davom etilsinmi?'))return;approvedCorruptShelfRaw=storageRecoveryRaw;storageRecoveryRaw=null;$('storageRecovery').hidden=true;$('saveNote').classList.remove('save-error');setSaveState('idle','Brauzeringizda saqlanadi');pendingEdits=true;persist();if(!$('saveNote').classList.contains('save-error'))toast('Javon qayta saqlandi. Endi yangi zaxira nusxasini oling.')});
+  $('downloadRecoveryData').addEventListener('click',()=>{if(downloadRecoveryRaw()){recoveryRawDownloaded=true;$('continueWithoutRecovery').disabled=false;toast('Buzilgan xom nusxa yuklab olishga tayyor. Uni xavfsiz joyda saqlang.')}});
+  $('continueWithoutRecovery').addEventListener('click',()=>{if(!recoveryRawDownloaded){toast('Avval buzilgan xom nusxani yuklab oling');return}if(!confirm('Davom etsangiz, buzilgan fayl almashtirilib, javoningiz qayta saqlanadi. Xom nusxani xavfsiz joyda saqlaganingizni tasdiqlaysizmi?'))return;approvedCorruptShelfRaw=storageRecoveryRaw;storageRecoveryRaw=null;$('storageRecovery').hidden=true;$('saveNote').classList.remove('save-error');setSaveState('idle','Brauzeringizda saqlanadi');pendingEdits=true;persist();if(!$('saveNote').classList.contains('save-error'))toast('Javon qayta saqlandi. Endi yangi zaxira nusxasini oling.')});
   $('exportBackup').addEventListener('click',downloadJSON);$('backupWorkButton').addEventListener('click',downloadJSON);$('importBackupButton').addEventListener('click',()=>$('importBackupFile').click());$('importBackupFile').addEventListener('change',e=>restoreJSON(e.target.files?.[0]));
   $('chooseCoverImage').addEventListener('click',()=>$('coverImageInput').click());
   $('coverImageInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Rasm faylini tanlang');e.target.value='';return}if(file.size>15*1024*1024){toast('Rasm 15 MB dan kichik bo‘lishi kerak');e.target.value='';return}const request=++coverImageRequest,previousImage=selectedCoverImage,previousName=selectedCoverName;$('saveCover').disabled=true;$('saveCover').setAttribute('aria-busy','true');$('chooseCoverImage').disabled=true;$('coverImageStatus').textContent='Rasm kichraytirilmoqda…';try{const compressed=await compressCoverImage(file);if(request!==coverImageRequest||$('coverEditor').hidden)return;selectedCoverImage=compressed;selectedCoverName=`${file.name} · optimallashtirildi`;updateCoverPreview()}catch(err){if(request!==coverImageRequest||$('coverEditor').hidden)return;selectedCoverImage=previousImage;selectedCoverName=previousName;updateCoverPreview();toast(err.message||'Rasmni yuklab bo‘lmadi')}finally{e.target.value='';if(request===coverImageRequest&&!$('coverEditor').hidden){$('saveCover').disabled=false;$('saveCover').removeAttribute('aria-busy');$('chooseCoverImage').disabled=false}}});
