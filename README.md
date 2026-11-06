@@ -56,7 +56,8 @@ Xotira to‘lsa yoki saqlash xatosi yuz bersa, ogohlantirish ichidagi **JSON zax
 - `Ctrl/Cmd + S` — qo‘lyozmani saqlash
 - `Ctrl/Cmd + F` — ochiq kitob ichidan qidirish
 - `Ctrl/Cmd + ←/→` — oldingi yoki keyingi sahifaga o‘tish (matn maydonidan tashqarida)
+- `Ctrl/Cmd + Home/End` — birinchi yoki oxirgi sahifaga o‘tish (matn maydonidan tashqarida)
 - `Ctrl/Cmd + Shift + F` — diqqat rejimini yoqish yoki o‘chirish
 - `Esc` — diqqat rejimidan chiqish (qidiruv ochiq bo‘lsa, avval qidiruv yopiladi)
 
-Sayt `dist/index.html` va oflayn ishlash uchun `dist/sw.js`, `dist/manifest.webmanifest`, `dist/icon.svg` fayllaridan foydalanadi.
+Sayt `dist/index.html` va oflayn ishlash uchun `dist/sw.js`, `dist/manifest.webmanifest`, `dist/icon.svg`, `dist/icon-192.png`, `dist/icon-512.png` hamda `dist/apple-touch-icon.png` fayllaridan foydalanadi.
