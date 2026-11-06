@@ -10,6 +10,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Har bir sahifaga ixtiyoriy sarlavha qo‘shish; sarlavha sahifani ko‘chirganda saqlanadi va TXT/PDF eksportiga kiradi
 - Sahifa va kitobdagi so‘zlar sonini, jumladan sarlavhalarni, ko‘rish
 - Har bir kitob uchun ixtiyoriy so‘z maqsadini belgilab, bajarilishini kuzatish
+- Yozuv matnini kattalashtirish yoki kichraytirish; o‘lcham shu brauzerda eslab qolinadi
 - Sahifalarni qo‘shish, tartiblash, o‘chirish va o‘chirilganini qaytarish
 - Kitob ichidan matn qidirish
 - Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash
