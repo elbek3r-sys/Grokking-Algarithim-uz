@@ -271,7 +271,7 @@
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle'),pageTitle=$('pageTitle');
   function updateSaveTimestamp(value){const time=$('saveTime'),stamp=Date.parse(value);if(!Number.isFinite(stamp)){time.textContent='';time.removeAttribute('datetime');time.setAttribute('aria-label','Oxirgi saqlash vaqti mavjud emas');time.removeAttribute('title');return}const savedAt=new Date(stamp),timeText=savedAt.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'}),fullText=savedAt.toLocaleString('uz-UZ',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});time.textContent=timeText;time.dateTime=savedAt.toISOString();time.setAttribute('aria-label',`Oxirgi muvaffaqiyatli saqlash: ${fullText}`);time.title=`Oxirgi saqlash: ${fullText}`}
   updateSaveTimestamp(lastSavedAt);
-  function updateDocumentTitle(){document.title=work.classList.contains('active')?`${state.title||'Yangi kitob'} · ${state.current+1}-sahifa — Kitob Daftari`:'Kitob Daftari — yozish uchun sokin joy'}
+  function updateDocumentTitle(){const bookTitle=state.title||'Yangi kitob',pageLabel=`${bookTitle}, ${state.current+1}-sahifa`;pageTitle.setAttribute('aria-label',`${pageLabel} sarlavhasi`);editor.setAttribute('aria-label',`${pageLabel} matni`);document.title=work.classList.contains('active')?`${bookTitle} · ${state.current+1}-sahifa — Kitob Daftari`:'Kitob Daftari — yozish uchun sokin joy'}
   function persist(silent=false){
     clearTimeout(saveTimer);saveTimer=null;clearTimeout(saveStatusTimer);
     const i=library.books.findIndex(b=>b.id===library.activeId);
