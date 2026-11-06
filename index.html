@@ -581,7 +581,7 @@
   $('printBook').addEventListener('click',printBook);
   $('exportBook').addEventListener('click',()=>{captureEditor();const text=`${state.title||'Yangi kitob'}\n\n`+state.pages.map((p,i)=>`— ${i+1}-sahifa —\n${state.pageTitles[i]?.trim()?`${state.pageTitles[i].trim()}\n`:''}${p}`).join('\n\n');const blob=new Blob([text],{type:'text/plain;charset=utf-8'}),baseName=(state.title||'yangi-kitob').replace(/[^\p{L}\p{N}-]+/gu,'-').replace(/^-|-$/g,'').toLowerCase()||'yangi-kitob',filename=`${baseName}.txt`;downloadBlob(blob,filename);play('click');toast('Qo‘lyozma TXT fayl sifatida yuklandi')});
   $('exportMarkdown').addEventListener('click',downloadMarkdown);$('copyMarkdown').addEventListener('click',copyMarkdown);
-  function flushSave(){clearTimeout(saveTimer);captureEditor();persist()}
+  function flushSave(){clearTimeout(saveTimer);captureEditor();persist(true)}
   function syncExternalShelf(event,persistConflict=true){
     if(event.key!==SHELF||!event.newValue)return;
     let raw;try{raw=JSON.parse(event.newValue)}catch{return}if(!isUsableShelf(raw))return;
