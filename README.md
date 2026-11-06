@@ -5,6 +5,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 ## Imkoniyatlar
 
 - Javonda bir nechta kitob yaratish, muqovasiga nom, taglavha, muallif, rang va rasm qo‘shish
+- Muqova tahririda saqlanmagan o‘zgarishlar bo‘lsa, muharrirni yopishdan oldin ogohlantirish olish
 - Kitoblarni javonda nomi, taglavhasi yoki muallifi bo‘yicha qidirish
 - Kitoblarni javon tartibi, yaqinda ochilgani, yaqinda tahrirlangani, nomi yoki so‘zlar soni bo‘yicha saralash; tanlov va ochilgan vaqt shu brauzerda saqlanadi
 - Javondagi kitobdan sahifalari, muqovasi va yozilgan joyi bilan nusxa yaratish
