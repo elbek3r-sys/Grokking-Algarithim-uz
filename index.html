@@ -410,9 +410,22 @@
   function duplicateCurrentPage(){captureEditor();const from=state.current,to=from+1;state.pages.splice(to,0,state.pages[from]);state.pageTitles.splice(to,0,state.pageTitles[from]);state.cursors.splice(to,0,state.cursors[from]);bookWordCounts.splice(to,0,bookWordCounts[from]);state.current=to;updatePage();persist();const saved=!$('saveNote').classList.contains('save-error');focusEditor();toast(saved?`Sahifa ${from+1} nusxalandi`:'Sahifa nusxalandi, lekin saqlanmadi',!saved)}
   function pagePreview(text,heading=''){return heading.trim()||text.slice(0,320).trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa'}
   function scheduleSearch(queryText){clearTimeout(searchTimer);if(!queryText.trim()){searchBook('');return}$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;$('bookSearchStatus').textContent='Qidirilmoqda…';searchTimer=setTimeout(()=>searchBook(queryText),140)}
-  function foldWithOffsets(text){let folded='';const starts=[],ends=[];for(let offset=0;offset<text.length;){const character=String.fromCodePoint(text.codePointAt(offset)),normalized=character.normalize('NFKC').toLocaleLowerCase().replace(/[\u2018\u2019\u02bb\u02bc\u0060\u00b4]/g,"'"),end=offset+character.length;folded+=normalized;for(let i=0;i<normalized.length;i++){starts.push(offset);ends.push(end)}offset=end}return {folded,starts,ends}}
+  function foldWithOffsets(text){
+    const source=String(text??''),segments=[];
+    if(typeof Intl.Segmenter==='function'){
+      for(const part of new Intl.Segmenter(undefined,{granularity:'grapheme'}).segment(source))segments.push({text:part.segment,start:part.index,end:part.index+part.segment.length});
+    }else{
+      let offset=0,cluster='',clusterStart=0;
+      for(const character of source){if(cluster&&!/\p{M}/u.test(character)){segments.push({text:cluster,start:clusterStart,end:offset});cluster=''}if(!cluster)clusterStart=offset;cluster+=character;offset+=character.length}
+      if(cluster)segments.push({text:cluster,start:clusterStart,end:offset});
+    }
+    let folded='';const starts=[],ends=[];
+    for(const part of segments){const normalized=part.text.normalize('NFKC').toLocaleLowerCase().replace(/[\u2018\u2019\u02bb\u02bc\u0060\u00b4]/g,"'");for(let offset=0;offset<normalized.length;){const character=String.fromCodePoint(normalized.codePointAt(offset));if(/\s/u.test(character)){if(folded.endsWith(' '))ends[ends.length-1]=part.end;else if(folded){folded+=' ';starts.push(part.start);ends.push(part.end)}}else{folded+=character;for(let i=0;i<character.length;i++){starts.push(part.start);ends.push(part.end)}}offset+=character.length}}
+    if(folded.endsWith(' ')){folded=folded.slice(0,-1);starts.pop();ends.pop()}
+    return {folded,starts,ends};
+  }
   function searchBook(queryText){
-    const query=foldWithOffsets(queryText.trim()).folded,results=$('bookSearchResults'),status=$('bookSearchStatus');results.replaceChildren();
+    const query=normalizeSearchText(queryText),results=$('bookSearchResults'),status=$('bookSearchStatus');results.replaceChildren();
     if(!query){results.hidden=true;status.textContent='';return}
     results.hidden=false;const matches=[];let more=false;
     state.pages.forEach((page,pageIndex)=>{for(const source of [{text:state.pageTitles[pageIndex]||'',isTitle:true},{text:page,isTitle:false}]){const mapped=foldWithOffsets(source.text);let from=0,at;while((at=mapped.folded.indexOf(query,from))!==-1){if(matches.length<100){const start=mapped.starts[at],end=mapped.ends[at+query.length-1];if(Number.isInteger(start)&&Number.isInteger(end))matches.push({pageIndex,start,end,page:source.text,isTitle:source.isTitle})}else more=true;from=at+Math.max(1,query.length)}}});
