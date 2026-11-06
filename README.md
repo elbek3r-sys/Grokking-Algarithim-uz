@@ -16,7 +16,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Kitob ichidan matn qidirish
 - Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash
 - Kitobni TXT fayl qilib yuklab olish yoki chop etish oynasidan PDF qilib saqlash
-- Kitobni sahifa sarlavhalari bilan Markdown (`.md`) fayl qilib yuklab olish
+- Kitobni sahifa sarlavhalari bilan Markdown (`.md`) fayl qilib yuklab olish yoki buferga nusxalash
 - Sahifa ovoz effektlarini yoqish yoki o‘chirish
 - Chalg‘imasdan yozish uchun diqqat rejimi; `Esc` bilan undan chiqish
 - Birinchi internetli ochilishdan so‘ng ilovani oflayn ochish va yozishni davom ettirish
