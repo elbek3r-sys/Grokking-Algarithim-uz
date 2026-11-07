@@ -634,11 +634,12 @@
     const next={books:normalizeBooks(raw.books),trash:normalizeTrash(raw.trash),activeId:raw.activeId,sound:typeof raw.sound==='boolean'?raw.sound:library.sound};
     if(!next.books.some(b=>b.id===next.activeId))next.activeId=next.books[0]?.id||null;
     const selectedId=library.activeId,wasWork=work.classList.contains('active'),hadFocus=document.activeElement===editor;
-    captureEditor();const localBook=normalizeBook(state),localChanged=pendingEdits||JSON.stringify(localBook)!==activeBaseline;
+    captureEditor();const localBook=normalizeBook(state),baselineBook=normalizeBook(parseStored(activeBaseline)||localBook),baselineSignature=bookSignature(baselineBook),localSignature=bookSignature(localBook),localChanged=localSignature!==baselineSignature;
     const remoteCurrent=next.books.find(b=>b.id===selectedId)||null;
-    const remoteSignature=JSON.stringify(remoteCurrent);
-    const sameContent=!!remoteCurrent&&bookSignature(localBook)===bookSignature(remoteCurrent);
-    const conflict=localChanged&&remoteSignature!==activeBaseline&&!sameContent;
+    const remoteSignature=remoteCurrent?bookSignature(remoteCurrent):'';
+    const remoteChanged=remoteSignature!==baselineSignature;
+    const sameContent=!!remoteCurrent&&localSignature===remoteSignature;
+    const conflict=localChanged&&remoteChanged&&!sameContent;
     library=next;library.activeId=library.books.some(b=>b.id===selectedId)?selectedId:(next.activeId||null);library.sound=next.sound;lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();lastShelfRawSnapshot=event.newValue;shelfStorageEstimate=event.newValue.length*2;updateStorageEstimate();
     if(conflict){
       const copy=normalizeBook({...localBook,id:'',title:`${localBook.title.slice(0,62)} — nusxa`});library.books.unshift(copy);library.activeId=copy.id;state=copyBook(copy);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));title.value=state.title;if(persistConflict){persist();const saved=!$('saveNote').classList.contains('save-error'),recovery=storageRecoveryRaw!==null;toast(saved?'Boshqa tabdagi tahrir bilan to‘qnashuv aniqlandi. Bu tabdagi yozuvlar alohida nusxa sifatida saqlandi.':recovery?'Alohida nusxa saqlanmadi. Javon buzilgan; avval xom nusxani yuklab oling.':'Alohida nusxa saqlanmadi. JSON zaxira yuklab oling.',!saved,saved?null:recovery?{label:'Xom nusxani yuklab olish',ariaLabel:'Buzilgan javonning xom nusxasini yuklab olish',run:()=>$('downloadRecoveryData').click()}:{label:'JSON zaxiralash',ariaLabel:'Javonni JSON fayliga zaxiralash',run:downloadJSON})}else toast('Boshqa tabdagi o‘zgarish sabab bu kitob alohida nusxa sifatida saqlanmoqda.');
