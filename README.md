@@ -6,6 +6,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 
 - Javonda bir nechta kitob yaratish, muqovasiga nom, taglavha, muallif, rang va rasm qo‘shish; rasmning ko‘rinadigan qismini gorizontal va vertikal sozlash yoki markazga qaytarish
 - Muqova nomi, taglavhasi va muallifi uchun belgi chegaralarini real vaqtda ko‘rish
+- Belgi limitiga yaqinlashganda muqova, kitob va sahifa sarlavhasi sanagichlari ogohlantiruvchi rangga o‘tadi
 - Yozish oynasida kitob nomining 70 belgilik chegarasi va joriy belgi sonini ko‘rish; klaviatura fokusi aniq ajratiladi
 - Telefonda muqova tahrirlanganda maydonlar alohida aylantiriladi, bekor qilish va saqlash tugmalari ko‘rinib turadi
 - Muqova tahririda saqlanmagan o‘zgarishlar bo‘lsa, muharrirni yopishdan oldin ogohlantirish olish
