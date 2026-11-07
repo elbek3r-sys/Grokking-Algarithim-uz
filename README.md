@@ -59,7 +59,7 @@ Brauzerda `http://localhost:8000` manzilini oching.
 
 Kitoblar va muqova rasmlari ishlatilayotgan brauzerning `localStorage` xotirasida saqlanadi. Ular boshqa brauzer yoki qurilmaga avtomatik ko‘chmaydi. Brauzer ma’lumotlarini tozalashdan oldin javonning **JSON zaxira nusxasi**ni yuklab, xavfsiz joyda saqlang. Zaxirani boshqa qurilmada **Zaxiradan tiklash** orqali ochish mumkin. Kitob yozish oynasida brauzeringiz qo‘llasa, **Brauzer xotirasini himoyalash** tugmasi bilan avtomatik tozalanishdan saqlashni so‘rashingiz mumkin; bu zaxira nusxasini almashtirmaydi.
 
-Ilovani oflayn ochish uchun saytni avval internet bor paytda oching. Yangi versiya internetli ochilganda oflayn nusxa ham yangilanadi. Oflayn yozuvlar shu brauzerda qoladi va boshqa qurilmaga avtomatik yuborilmaydi.
+Ilovani oflayn ochish uchun saytni avval internet bor paytda oching. Yangi versiya tayyor bo‘lsa, ochiq ilova vaqti-vaqti bilan yangilanishni tekshiradi; sahifani qayta yuklashdan oldin kutilayotgan yozuvni saqlaydi. Yangi versiya internetli ochilganda oflayn nusxa ham yangilanadi. Oflayn yozuvlar shu brauzerda qoladi va boshqa qurilmaga avtomatik yuborilmaydi.
 
 Xotira to‘lsa yoki saqlash xatosi yuz bersa, ogohlantirish ichidagi **JSON zaxiralash** tugmasi bilan javoningizni faylga yuklab oling.
 
