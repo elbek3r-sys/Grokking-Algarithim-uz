@@ -345,15 +345,17 @@
     library.sound=state.sound;
     if(storageRecoveryRaw!==null){pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');return}
     try{
-      const liveShelfRaw=localStorage.getItem(SHELF),liveShelf=parseStored(liveShelfRaw);
-      if(liveShelfRaw!==null&&!isUsableShelf(liveShelf)&&approvedCorruptShelfRaw!==liveShelfRaw){storageRecoveryRaw=liveShelfRaw;recoveryRawDownloaded=false;$('continueWithoutRecovery').disabled=true;$('storageRecovery').hidden=false;pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');toast('Javon ma’lumotini o‘qib bo‘lmadi. Xom nusxani yuklab olib, keyin davom eting.',true);return}
-      if(isUsableShelf(liveShelf)){const liveBooks=normalizeBooks(liveShelf.books),liveSound=typeof liveShelf.sound==='boolean'?liveShelf.sound:library.sound;if(shelfContentSignature(liveBooks,liveSound,liveShelf.trash)!==lastShelfContentSnapshot)syncExternalShelf({key:SHELF,newValue:liveShelfRaw},false)}
-      const shelfChanged=shelfSignature()!==lastShelfSnapshot;
-      const hadShelf=localStorage.getItem(SHELF)!==null;
+      const liveShelfRaw=localStorage.getItem(SHELF);
+      if(liveShelfRaw!==lastShelfRawSnapshot){
+        const liveShelf=parseStored(liveShelfRaw);
+        if(liveShelfRaw!==null&&!isUsableShelf(liveShelf)&&approvedCorruptShelfRaw!==liveShelfRaw){storageRecoveryRaw=liveShelfRaw;recoveryRawDownloaded=false;$('continueWithoutRecovery').disabled=true;$('storageRecovery').hidden=false;pendingEdits=true;$('saveNote').classList.add('save-error');setSaveState('recovery','Javon buzilgan — avval tiklash kerak');toast('Javon ma’lumotini o‘qib bo‘lmadi. Xom nusxani yuklab olib, keyin davom eting.',true);return}
+        if(isUsableShelf(liveShelf)){const liveBooks=normalizeBooks(liveShelf.books),liveSound=typeof liveShelf.sound==='boolean'?liveShelf.sound:library.sound;if(shelfContentSignature(liveBooks,liveSound,liveShelf.trash)!==lastShelfContentSnapshot)syncExternalShelf({key:SHELF,newValue:liveShelfRaw},false)}
+      }
+      const shelfSnapshot=shelfSignature(),shelfContentSnapshot=shelfContentSignature(),shelfChanged=shelfSnapshot!==lastShelfSnapshot,hadShelf=liveShelfRaw!==null;
       if(hadShelf)localStorage.removeItem(STORE);
-      localStorage.setItem(SHELF,JSON.stringify(library));
+      const serializedShelf=JSON.stringify(library);localStorage.setItem(SHELF,serializedShelf);lastShelfRawSnapshot=serializedShelf;
       if(!hadShelf)localStorage.removeItem(STORE);
-      lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();approvedCorruptShelfRaw=null;recoveryRawDownloaded=false;$('continueWithoutRecovery').disabled=true;
+      lastShelfSnapshot=shelfSnapshot;lastShelfContentSnapshot=shelfContentSnapshot;approvedCorruptShelfRaw=null;recoveryRawDownloaded=false;$('continueWithoutRecovery').disabled=true;
       if(shelfChanged){const previousChange=Date.parse(lastChangeAt);lastChangeAt=new Date(Math.max(Date.now(),Number.isFinite(previousChange)?previousChange+1:0)).toISOString();try{localStorage.setItem(CHANGE_META,lastChangeAt)}catch{}updateBackupStatus()}
       activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state));pendingEdits=false;
       $('saveNote').classList.remove('save-error');if(!silent||shelfChanged||!hadShelf){lastSavedAt=new Date().toISOString();try{localStorage.setItem(SAVE_META,lastSavedAt)}catch{}updateSaveTimestamp(lastSavedAt)}setSaveState('saved','Saqlandi');saveStatusTimer=setTimeout(()=>{if(!pendingEdits&&!$('saveNote').classList.contains('save-error'))setSaveState('saved','Brauzeringizda saqlanadi')},1300);
@@ -604,7 +606,7 @@
     const remoteSignature=JSON.stringify(remoteCurrent);
     const sameContent=!!remoteCurrent&&bookSignature(localBook)===bookSignature(remoteCurrent);
     const conflict=localChanged&&remoteSignature!==activeBaseline&&!sameContent;
-    library=next;library.activeId=library.books.some(b=>b.id===selectedId)?selectedId:(next.activeId||null);library.sound=next.sound;lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();
+    library=next;library.activeId=library.books.some(b=>b.id===selectedId)?selectedId:(next.activeId||null);library.sound=next.sound;lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();lastShelfRawSnapshot=event.newValue;
     if(conflict){
       const copy=normalizeBook({...localBook,id:'',title:`${localBook.title.slice(0,62)} — nusxa`});library.books.unshift(copy);library.activeId=copy.id;state=copyBook(copy);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));title.value=state.title;if(persistConflict){persist();const saved=!$('saveNote').classList.contains('save-error'),recovery=storageRecoveryRaw!==null;toast(saved?'Boshqa tabdagi tahrir bilan to‘qnashuv aniqlandi. Bu tabdagi yozuvlar alohida nusxa sifatida saqlandi.':recovery?'Alohida nusxa saqlanmadi. Javon buzilgan; avval xom nusxani yuklab oling.':'Alohida nusxa saqlanmadi. JSON zaxira yuklab oling.',!saved,saved?null:recovery?{label:'Xom nusxani yuklab olish',ariaLabel:'Buzilgan javonning xom nusxasini yuklab olish',run:()=>$('downloadRecoveryData').click()}:{label:'JSON zaxiralash',ariaLabel:'Javonni JSON fayliga zaxiralash',run:downloadJSON})}else toast('Boshqa tabdagi o‘zgarish sabab bu kitob alohida nusxa sifatida saqlanmoqda.');
     }else if(!localChanged){
