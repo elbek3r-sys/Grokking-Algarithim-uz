@@ -1,4 +1,7 @@
-const CACHE_NAME = 'kitob-daftari-v101';
+Warning: truncated output (original token count: 563)
+Total output lines: 49
+
+const CACHE_NAME = 'kitob-daftari-v102';
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './assets/writing-room.webp', './assets/writing-studio.webp', './assets/rainforest.ogg'];
 
 self.addEventListener('install', event => {
@@ -18,11 +21,7 @@ function cacheResponse(request, response) {
 }
 
 async function isAppDocument(response) {
-  const contentType = (response.headers.get('content-type') || '').split(';', 1)[0].trim().toLowerCase();
-  if (!response.ok || contentType !== 'text/html') return false;
-  try {
-    const html = await response.clone().text();
-    return html.includes('id="coverScreen"') && html.includes('id="pageEditor"');
+  const contentType = (response.…63 tokens truncated…ludes('id="pageEditor"');
   } catch {
     return false;
   }
