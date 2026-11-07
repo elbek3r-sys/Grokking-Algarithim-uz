@@ -186,6 +186,8 @@
     .book-button:active,.shelf-item .book-button:active{transform:rotateY(-8deg) rotateZ(-1deg) translateY(1px)}
     @media(hover:none){.book-button:hover,.shelf-item .book-button:hover{transform:rotateY(-13deg) rotateZ(-2deg)}}
     @media(prefers-reduced-motion:reduce){.book-button,.shelf-item{transition:none!important}.book-button:hover,.book-button:active,.shelf-item:hover,.shelf-item .book-button:hover,.shelf-item .book-button:active{transform:none}}
+    .shelf-empty{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.78);background:linear-gradient(180deg,rgba(244,240,228,.08) 0%,rgba(244,240,228,.26) 38%,rgba(248,245,236,.94) 100%),url('./assets/writing-room.webp') center 76%/cover;box-shadow:0 12px 32px rgba(48,52,41,.1),inset 0 1px rgba(255,255,255,.56)}
+    .shelf-empty:before{display:none}
   </style>
 </head>
 <body>
