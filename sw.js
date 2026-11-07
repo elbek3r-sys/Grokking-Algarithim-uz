@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kitob-daftari-v93';
+const CACHE_NAME = 'kitob-daftari-v94';
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
@@ -18,7 +18,8 @@ function cacheResponse(request, response) {
 }
 
 async function isAppDocument(response) {
-  if (!response.ok || !response.headers.get('content-type')?.includes('text/html')) return false;
+  const contentType = (response.headers.get('content-type') || '').split(';', 1)[0].trim().toLowerCase();
+  if (!response.ok || contentType !== 'text/html') return false;
   try {
     const html = await response.clone().text();
     return html.includes('id="coverScreen"') && html.includes('id="pageEditor"');
