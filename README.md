@@ -32,7 +32,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - O‘chirilganlar oynasida telefonda qulay bosish uchun keng amallar tugmalari
 - Kitob ichidan matn qidirish
 - Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash; zaxira eslatmasini tabga qaytganda va yetti kunlik muddat tugaganda yangilash; javon hajmini taxminan ko‘rsatib, xotira kattalashganda zaxira olishni va muqova rasmlarini yoki o‘chirilgan kitoblarni tozalashni eslatish; bir xil ID bilan tahrirlangan jonli va o‘chirilgan nusxalarni alohida saqlash, o‘chirilgan zaxira nusxalarini belgilash va takrorlarini qayta qo‘shmaslik
-- Zaxira faylidagi kitob nomi, taglavhasi, muallifi, muqova rangi yoki rasmi, sahifa sarlavhalari yoki sahifa matnlari noto‘g‘ri formatda bo‘lsa, tiklashni to‘xtatish va joriy javonni saqlab qolish
+- Zaxira faylidagi kitob nomi (70 belgigacha), taglavhasi (90), muallifi (50), muqova rangi yoki rasmi, sahifa sarlavhalari yoki sahifa matnlari noto‘g‘ri formatda bo‘lsa, tiklashni to‘xtatish va joriy javonni saqlab qolish
 - Buzilgan javon ustiga zaxira tiklashda xom nusxani avval yuklab, Yuklamalarda borligini tasdiqlash; tasdiq bo‘lmaguncha tiklash amallari o‘chiq turadi
 - Mavjud javonni zaxira bilan almashtirishda avvalgi javon nusxasini yuklab, faylni tekshirganingizni tasdiqlash; tasdiqdan so‘ng javon zaxiradan keyin o‘zgarmagan bo‘lsa almashtirish
 - Ochiq kitobni alohida JSON fayl qilib zaxiralash, Yuklamalarda borligini tasdiqlash va uni javonga qayta qo‘shish; javon buzilgan bo‘lsa ham bu kitob zaxirasini olish mumkin
