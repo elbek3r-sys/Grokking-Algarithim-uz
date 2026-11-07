@@ -142,6 +142,7 @@
     .skip-link:focus,.skip-link:focus-visible{transform:translateY(0);outline:3px solid var(--gold);outline-offset:3px}
     main:focus{outline:2px solid rgba(194,139,80,.35);outline-offset:-2px;border-radius:2px}
     .cover-field-label{display:flex;justify-content:space-between;align-items:center;margin-top:6px}.cover-field-label label{margin-top:0}.cover-field-count{color:#858678;font-size:10px;font-weight:400;white-space:nowrap}
+    @media(max-width:680px){.cover-editor-dialog{display:flex;flex-direction:column;overflow:hidden}.cover-editor-head{flex:0 0 auto}.cover-editor-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}.cover-form-actions{flex:0 0 auto;margin-top:0;padding:12px 0 max(2px,env(safe-area-inset-bottom));background:#f8f3e7;border-top:1px solid rgba(36,55,47,.12)}}
   </style>
 </head>
 <body>
@@ -208,9 +209,9 @@
               <button type="button" class="theme-swatch" data-theme="plum" aria-label="Olxo‘ri rang muqova" aria-pressed="false"></button>
               <button type="button" class="theme-swatch" data-theme="ochre" aria-label="Sarg‘ish muqova" aria-pressed="false"></button>
             </div>
-            <div class="cover-form-actions"><button class="quiet-btn" id="cancelCover" type="button">Bekor qilish</button><button class="create-book-button" id="saveCover" type="button">Muqovani saqlab, kitobni ochish</button></div>
           </div>
         </div>
+        <div class="cover-form-actions"><button class="quiet-btn" id="cancelCover" type="button">Bekor qilish</button><button class="create-book-button" id="saveCover" type="button">Muqovani saqlab, kitobni ochish</button></div>
       </div>
     </section>
 
