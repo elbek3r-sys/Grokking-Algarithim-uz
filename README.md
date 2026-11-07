@@ -63,7 +63,7 @@ Ilovani oflayn ochish uchun saytni avval internet bor paytda oching. Yangi versi
 
 Xotira to‘lsa yoki saqlash xatosi yuz bersa, ogohlantirish ichidagi **JSON zaxiralash** tugmasi bilan javoningizni faylga yuklab oling.
 
-Javon zaxirasi faol va o‘chirilgan kitoblarni birga saqlaydi. Fayl yuklanishi boshlanganidan keyin brauzerning **Yuklamalar** bo‘limida borligini tekshiring va ilovadagi **Faylni tekshirdim** tugmasini bosing; shundan keyingina zaxira sanasi yangilanadi. Alohida kitobning JSON faylini ham **Zaxiradan tiklash** orqali ochish mumkin. Uni mavjud javonga qo‘shish uchun **Javonga qo‘shish**ni tanlang; **Javonni almashtirish** esa butun javonni fayldagi kitoblar bilan almashtiradi. Zaxira tekshiruvdan o‘tmasa, joriy javon o‘zgarmaydi.
+Javon zaxirasi faol va o‘chirilgan kitoblarni birga saqlaydi. Fayl yuklanishi boshlanganidan keyin brauzerning **Yuklamalar** bo‘limida borligini tekshiring va ilovadagi **Faylni tekshirdim** tugmasini bosing; shundan keyingina zaxira sanasi yangilanadi. Alohida kitobning JSON faylini ham **Zaxiradan tiklash** orqali ochish mumkin. Uni mavjud javonga qo‘shish uchun **Javonga qo‘shish**ni tanlang; **Javonni almashtirish** esa butun javonni fayldagi kitoblar bilan almashtiradi. Zaxira tekshiruvdan o‘tmasa, joriy javon o‘zgarmaydi. Agar brauzerdagi javon buzilgan bo‘lsa, avval xom nusxani yuklab, fayl yuklamalarda borligini tekshirib **Faylni tekshirdim** tugmasini bosing; shundan keyin buzilgan nusxani almashtirish mumkin.
 
 ## Klaviatura yorliqlari
 
