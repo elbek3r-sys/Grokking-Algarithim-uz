@@ -13,6 +13,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Ilova oynasi yashirilganda yoki undan chiqilganda kutilayotgan yozuvni darhol saqlash
 - Bir kitob bir nechta tabda bir vaqtda mazmunan tahrirlanganida, yozuvlar to‘qnashuvini alohida nusxa qilib saqlashga urinish; faqat sahifa yoki kursor joyini o‘zgartirish keraksiz nusxa yaratmaydi
 - Saqlash xatosida zaxira yo‘lini ko‘rsatish
+- Saqlash xatosida kitobdan chiqishdan oldin javon zaxirasini yuklab, Yuklamalarda borligini tasdiqlash; tasdiqlamaguncha yozuv oynasi ochiq qoladi
 - Ochiq kitob nomi va sahifa raqamini brauzer tabida ko‘rish
 - Yuqori panelda oxirgi muvaffaqiyatli saqlangan vaqtni, sahifa yangilangandan keyin ham, ko‘rish
 - Har bir sahifaga ixtiyoriy sarlavha qo‘shish; sarlavha sahifani ko‘chirganda saqlanadi va TXT/PDF eksportiga kiradi
@@ -62,6 +63,8 @@ Kitoblar va muqova rasmlari ishlatilayotgan brauzerning `localStorage` xotirasid
 Ilovani oflayn ochish uchun saytni avval internet bor paytda oching. Yangi versiya tayyor bo‘lsa, ochiq ilova vaqti-vaqti bilan yangilanishni tekshiradi; sahifani qayta yuklashdan oldin kutilayotgan yozuvni saqlaydi. Yangi versiya internetli ochilganda oflayn nusxa ham yangilanadi. Oflayn yozuvlar shu brauzerda qoladi va boshqa qurilmaga avtomatik yuborilmaydi.
 
 Xotira to‘lsa yoki saqlash xatosi yuz bersa, ogohlantirish ichidagi **JSON zaxiralash** tugmasi bilan javoningizni faylga yuklab oling.
+
+Saqlash xatosi paytida kitobdan **Muqova**ga qaytsangiz, javonning JSON zaxira fayli yuklanadi. Yuklamalar bo‘limida fayl borligini tekshirib, **Faylni tekshirdim** tugmasini bosing; shundan keyingina kitobdan chiqiladi. Tekshirishni bekor qilsangiz, yozuv oynasi ochiq qoladi.
 
 Javon zaxirasi faol va o‘chirilgan kitoblarni birga saqlaydi. Fayl yuklanishi boshlanganidan keyin brauzerning **Yuklamalar** bo‘limida borligini tekshiring va ilovadagi **Faylni tekshirdim** tugmasini bosing; shundan keyingina zaxira sanasi yangilanadi. Alohida kitobning JSON faylini ham **Zaxiradan tiklash** orqali ochish mumkin. Uni mavjud javonga qo‘shish uchun **Javonga qo‘shish**ni tanlang; **Javonni almashtirish** esa butun javonni fayldagi kitoblar bilan almashtiradi. Zaxira tekshiruvdan o‘tmasa, joriy javon o‘zgarmaydi. Agar brauzerdagi javon buzilgan bo‘lsa, avval xom nusxani yuklab, fayl yuklamalarda borligini tekshirib **Faylni tekshirdim** tugmasini bosing; shundan keyin buzilgan nusxani almashtirish mumkin.
 
