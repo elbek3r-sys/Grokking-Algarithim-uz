@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kitob-daftari-v96';
+const CACHE_NAME = 'kitob-daftari-v97';
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
@@ -31,6 +31,11 @@ async function isAppDocument(response) {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
+
+  if (new URL(request.url).searchParams.has('__kitob_update_check')) {
+    event.respondWith(fetch(new Request(request, { cache: 'no-store' })));
+    return;
+  }
 
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).then(async response => {
