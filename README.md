@@ -55,7 +55,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Sahifa tanlash qatori ekran o‘qigichda navigatsiya va ro‘yxat sifatida ko‘rinadi; har sahifaning butun kitobdagi o‘rni aytiladi
 - Klaviatura bilan ishlaganda yuqori paneldan asosiy mazmunga tez o‘tish havolasi
 - Birinchi internetli ochilishdan so‘ng ilovani oflayn ochish va yozishni davom ettirish
-- Yangi versiya xabari ilova kodi yoki interfeysi haqiqatan o‘zgargandagina chiqadi
+- Yangilanish xabari faqat ochiq ilova versiyasi eskirganida chiqadi; Service Worker yangilanishining o‘zi xabar bermaydi
 - Brauzerdan ilovani qurilmaga o‘rnatish yoki o‘rnatish bo‘yicha yo‘riqnomani ko‘rish
 - Qo‘llab-quvvatlaydigan brauzerlarda avtomatik tozalanishdan himoya so‘rash
 
