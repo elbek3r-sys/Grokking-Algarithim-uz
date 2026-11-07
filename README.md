@@ -31,7 +31,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - O‘chirilganlar oynasida telefonda qulay bosish uchun keng amallar tugmalari
 - Kitob ichidan matn qidirish
 - Butun javonni JSON fayliga zaxiralash yoki zaxiradan tiklash; zaxira eslatmasini tabga qaytganda va yetti kunlik muddat tugaganda yangilash; javon hajmini taxminan ko‘rsatib, xotira kattalashganda zaxira olishni va muqova rasmlarini yoki o‘chirilgan kitoblarni tozalashni eslatish; bir xil ID bilan tahrirlangan jonli va o‘chirilgan nusxalarni alohida saqlash, o‘chirilgan zaxira nusxalarini belgilash va takrorlarini qayta qo‘shmaslik
-- Zaxira faylidagi sahifalar yoki o‘chirilgan kitoblar qismi buzilgan bo‘lsa, tiklashni to‘xtatish va joriy javonni saqlab qolish
+- Zaxira faylidagi kitob nomi, taglavhasi, muallifi, muqova rangi yoki rasmi, sahifa sarlavhalari yoki sahifa matnlari noto‘g‘ri formatda bo‘lsa, tiklashni to‘xtatish va joriy javonni saqlab qolish
 - Ochiq kitobni alohida JSON fayl qilib zaxiralash va uni javonga qayta qo‘shish
 - Zaxira tiklash oynasida almashtirish tugmasi zaxiradagi kitoblar soniga mos ravishda nomlanadi
 - TXT yoki Markdown matn faylidan yangi kitob yaratish; UTF-8, BOM’li UTF-16 va bayt naqshi aniq ko‘rinadigan BOM’siz UTF-16 formatlarini aniqlash, matnni paragraf chegaralarida taxminan 3 200 belgilik sahifalarga ajratish va nechta sahifa yaratilganini ko‘rsatish, mazmunini saqlash, emoji va birikuvchi belgilarni sahifalar orasida bo‘lmaslik, kitob nomini fayl nomidan olish (512 KB gacha)
@@ -62,6 +62,8 @@ Kitoblar va muqova rasmlari ishlatilayotgan brauzerning `localStorage` xotirasid
 Ilovani oflayn ochish uchun saytni avval internet bor paytda oching. Yangi versiya internetli ochilganda oflayn nusxa ham yangilanadi. Oflayn yozuvlar shu brauzerda qoladi va boshqa qurilmaga avtomatik yuborilmaydi.
 
 Xotira to‘lsa yoki saqlash xatosi yuz bersa, ogohlantirish ichidagi **JSON zaxiralash** tugmasi bilan javoningizni faylga yuklab oling.
+
+Javon zaxirasi faol va o‘chirilgan kitoblarni birga saqlaydi. Fayl yuklanishi boshlanganidan keyin brauzerning **Yuklamalar** bo‘limida borligini tekshiring va ilovadagi **Faylni tekshirdim** tugmasini bosing; shundan keyingina zaxira sanasi yangilanadi. Alohida kitobning JSON faylini ham **Zaxiradan tiklash** orqali ochish mumkin. Uni mavjud javonga qo‘shish uchun **Javonga qo‘shish**ni tanlang; **Javonni almashtirish** esa butun javonni fayldagi kitoblar bilan almashtiradi. Zaxira tekshiruvdan o‘tmasa, joriy javon o‘zgarmaydi.
 
 ## Klaviatura yorliqlari
 
