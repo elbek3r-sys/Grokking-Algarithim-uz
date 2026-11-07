@@ -532,6 +532,18 @@
       persist();const undoSaved=!$('saveNote').classList.contains('save-error');if(active&&current===to)focusEditor();toast(undoSaved?'Sahifa nusxasi olib tashlandi':'Nusxa olib tashlandi, lekin saqlanmadi',!undoSaved)
     }})
   }
+  function addPageAfterCurrent(){
+    captureEditor();const from=state.current,to=from+1,bookId=library.activeId,previousText=state.pages[from],previousTitle=state.pageTitles[from];
+    state.pages.splice(to,0,'');state.pageTitles.splice(to,0,'');state.cursors.splice(to,0,0);bookWordCounts.splice(to,0,0);go(to,true);
+    toast('Yangi sahifa ochildi',false,{label:'Qaytarish',ariaLabel:`${state.title} kitobidagi bo‘sh yangi sahifani olib tashlash`,run:()=>{
+      const target=library.books.find(book=>book.id===bookId);if(!target){toast('Kitob topilmadi; yangi sahifa qoldirildi');return}
+      const active=library.activeId===bookId,pages=active?state.pages:target.pages,titles=active?state.pageTitles:target.pageTitles,cursors=active?state.cursors:target.cursors,current=active?state.current:target.current;
+      if(to>=pages.length||pages.length<=1||pages[to]!==''||titles[to]?.trim()||pages[from]!==previousText||titles[from]!==previousTitle){toast('Sahifaga matn yozilgan yoki tartib o‘zgargan; yozuvni yo‘qotmaslik uchun qaytarilmadi',true);return}
+      pages.splice(to,1);titles.splice(to,1);cursors.splice(to,1);const nextCurrent=current===to?from:current>to?current-1:current;
+      if(active){bookWordCounts.splice(to,1);state.current=nextCurrent;updatePage()}else target.current=nextCurrent;
+      persist();const undoSaved=!$('saveNote').classList.contains('save-error');if(active&&current===to)focusEditor();toast(undoSaved?'Bo‘sh sahifa olib tashlandi':'Sahifa olib tashlandi, lekin saqlanmadi',!undoSaved)
+    }})
+  }
   function pagePreview(text,heading=''){return heading.trim()||text.slice(0,320).trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa'}
   function scheduleSearch(queryText){clearTimeout(searchTimer);if(!queryText.trim()){searchBook('');return}$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;$('bookSearchStatus').textContent='Qidirilmoqda…';searchTimer=setTimeout(()=>searchBook(queryText),140)}
   const graphemeSegmenter=typeof Intl!=='undefined'&&typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null;
@@ -655,7 +667,7 @@
   $('findText').addEventListener('click',()=>{const panel=$('findPanel');panel.hidden=!panel.hidden;if(!panel.hidden){$('bookSearch').focus();$('bookSearch').select()}});
   $('closeFind').addEventListener('click',()=>{clearTimeout(searchTimer);$('findPanel').hidden=true;$('bookSearch').value='';searchBook('');$('findText').focus()});
   $('bookSearch').addEventListener('input',e=>scheduleSearch(e.target.value));
-  $('addPage').addEventListener('click',()=>{state.pages[state.current]=editor.value;state.pageTitles[state.current]=pageTitle.value;state.pages.splice(state.current+1,0,'');state.pageTitles.splice(state.current+1,0,'');state.cursors.splice(state.current+1,0,0);bookWordCounts.splice(state.current+1,0,0);go(state.current+1,true);toast('Yangi sahifa ochildi')});
+  $('addPage').addEventListener('click',addPageAfterCurrent);
   pageTitle.addEventListener('input',()=>{const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pageTitles[state.current]=pageTitle.value;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
   editor.addEventListener('input',()=>{const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;$('pageProgress').innerHTML=`<strong>${state.current+1}</strong> / ${state.pages.length}-sahifa`;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
   $('wordGoalInput').addEventListener('input',()=>{const entered=$('wordGoalInput').value;state.wordGoal=entered===''?0:Math.max(0,Math.min(1000000,Math.trunc(Number(entered)||0)));updateWordGoalProgress();scheduleSave()});$('wordGoalInput').addEventListener('change',updateWordGoalProgress);$('wordGoalInput').addEventListener('blur',updateWordGoalProgress);pageTitle.addEventListener('input',updateWordGoalProgress);editor.addEventListener('input',updateWordGoalProgress);
