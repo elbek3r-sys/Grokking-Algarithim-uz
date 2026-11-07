@@ -5,7 +5,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 ## Imkoniyatlar
 
 - Javonda bir nechta kitob yaratish, muqovasiga nom, taglavha, muallif, rang va rasm qo‘shish; rasmning ko‘rinadigan qismini gorizontal va vertikal sozlash yoki markazga qaytarish
-- Yozuv xonasini to‘ldirgan fotoreal manzara, shaffof yumshoq ustki panellar va qog‘oz qatlamlari bilan hajmli ko‘rinadigan kitoblar
+- Yozuv xonasini to‘ldirgan fotoreal manzara, shaffof yumshoq panellar va ko‘rinadigan qog‘oz qirralari, umurtqasi hamda perspektivasi bor 3D kitoblar
 - Yozuv xonasi uchun fotoreal muhit; jild yonidan ko‘rinadigan qog‘oz qatlamlari bilan hajmli kitoblar; foydalanuvchi bosganda yoqiladigan haqiqiy o‘rmon va qushlar ovozi, sozlanadigan balandlik hamda tab yashirilganda avtomatik pauza
 - Muqova nomi, taglavhasi va muallifi uchun belgi chegaralarini real vaqtda ko‘rish
 - Belgi limitiga yaqinlashganda muqova, kitob va sahifa sarlavhasi sanagichlari ogohlantiruvchi rangga o‘tadi
