@@ -324,7 +324,7 @@
   if(typeof library.sound!=='boolean')library.sound=legacy?.sound!==false;
   let shelfStorageEstimate=(savedShelfRaw??JSON.stringify(library)).length*2;
   let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;let bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index)),bookWordTotalCount=bookWordCounts.reduce((total,count)=>total+count,0);
-  let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false,lastShelfSnapshot=shelfSignature(),lastShelfContentSnapshot=shelfContentSignature();
+  let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false,lastShelfSnapshot=shelfSignature(),lastShelfContentSnapshot=shelfContentSignature(),lastShelfRawSnapshot=savedShelfRaw;
   let coverEditId=null,coverEditorReturnFocus=null,coverEditBaseline=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',selectedCoverX=50,selectedCoverY=50,coverImageRequest=0,saveTimer=null,saveStatusTimer=null,backupStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,searchTimer=null,librarySearchTimer=null,printOriginalTitle=null,deferredInstallPrompt=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})(),lastChangeAt=(()=>{try{return localStorage.getItem(CHANGE_META)||''}catch{return ''}})(),lastSavedAt=(()=>{try{return localStorage.getItem(SAVE_META)||''}catch{return ''}})();
   const $=id=>document.getElementById(id);
   const savedLibrarySort=readRaw(LIBRARY_SORT_KEY);if(['shelf','recent','modified','title','words'].includes(savedLibrarySort))$('librarySort').value=savedLibrarySort;
