@@ -138,10 +138,13 @@
       .find-close{min-width:44px;min-height:44px}
       .shelf-actions .shelf-edit,.shelf-actions .shelf-duplicate,.shelf-actions .shelf-delete{min-height:44px;padding:10px 9px}
     }
+    .skip-link{position:fixed;top:12px;left:12px;z-index:20;transform:translateY(calc(-100% - 20px));padding:10px 14px;border-radius:8px;background:var(--forest);color:#fff;font-size:13px;text-decoration:none;box-shadow:0 4px 16px rgba(20,30,24,.2);transition:transform .15s}
+    .skip-link:focus,.skip-link:focus-visible{transform:translateY(0);outline:3px solid var(--gold);outline-offset:3px}
   </style>
 </head>
 <body>
 <div class="app-shell">
+  <a class="skip-link" href="#mainContent">Asosiy mazmunga o‘tish</a>
   <header class="topbar">
     <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Kitob Daftari</span></div>
     <div class="top-actions">
@@ -152,7 +155,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="mainContent" tabindex="-1">
     <section class="screen cover-screen active" id="coverScreen" aria-label="Kitob muqovasi">
       <div class="storage-recovery" id="storageRecovery" role="alert" hidden><strong>Javon ma’lumotini o‘qib bo‘lmadi</strong><p>Avvalgi saqlangan fayl buzilgan ko‘rinadi. Yangi yozuvlar uni almashtirmasligi uchun saqlash vaqtincha to‘xtatildi. Avval xom nusxani yuklab oling, keyin mavjud javon bilan davom eting.</p><p id="recoveryStatus" role="status" aria-live="polite"></p><div class="storage-recovery-actions"><button id="downloadRecoveryData" type="button">Xom nusxani yuklab olish</button><button id="confirmRecoveryData" type="button" hidden>Faylni tekshirdim</button><button class="continue-anyway" id="continueWithoutRecovery" type="button" disabled>Buzilgan nusxani almashtirish</button></div></div>
       <div class="intro-copy">
