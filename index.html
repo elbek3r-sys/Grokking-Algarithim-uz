@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="246">
+  <meta name="app-build" content="247">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -252,6 +252,30 @@
     @media(max-width:900px){.cover-screen{perspective:1400px}.cover-stage.library-stage{perspective:1100px;padding:28px 22px 82px}.cover-stage.library-stage:before{inset:12px 8px 40px}.cover-stage.library-stage:after{bottom:40px}.shelf-item .book-button{transform:rotateY(-21deg) rotateZ(-1deg) translateZ(5px)}}
     @media(max-width:680px){.cover-screen{perspective:1100px}.intro-copy{transform:translateZ(12px) rotateY(1deg)}.cover-stage.library-stage{min-height:410px;padding:22px 12px 82px;perspective:900px}.cover-stage.library-stage:before{inset:8px 2px 37px}.cover-stage.library-stage:after{left:-4px;right:-4px;bottom:37px;height:19px}.library-covers{min-height:225px;gap:26px 12px}.shelf-item{width:calc(50% - 10px)}.shelf-item .book-button{transform:rotateY(-17deg) rotateZ(-1deg) translateZ(5px)}.shelf-item:nth-child(3n+2) .book-button{transform:rotateY(-14deg) rotateZ(1deg)}.shelf-item:nth-child(3n) .book-button{transform:rotateY(-19deg) rotateZ(-.4deg)}.shelf-item .book-button:before{right:-15px}.shelf-item .book-button:after{left:-10px;width:17px}.shelf-empty{min-height:198px;padding:128px 13px 18px}.shelf-empty:before{width:151px;height:98px;top:9px}.new-book-button{transform:translateZ(24px)}.book-wrap{perspective:1200px;padding-bottom:28px}.book-spread{transform:rotateX(1deg) translateZ(4px)}.book-spread:before{inset:-4px -2px 4px}.leaf{transform:translateZ(2px);padding-left:clamp(19px,5vw,30px);padding-right:clamp(19px,5vw,30px)}}
     @media(prefers-reduced-motion:reduce){.intro-copy,.shelf-item,.book-button,.new-book-button,.cover-preview{transition:none!important;animation:none!important}.shelf-item,.shelf-item .book-button,.cover-preview,.book-spread{transform:none!important}.cover-stage.library-stage:before,.cover-stage.library-stage:after{transform:none}}
+
+    /* Iteration after design review: every book row sits on its own shelf, not one shared floating rail. */
+    .cover-stage.library-stage{padding-bottom:102px;background:radial-gradient(ellipse at 48% 35%,rgba(221,178,114,.16),transparent 50%)}
+    .cover-stage.library-stage:before{inset:8px 8px 44px;border-radius:15px 15px 5px 5px;background:linear-gradient(90deg,rgba(9,13,9,.44),transparent 11% 89%,rgba(7,11,7,.4)),repeating-linear-gradient(0deg,transparent 0 104px,rgba(231,196,140,.065) 105px,transparent 108px),linear-gradient(132deg,#765236 0%,#3d2a1e 47%,#69492f 100%);box-shadow:inset 0 1px rgba(255,238,200,.38),inset 0 -25px 36px rgba(8,12,8,.4),0 56px 82px rgba(7,12,8,.54);transform:rotateY(-2deg) translateZ(-64px)}
+    .cover-stage.library-stage:after{left:-4px;right:-4px;bottom:46px;height:28px;background:linear-gradient(180deg,#d1a174 0%,#966b45 18%,#62432a 54%,#312218 100%);box-shadow:0 12px 16px rgba(6,9,6,.5),inset 0 2px rgba(255,234,193,.62),inset 0 -2px rgba(0,0,0,.35);transform:rotateX(68deg) translateZ(-6px)}
+    .library-covers{position:relative;align-items:flex-start;align-content:flex-start;min-height:290px;gap:28px 28px;background:repeating-linear-gradient(180deg,transparent 0 394px,rgba(15,19,14,.72) 395px 399px,#a97b52 400px 405px,#5f4028 406px 421px,rgba(16,20,15,.5) 422px 428px,transparent 429px 480px);background-clip:content-box;}
+    .shelf-item{min-height:460px;align-self:flex-start;filter:drop-shadow(0 25px 19px rgba(5,8,5,.42))}
+    .shelf-item:nth-child(odd){transform:translateY(-3px) translateZ(22px)}.shelf-item:nth-child(even){transform:translateY(7px) translateZ(3px)}
+    .shelf-item .book-button{transform:rotateY(-25deg) rotateZ(-1.2deg) translateZ(14px);filter:drop-shadow(29px 31px 17px rgba(2,5,3,.5))}
+    .shelf-item .book-button:hover,.shelf-item .book-button:focus-visible{transform:rotateY(-7deg) rotateX(8deg) rotateZ(.8deg) translate3d(0,-24px,58px);filter:drop-shadow(34px 43px 22px rgba(0,0,0,.58))}
+    .shelf-item .book-button:before{inset:8px -27px 7px 14px;box-shadow:1px 1px 0 #a69779,3px 3px 0 #f0e7d6,5px 5px 0 #968568,8px 8px 0 #d6c8ad,11px 12px 0 #98886c,14px 16px 0 #e4dac7,18px 19px 21px rgba(0,0,0,.48)}
+    .shelf-item .book-cover{box-shadow:inset 13px 0 17px rgba(0,0,0,.4),inset -4px 0 2px rgba(255,255,255,.2),1px 0 0 #fff9e9,4px 0 0 #d2c3a6,7px 0 0 #fff6e4,10px 0 0 #a9997c,13px 0 0 #eee4d1,17px 5px 16px rgba(0,0,0,.48)}
+    .shelf-item .cover-spine{width:31px;left:3px;background:linear-gradient(90deg,rgba(0,0,0,.58),rgba(224,190,131,.3) 13%,rgba(255,255,255,.1) 27%,rgba(0,0,0,.34) 100%);box-shadow:inset -4px 0 7px rgba(0,0,0,.34),inset 1px 0 rgba(255,255,255,.3)}
+    .shelf-item .cover-inner{filter:drop-shadow(0 1px 2px rgba(0,0,0,.15))}
+    .shelf-actions .shelf-edit,.shelf-actions .shelf-duplicate,.shelf-actions .shelf-delete{border:1px solid rgba(238,210,167,.28);background:linear-gradient(180deg,rgba(247,235,212,.16),rgba(39,31,23,.32));box-shadow:0 3px 0 rgba(21,18,14,.58),0 7px 10px rgba(0,0,0,.22);color:#f5e8d0;text-shadow:0 1px rgba(0,0,0,.32)}
+    .shelf-actions .shelf-edit:hover,.shelf-actions .shelf-duplicate:hover,.shelf-actions .shelf-delete:hover{transform:translateY(-2px);background:linear-gradient(180deg,rgba(247,235,212,.25),rgba(39,31,23,.42))}
+    .shelf-stats,.shelf-goal{color:#f5ebd6;text-shadow:0 1px 4px rgba(0,0,0,.55)}
+    .library-controls .library-search,.library-controls .library-sort-wrap select{border-color:rgba(244,216,172,.34);background:linear-gradient(180deg,rgba(252,247,233,.94),rgba(223,210,184,.94));box-shadow:0 4px 0 #63452d,0 8px 13px rgba(0,0,0,.28),inset 0 1px white}
+    .new-book-button{box-shadow:0 5px 0 #1d2b21,0 10px 0 #111a13,0 20px 23px rgba(0,0,0,.46),inset 0 1px rgba(255,255,255,.25)}
+    .new-book-button:active{transform:translate3d(0,4px,34px);box-shadow:0 2px 0 #1d2b21,0 5px 0 #111a13,0 8px 10px rgba(0,0,0,.34)}
+    .book-wrap:after{content:"";position:absolute;z-index:-1;left:8%;right:8%;bottom:9px;height:34px;border-radius:50%;background:rgba(3,7,4,.42);filter:blur(17px);transform:translateZ(-48px)}
+    @media(max-width:900px){.library-covers{background-size:100% 480px}.shelf-item{min-height:450px}}
+    @media(max-width:680px){.cover-stage.library-stage{padding-bottom:90px}.library-covers{gap:20px 12px;background-size:100% 410px;background-image:repeating-linear-gradient(180deg,transparent 0 344px,rgba(15,19,14,.72) 345px 349px,#a97b52 350px 355px,#5f4028 356px 371px,rgba(16,20,15,.5) 372px 378px,transparent 379px 410px)}.shelf-item{min-height:400px}.shelf-item .book-button{transform:rotateY(-18deg) rotateZ(-1deg) translateZ(6px)}.shelf-item:nth-child(odd),.shelf-item:nth-child(even){transform:translateY(0)}.shelf-item .book-button:before{right:-17px;box-shadow:1px 1px 0 #a69779,3px 3px 0 #f0e7d6,5px 5px 0 #968568,8px 8px 0 #d6c8ad,11px 12px 14px rgba(0,0,0,.42)}.shelf-item .book-button:hover,.shelf-item .book-button:focus-visible{transform:rotateY(-8deg) rotateX(5deg) translate3d(0,-12px,28px)}}
+    @media(prefers-reduced-motion:reduce){.shelf-item .book-button,.shelf-actions button,.new-book-button{transition:none!important}.shelf-item .book-button:hover,.shelf-item .book-button:focus-visible,.shelf-actions button:hover{transform:none}}
   </style>
 </head>
 <body>
