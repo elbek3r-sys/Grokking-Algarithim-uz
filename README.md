@@ -26,6 +26,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Sahifani o‘chirishdan oldin uning sarlavhasini tasdiq oynasida ko‘rish
 - O‘chirilgan kitoblarni alohida bo‘limdan tiklash yoki tasdiqlab butunlay o‘chirish; aynan shu nusxa javonda bo‘lsa takror yaratmaydi, mazmuni farq qilsa alohida nusxa tiklaydi; o‘chirilganlar JSON zaxirasiga ham kiradi
 - O‘chirilgan kitoblarni nomi, taglavhasi yoki muallifi bo‘yicha qidirish
+- Javon qidiruvini `Esc` bilan tozalash; o‘chirilganlar oynasida `Esc` avval qidiruvni, keyingi bosishda oynani yopadi
 - O‘chirilganlar ro‘yxatidagi amallarning ekranni o‘qib beruvchi dasturlar uchun kitob nomi bilan aniq aytilishi; amal bajarilgach klaviatura fokusi qidiruvga qaytadi
 - O‘chirilganlar oynasida telefonda qulay bosish uchun keng amallar tugmalari
 - Kitob ichidan matn qidirish
