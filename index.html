@@ -642,13 +642,16 @@
     const remoteChanged=remoteSignature!==baselineSignature;
     const sameContent=!!remoteCurrent&&localSignature===remoteSignature;
     const conflict=localChanged&&remoteChanged&&!sameContent;
+    const remoteDeleted=wasWork&&!!selectedId&&!remoteCurrent&&!localChanged;
     library=next;library.activeId=library.books.some(b=>b.id===selectedId)?selectedId:(next.activeId||null);library.sound=next.sound;lastShelfSnapshot=shelfSignature();lastShelfContentSnapshot=shelfContentSignature();lastShelfRawSnapshot=event.newValue;shelfStorageEstimate=event.newValue.length*2;updateStorageEstimate();
     if(conflict){
       const copy=normalizeBook({...localBook,id:'',title:`${localBook.title.slice(0,62)} — nusxa`});library.books.unshift(copy);library.activeId=copy.id;state=copyBook(copy);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));title.value=state.title;if(persistConflict){persist();const saved=!$('saveNote').classList.contains('save-error'),recovery=storageRecoveryRaw!==null;toast(saved?'Boshqa tabdagi tahrir bilan to‘qnashuv aniqlandi. Bu tabdagi yozuvlar alohida nusxa sifatida saqlandi.':recovery?'Alohida nusxa saqlanmadi. Javon buzilgan; avval xom nusxani yuklab oling.':'Alohida nusxa saqlanmadi. JSON zaxira yuklab oling.',!saved,saved?null:recovery?{label:'Xom nusxani yuklab olish',ariaLabel:'Buzilgan javonning xom nusxasini yuklab olish',run:()=>$('downloadRecoveryData').click()}:{label:'JSON zaxiralash',ariaLabel:'Javonni JSON fayliga zaxiralash',run:downloadJSON})}else toast('Boshqa tabdagi o‘zgarish sabab bu kitob alohida nusxa sifatida saqlanmoqda.');
+    }else if(remoteDeleted){
+      const latest=library.books.find(b=>b.id===library.activeId)||normalizeBook();state=copyBook(latest);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));activeBaseline=JSON.stringify(normalizeBook(latest));pendingEdits=false;title.value=state.title||'Yangi kitob';work.classList.remove('active');cover.classList.add('active');updateDocumentTitle();toast('Ochiq kitob boshqa tabda o‘chirildi. Davom ettirish uchun javondan tanlang yoki O‘chirilganlardan qaytaring.');
     }else if(!localChanged){
       const latest=library.books.find(b=>b.id===library.activeId)||normalizeBook();state=copyBook(latest);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));activeBaseline=JSON.stringify(normalizeBook(latest));pendingEdits=false;title.value=state.title||'Yangi kitob';toast('Boshqa tabdagi saqlangan o‘zgarishlar yuklandi');
     }
-    renderLibrary();updateCover();if(wasWork){updatePage();if(hadFocus)setTimeout(focusEditor,0)}
+    renderLibrary();updateCover();if(work.classList.contains('active')){updatePage();if(hadFocus)setTimeout(focusEditor,0)}else if(remoteDeleted)focusShelfBook();
   }
   window.addEventListener('storage',syncExternalShelf);
   window.addEventListener('storage',event=>{if(event.key!==BACKUP_META)return;lastBackupAt=event.newValue||'';updateBackupStatus()});
