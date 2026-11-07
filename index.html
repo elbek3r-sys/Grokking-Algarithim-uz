@@ -394,9 +394,9 @@
     let index=shelfSearchIndex.get(book.id);
     if(index&&index.pagesRef===book.pages&&index.titlesRef===book.pageTitles&&index.title===book.title&&index.subtitle===book.subtitle&&index.author===book.author){shelfSearchIndex.delete(book.id);shelfSearchIndex.set(book.id,index);return index}
     if(index){shelfSearchIndex.delete(book.id);shelfSearchIndexSize-=index.size}
-    const metadata=[book.title,book.subtitle,book.author].map(normalizeSearchText),rawSize=metadata.reduce((total,value)=>total+value.length,0)+book.pages.reduce((total,text,pageIndex)=>total+(text||'').length+(book.pageTitles[pageIndex]||'').length,0),base={pagesRef:book.pages,titlesRef:book.pageTitles,title:book.title,subtitle:book.subtitle,author:book.author,metadata};
+    const metadata=[book.title,book.subtitle,book.author].map(normalizeSearchText),pageOverhead=book.pages.length*64,rawSize=metadata.reduce((total,value)=>total+value.length,0)+pageOverhead+book.pages.reduce((total,text,pageIndex)=>total+(text||'').length+(book.pageTitles[pageIndex]||'').length,0),base={pagesRef:book.pages,titlesRef:book.pageTitles,title:book.title,subtitle:book.subtitle,author:book.author,metadata};
     if(rawSize>SHELF_SEARCH_INDEX_LIMIT)return{...base,pages:null,size:0};
-    const pages=book.pages.map((text,pageIndex)=>({titleText:book.pageTitles[pageIndex]||'',bodyText:text||'',title:normalizeSearchText(book.pageTitles[pageIndex]||''),body:normalizeSearchText(text||'')})),size=metadata.reduce((total,value)=>total+value.length,0)+pages.reduce((total,page)=>total+page.title.length+page.body.length,0),next={...base,pages,size};
+    const pages=book.pages.map((text,pageIndex)=>({titleText:book.pageTitles[pageIndex]||'',bodyText:text||'',title:normalizeSearchText(book.pageTitles[pageIndex]||''),body:normalizeSearchText(text||'')})),size=metadata.reduce((total,value)=>total+value.length,0)+pages.length*64+pages.reduce((total,page)=>total+page.title.length+page.body.length,0),next={...base,pages,size};
     if(size<=SHELF_SEARCH_INDEX_LIMIT){while(shelfSearchIndexSize+size>SHELF_SEARCH_INDEX_LIMIT&&shelfSearchIndex.size){const oldestId=shelfSearchIndex.keys().next().value,oldest=shelfSearchIndex.get(oldestId);shelfSearchIndex.delete(oldestId);shelfSearchIndexSize-=oldest.size}shelfSearchIndex.set(book.id,next);shelfSearchIndexSize+=size}
     return next
   }
