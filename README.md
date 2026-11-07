@@ -14,6 +14,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Kitoblarni javon tartibi, yaqinda ochilgani, yaqinda tahrirlangani, nomi yoki so‘zlar soni bo‘yicha saralash; tahrir bo‘yicha saralashda sanani ham ko‘rish
 - Javondagi kitobdan sahifalari, muqovasi va yozilgan joyi bilan nusxa yaratish
 - Matn, kursor joyi va oxirgi ochilgan sahifani avtomatik saqlash
+- Bo‘sh javonni saqlandi deb ko‘rsatmaslik; oxirgi saqlash vaqtini faqat kitob yoki o‘chirilgan kitob bo‘lganda ko‘rsatish
 - Ilova oynasi yashirilganda yoki undan chiqilganda kutilayotgan yozuvni darhol saqlash
 - Bir kitob bir nechta tabda bir vaqtda mazmunan tahrirlanganida, yozuvlar to‘qnashuvini alohida nusxa qilib saqlashga urinish; faqat sahifa yoki kursor joyini o‘zgartirish keraksiz nusxa yaratmaydi
 - Saqlash xatosida zaxira yo‘lini ko‘rsatish
