@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="245">
+  <meta name="app-build" content="246">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -212,6 +212,46 @@
     .cover-preview{transform:perspective(1000px) rotateY(-8deg) rotateX(1deg);transform-style:preserve-3d;box-shadow:inset 9px 0 12px rgba(0,0,0,.23),inset -2px 0 0 rgba(255,255,255,.18),2px 0 0 #f7f1e4,4px 0 0 #ded4be,6px 0 0 #b9aa8d,9px 2px 0 #e7decc,11px 4px 10px rgba(20,28,22,.28)}
     @media(max-width:680px){.cover-stage.library-stage{perspective:1100px}.shelf-item .book-button{transform:rotateY(-15deg) rotateZ(-1deg)}.shelf-item:nth-child(3n+2) .book-button{transform:rotateY(-13deg) rotateZ(1deg)}.shelf-item:nth-child(3n) .book-button{transform:rotateY(-17deg) rotateZ(-.5deg)}}
     @media(prefers-reduced-motion:reduce){.shelf-item .book-button,.cover-preview{transition:none;transform:none!important}.shelf-item .book-button::before,.shelf-item .book-button::after{transform:none}}
+
+    /* Full-scene 3D redesign: sculpted wood shelf, physical book blocks, and a hardbound writing spread. */
+    .app-shell{perspective:1800px;perspective-origin:50% 42%;background-color:#1d251e}
+    .cover-screen{perspective:1800px;perspective-origin:54% 42%;transform-style:preserve-3d}
+    .intro-copy{transform:translateZ(34px) rotateY(3deg) rotateX(.7deg);transform-style:preserve-3d;box-shadow:0 42px 80px rgba(10,18,12,.42),inset 0 1px rgba(255,255,255,.2),inset 0 -2px rgba(0,0,0,.2)}
+    .intro-copy:after{width:4px;filter:drop-shadow(3px 0 4px rgba(0,0,0,.28))}
+    .cover-stage.library-stage{position:relative;isolation:isolate;overflow:visible;perspective:1500px;perspective-origin:50% 45%;transform-style:preserve-3d;min-height:490px;padding:34px 30px 96px;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none}
+    .cover-stage.library-stage:before{content:"";position:absolute;z-index:-2;inset:12px 13px 46px;border:1px solid rgba(221,188,127,.42);border-radius:12px 12px 4px 4px;background:linear-gradient(100deg,rgba(0,0,0,.3),transparent 16% 84%,rgba(0,0,0,.23)),repeating-linear-gradient(0deg,transparent 0 54px,rgba(227,193,137,.1) 55px,transparent 57px),linear-gradient(135deg,#6d4930 0%,#3c2a20 42%,#60432c 100%);box-shadow:inset 0 1px rgba(255,234,189,.3),inset 0 -18px 28px rgba(12,17,12,.38),0 48px 68px rgba(9,15,11,.48);transform:rotateY(-2deg) translateZ(-54px);transform-style:preserve-3d}
+    .cover-stage.library-stage:after{content:"";position:absolute;z-index:-1;left:3px;right:3px;bottom:48px;height:24px;border:1px solid rgba(226,194,142,.6);border-radius:3px;background:linear-gradient(180deg,#aa7950 0%,#725036 23%,#3c2a1e 54%,#241d16 100%);box-shadow:0 12px 15px rgba(7,11,8,.42),inset 0 2px rgba(255,227,182,.45);transform:rotateX(64deg) translateZ(-5px);transform-origin:center bottom}
+    .cover-stage.library-stage>*{position:relative;z-index:1}
+    .library-covers{perspective:1250px;perspective-origin:50% 80%;transform-style:preserve-3d;align-content:center;min-height:265px;gap:34px 38px}
+    .shelf-item{transform-style:preserve-3d;filter:drop-shadow(0 20px 16px rgba(6,10,7,.35))}
+    .shelf-item:nth-child(odd){transform:translateY(-5px) translateZ(22px)}
+    .shelf-item:nth-child(even){transform:translateY(8px) translateZ(0)}
+    .shelf-item .book-button{isolation:isolate;transform:rotateY(-27deg) rotateZ(-1.8deg) translateZ(12px);transform-style:preserve-3d;transition:transform .72s cubic-bezier(.2,.8,.2,1),filter .72s;filter:drop-shadow(25px 28px 14px rgba(4,8,5,.42))}
+    .shelf-item .book-button:before{content:"";position:absolute;z-index:-1;inset:7px -25px 5px 12px;border:1px solid rgba(99,79,53,.85);border-radius:2px 13px 12px 2px;background:repeating-linear-gradient(0deg,rgba(113,96,70,.2) 0 1px,transparent 1px 3px),linear-gradient(90deg,#c4b69a 0%,#fff9eb 14%,#e8ddc7 80%,#b9a98b 100%);box-shadow:1px 1px 0 #a69779,3px 3px 0 #f0e7d6,5px 5px 0 #968568,8px 8px 0 #d6c8ad,11px 12px 16px rgba(0,0,0,.44);transform:translate3d(0,0,-20px);pointer-events:none}
+    .shelf-item .book-button:after{content:"";position:absolute;z-index:-2;top:7px;bottom:9px;left:-17px;width:25px;border:1px solid rgba(12,21,15,.85);border-radius:5px 0 0 5px;background:linear-gradient(90deg,#152019 0%,#45553f 22%,#748064 48%,#2b3b2c 72%,#101b13 100%);box-shadow:inset 3px 0 6px rgba(255,255,255,.2),inset -4px 0 6px rgba(0,0,0,.5);transform:translateZ(-17px) rotateY(-24deg);transform-origin:right center;pointer-events:none}
+    .shelf-item .book-cover{transform:translateZ(11px);backface-visibility:hidden;border-radius:4px 13px 13px 4px;box-shadow:inset 12px 0 16px rgba(0,0,0,.36),inset -3px 0 1px rgba(255,255,255,.18),2px 0 0 #f9f1df,5px 0 0 #cfc1a5,8px 0 0 #f1e9d9,11px 0 0 #a69677,14px 4px 12px rgba(0,0,0,.38)}
+    .shelf-item .cover-spine{left:5px;width:28px;background:linear-gradient(90deg,rgba(0,0,0,.5),rgba(228,198,142,.26) 14%,rgba(255,255,255,.08) 28%,rgba(0,0,0,.24) 100%);border-right:1px solid rgba(231,198,139,.5);box-shadow:inset -3px 0 5px rgba(0,0,0,.24),inset 1px 0 rgba(255,255,255,.22)}
+    .shelf-item .cover-title{text-shadow:0 1px rgba(255,236,194,.22),0 3px 7px rgba(0,0,0,.2)}
+    .shelf-item .cover-ornament,.shelf-item .cover-flower{filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+    .shelf-item .book-button:hover,.shelf-item .book-button:focus-visible{transform:rotateY(-8deg) rotateX(7deg) rotateZ(1deg) translate3d(0,-20px,52px);filter:drop-shadow(30px 38px 18px rgba(2,6,3,.55))}
+    .shelf-item:nth-child(3n+2) .book-button{transform:rotateY(-20deg) rotateZ(1.5deg) translateZ(2px)}
+    .shelf-item:nth-child(3n) .book-button{transform:rotateY(-31deg) rotateZ(-.4deg) translateZ(18px)}
+    .shelf-empty{width:min(100%,440px);min-height:220px;justify-content:flex-end;padding:142px 26px 24px;border:1px solid rgba(239,213,171,.58);border-radius:8px;background:linear-gradient(145deg,rgba(249,242,224,.96),rgba(215,199,168,.95));box-shadow:0 26px 0 -9px #9b754e,0 34px 0 -10px #493222,0 44px 28px rgba(0,0,0,.42),inset 0 1px white;color:#4c5142;transform:rotateX(4deg) translateZ(28px);transform-style:preserve-3d}
+    .shelf-empty:before{display:block!important;position:absolute;width:178px;height:116px;left:50%;top:12px;margin:0;background-repeat:no-repeat;background-position:center;background-size:contain;transform:translateX(-50%) perspective(460px) rotateX(14deg) rotateY(-11deg) translateZ(15px);filter:drop-shadow(2px 3px 0 #b5a587) drop-shadow(5px 9px 5px rgba(37,41,31,.3))}
+    .new-book-button{transform:translateZ(46px);box-shadow:0 7px 0 #18241c,0 13px 0 #0e1711,0 23px 22px rgba(0,0,0,.4),inset 0 1px rgba(255,255,255,.18)}
+    .new-book-button:hover{transform:translate3d(0,-4px,54px);box-shadow:0 7px 0 #18241c,0 13px 0 #0e1711,0 28px 25px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.2)}
+    .library-controls,.shelf-actions,.shelf-text-match{transform:translateZ(28px)}
+    .work-screen{perspective:1800px;perspective-origin:50% 35%}
+    .book-wrap{perspective:1800px;perspective-origin:50% 42%;transform-style:preserve-3d;padding:10px 0 32px}
+    .book-spread{position:relative;isolation:isolate;transform:rotateX(2deg) translateZ(10px);transform-style:preserve-3d;filter:drop-shadow(0 36px 32px rgba(13,19,14,.35))}
+    .book-spread:before{content:"";position:absolute;z-index:-1;inset:-7px -3px 5px;border:1px solid rgba(201,172,119,.7);border-radius:10px 12px 7px 7px;background:linear-gradient(90deg,#202d22,#526348 3%,#243329 9%,#1b281f 50%,#243329 91%,#526348 97%,#1a261d);box-shadow:0 10px 0 #151d17,0 17px 0 #080d09,0 33px 36px rgba(0,0,0,.44),inset 0 1px rgba(255,255,255,.2);transform:translateZ(-20px)}
+    .leaf{transform:translateZ(3px);box-shadow:0 5px 0 #e3dccb,0 9px 0 #cbc1ad,0 13px 0 #f2ead9}
+    .leaf.left{background:linear-gradient(90deg,#e0d8c7 0,#fbf7ec 8%,#faf5e8 92%,#e4dccb 100%);box-shadow:inset -21px 0 22px -21px rgba(52,43,31,.55),0 5px 0 #e3dccb,0 9px 0 #c6bca7,0 13px 0 #f1e9d8}
+    .leaf.right{background:linear-gradient(90deg,#e7dfce 0,#fbf7ec 8%,#fffaf0 92%,#e5dcc9 100%);box-shadow:inset 21px 0 22px -21px rgba(52,43,31,.5),0 5px 0 #e3dccb,0 9px 0 #c6bca7,0 13px 0 #f1e9d8}
+    .gutter{width:40px;background:linear-gradient(90deg,rgba(36,29,20,.24),rgba(255,255,255,.26) 46%,rgba(39,31,22,.22));filter:drop-shadow(0 0 7px rgba(50,43,32,.2))}
+    @media(max-width:900px){.cover-screen{perspective:1400px}.cover-stage.library-stage{perspective:1100px;padding:28px 22px 82px}.cover-stage.library-stage:before{inset:12px 8px 40px}.cover-stage.library-stage:after{bottom:40px}.shelf-item .book-button{transform:rotateY(-21deg) rotateZ(-1deg) translateZ(5px)}}
+    @media(max-width:680px){.cover-screen{perspective:1100px}.intro-copy{transform:translateZ(12px) rotateY(1deg)}.cover-stage.library-stage{min-height:410px;padding:22px 12px 82px;perspective:900px}.cover-stage.library-stage:before{inset:8px 2px 37px}.cover-stage.library-stage:after{left:-4px;right:-4px;bottom:37px;height:19px}.library-covers{min-height:225px;gap:26px 12px}.shelf-item{width:calc(50% - 10px)}.shelf-item .book-button{transform:rotateY(-17deg) rotateZ(-1deg) translateZ(5px)}.shelf-item:nth-child(3n+2) .book-button{transform:rotateY(-14deg) rotateZ(1deg)}.shelf-item:nth-child(3n) .book-button{transform:rotateY(-19deg) rotateZ(-.4deg)}.shelf-item .book-button:before{right:-15px}.shelf-item .book-button:after{left:-10px;width:17px}.shelf-empty{min-height:198px;padding:128px 13px 18px}.shelf-empty:before{width:151px;height:98px;top:9px}.new-book-button{transform:translateZ(24px)}.book-wrap{perspective:1200px;padding-bottom:28px}.book-spread{transform:rotateX(1deg) translateZ(4px)}.book-spread:before{inset:-4px -2px 4px}.leaf{transform:translateZ(2px);padding-left:clamp(19px,5vw,30px);padding-right:clamp(19px,5vw,30px)}}
+    @media(prefers-reduced-motion:reduce){.intro-copy,.shelf-item,.book-button,.new-book-button,.cover-preview{transition:none!important;animation:none!important}.shelf-item,.shelf-item .book-button,.cover-preview,.book-spread{transform:none!important}.cover-stage.library-stage:before,.cover-stage.library-stage:after{transform:none}}
   </style>
 </head>
 <body>
