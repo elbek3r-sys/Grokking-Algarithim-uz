@@ -35,7 +35,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Zaxira faylidagi kitob nomi, taglavhasi, muallifi, muqova rangi yoki rasmi, sahifa sarlavhalari yoki sahifa matnlari noto‘g‘ri formatda bo‘lsa, tiklashni to‘xtatish va joriy javonni saqlab qolish
 - Buzilgan javon ustiga zaxira tiklashda xom nusxani avval yuklab, Yuklamalarda borligini tasdiqlash; tasdiq bo‘lmaguncha tiklash amallari o‘chiq turadi
 - Mavjud javonni zaxira bilan almashtirishda avvalgi javon nusxasini yuklab, faylni tekshirganingizni tasdiqlash; tasdiqdan so‘ng javon zaxiradan keyin o‘zgarmagan bo‘lsa almashtirish
-- Ochiq kitobni alohida JSON fayl qilib zaxiralash va uni javonga qayta qo‘shish
+- Ochiq kitobni alohida JSON fayl qilib zaxiralash, Yuklamalarda borligini tasdiqlash va uni javonga qayta qo‘shish; javon buzilgan bo‘lsa ham bu kitob zaxirasini olish mumkin
 - Zaxira tiklash oynasida almashtirish tugmasi zaxiradagi kitoblar soniga mos ravishda nomlanadi
 - TXT yoki Markdown matn faylidan yangi kitob yaratish; UTF-8, BOM’li UTF-16 va bayt naqshi aniq ko‘rinadigan BOM’siz UTF-16 formatlarini aniqlash, matnni paragraf chegaralarida taxminan 3 200 belgilik sahifalarga ajratish va nechta sahifa yaratilganini ko‘rsatish, mazmunini saqlash, emoji va birikuvchi belgilarni sahifalar orasida bo‘lmaslik, kitob nomini fayl nomidan olish (512 KB gacha)
 - Kitobni nomi, taglavhasi, muallifi va sahifa sarlavhalari bilan TXT fayl qilib yuklab olish yoki chop etish oynasidan PDF qilib saqlash
@@ -71,6 +71,8 @@ Saqlash xatosi paytida kitobdan **Muqova**ga qaytsangiz, javonning JSON zaxira f
 Javon zaxirasi faol va o‘chirilgan kitoblarni birga saqlaydi. Fayl yuklanishi boshlanganidan keyin brauzerning **Yuklamalar** bo‘limida borligini tekshiring va ilovadagi **Faylni tekshirdim** tugmasini bosing; shundan keyingina zaxira sanasi yangilanadi. Alohida kitobning JSON faylini ham **Zaxiradan tiklash** orqali ochish mumkin. Uni mavjud javonga qo‘shish uchun **Javonga qo‘shish**ni tanlang; **Javonni almashtirish** esa butun javonni fayldagi kitoblar bilan almashtiradi. Zaxira tekshiruvdan o‘tmasa, joriy javon o‘zgarmaydi. Agar brauzerdagi javon buzilgan bo‘lsa, avval xom nusxani yuklab, fayl yuklamalarda borligini tekshirib **Faylni tekshirdim** tugmasini bosing; shundan keyin buzilgan nusxani almashtirish mumkin.
 
 Buzilgan javon turgan paytda zaxiradan tiklasangiz, tiklash oynasining o‘zida avval xom nusxani yuklab, **Faylni tekshirdim** tugmasini bosing. Tasdiqdan keyin **Javonga qo‘shish** yoki **Javonni almashtirish** amallarini tanlash mumkin bo‘ladi. Odatdagi javonni almashtirishda ham avvalgi javonning JSON fayli yuklanadi; Yuklamalarda borligini tekshirib tasdiqlamaguncha almashtirish tugallanmaydi. Shu orada javon o‘zgarsa, avvalgi zaxirani qayta olish kerak.
+
+Javon buzilganida ham ochiq kitobni **Joriy kitobni JSON zaxiralash** tugmasi bilan alohida saqlashingiz mumkin. Bu faylda joriy kitobning sahifalari, muqovasi va yozilgan joyi bo‘ladi; u javonning to‘liq zaxirasini almashtirmaydi. Yuklamalarda fayl borligini tasdiqlang va buzilgan javonning xom nusxasini ham alohida saqlang.
 
 ## Klaviatura yorliqlari
 
