@@ -49,7 +49,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Tizimdagi harakatni kamaytirish sozlamasi yoqilganda animatsiyalarni kamaytirish
 - Chalg‘imasdan yozish uchun diqqat rejimi; `Esc` bilan undan chiqish
 - Telefonda yozish oynasida sahifa boshqaruvlarini qulay bosish va klaviatura yorliqlarini ko‘rish
-- Sahifalarni tanlash qatori ekran o‘qigichlarda alohida navigatsiya sifatida aniqlanadi
+- Sahifa tanlash qatori ekran o‘qigichda navigatsiya va ro‘yxat sifatida ko‘rinadi; har sahifaning butun kitobdagi o‘rni aytiladi
 - Klaviatura bilan ishlaganda yuqori paneldan asosiy mazmunga tez o‘tish havolasi
 - Birinchi internetli ochilishdan so‘ng ilovani oflayn ochish va yozishni davom ettirish
 - Brauzerdan ilovani qurilmaga o‘rnatish yoki o‘rnatish bo‘yicha yo‘riqnomani ko‘rish
