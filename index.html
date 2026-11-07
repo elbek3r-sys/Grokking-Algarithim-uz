@@ -520,7 +520,18 @@
       persist();const undoSaved=!$('saveNote').classList.contains('save-error');if(active&&(current===from||current===to))focusEditor();toast(undoSaved?'Sahifa tartibi qaytarildi':'Tartib qaytarildi, lekin saqlanmadi',!undoSaved)
     }})
   }
-  function duplicateCurrentPage(){captureEditor();const from=state.current,to=from+1;state.pages.splice(to,0,state.pages[from]);state.pageTitles.splice(to,0,state.pageTitles[from]);state.cursors.splice(to,0,state.cursors[from]);bookWordCounts.splice(to,0,bookWordCounts[from]);state.current=to;updatePage();persist();const saved=!$('saveNote').classList.contains('save-error');focusEditor();toast(saved?`Sahifa ${from+1} nusxalandi`:'Sahifa nusxalandi, lekin saqlanmadi',!saved)}
+  function duplicateCurrentPage(){
+    captureEditor();const from=state.current,to=from+1,bookId=library.activeId,duplicateText=state.pages[from],duplicateTitle=state.pageTitles[from],duplicateCursor=state.cursors[from];
+    state.pages.splice(to,0,duplicateText);state.pageTitles.splice(to,0,duplicateTitle);state.cursors.splice(to,0,duplicateCursor);bookWordCounts.splice(to,0,bookWordCounts[from]);state.current=to;updatePage();persist();const saved=!$('saveNote').classList.contains('save-error');focusEditor();
+    toast(saved?`Sahifa ${from+1} nusxalandi`:'Sahifa nusxalandi, lekin saqlanmadi',!saved,{label:'Qaytarish',ariaLabel:`${state.title} kitobidagi yangi sahifa nusxasini olib tashlash`,run:()=>{
+      const target=library.books.find(book=>book.id===bookId);if(!target){toast('Kitob topilmadi; sahifa nusxasi qoldirildi');return}
+      const active=library.activeId===bookId,pages=active?state.pages:target.pages,titles=active?state.pageTitles:target.pageTitles,cursors=active?state.cursors:target.cursors,current=active?state.current:target.current;
+      if(to>=pages.length||pages.length<=1||pages[from]!==duplicateText||titles[from]!==duplicateTitle||pages[to]!==duplicateText||titles[to]!==duplicateTitle||cursors[from]!==duplicateCursor||cursors[to]!==duplicateCursor){toast('Nusxa tahrirlangan yoki sahifalar o‘zgargan; matnni yo‘qotmaslik uchun qaytarilmadi',true);return}
+      pages.splice(to,1);titles.splice(to,1);cursors.splice(to,1);const nextCurrent=current===to?from:current>to?current-1:current;
+      if(active){bookWordCounts.splice(to,1);state.current=nextCurrent;updatePage()}else target.current=nextCurrent;
+      persist();const undoSaved=!$('saveNote').classList.contains('save-error');if(active&&current===to)focusEditor();toast(undoSaved?'Sahifa nusxasi olib tashlandi':'Nusxa olib tashlandi, lekin saqlanmadi',!undoSaved)
+    }})
+  }
   function pagePreview(text,heading=''){return heading.trim()||text.slice(0,320).trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa'}
   function scheduleSearch(queryText){clearTimeout(searchTimer);if(!queryText.trim()){searchBook('');return}$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;$('bookSearchStatus').textContent='Qidirilmoqda…';searchTimer=setTimeout(()=>searchBook(queryText),140)}
   const graphemeSegmenter=typeof Intl!=='undefined'&&typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null;
