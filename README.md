@@ -20,6 +20,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 - Ochiq kitob nomi va sahifa raqamini brauzer tabida ko‘rish
 - Yuqori panelda oxirgi muvaffaqiyatli saqlangan vaqtni, sahifa yangilangandan keyin ham, ko‘rish
 - Har bir sahifaga ixtiyoriy sarlavha qo‘shish; sarlavha sahifani ko‘chirganda saqlanadi va TXT/PDF eksportiga kiradi
+- Sahifa sarlavhasining 80 belgilik chegarasi va joriy belgi sonini yozish paytida ko‘rish
 - Sahifa va kitobdagi so‘zlar sonini, jumladan sarlavhalarni, ko‘rish
 - Har bir kitob uchun ixtiyoriy so‘z maqsadini belgilab, bajarilishini kuzatish
 - Javonda har bir kitobning so‘z maqsadiga erishish darajasini ko‘rish
