@@ -6,6 +6,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 
 - Javonda bir nechta kitob yaratish, muqovasiga nom, taglavha, muallif, rang va rasm qo‘shish; rasmning ko‘rinadigan qismini gorizontal va vertikal sozlash yoki markazga qaytarish
 - Yozuv xonasiga mos yangi javon dizayni: yashil kirish paneli, yumshoq javon kartasi, bo‘sh holat illustratsiyasi va ekranga mos asosiy tugma
+- Yozuv xonasi uchun fotoreal muhit; foydalanuvchi bosganda yoqiladigan haqiqiy o‘rmon va qushlar ovozi, sozlanadigan balandlik hamda tab yashirilganda avtomatik pauza
 - Muqova nomi, taglavhasi va muallifi uchun belgi chegaralarini real vaqtda ko‘rish
 - Belgi limitiga yaqinlashganda muqova, kitob va sahifa sarlavhasi sanagichlari ogohlantiruvchi rangga o‘tadi
 - Yozish oynasida kitob nomining 70 belgilik chegarasi va joriy belgi sonini ko‘rish; klaviatura fokusi aniq ajratiladi
@@ -94,4 +95,6 @@ Javon buzilganida ham ochiq kitobni **Joriy kitobni JSON zaxiralash** tugmasi bi
 - `Ctrl/Cmd + Shift + F` — diqqat rejimini yoqish yoki o‘chirish
 - `Esc` — diqqat rejimidan chiqish (qidiruv ochiq bo‘lsa, avval qidiruv yopiladi)
 
-Sayt `dist/index.html` va oflayn ishlash uchun `dist/sw.js`, `dist/manifest.webmanifest`, `dist/icon.svg`, `dist/icon-192.png`, `dist/icon-512.png` hamda `dist/apple-touch-icon.png` fayllaridan foydalanadi.
+Sayt `dist/index.html`, `dist/assets/writing-room.webp`, `dist/assets/rainforest.ogg` va oflayn ishlash uchun `dist/sw.js`, `dist/manifest.webmanifest`, `dist/icon.svg`, `dist/icon-192.png`, `dist/icon-512.png` hamda `dist/apple-touch-icon.png` fayllaridan foydalanadi.
+
+Tabiat ovozi uchun `Walk in the rainforest.ogg` yozuvi ishlatiladi. [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Walk_in_the_rainforest.ogg) sahifasida yozuv muallif **ezwa** tomonidan jamoat mulkiga topshirilgani ko‘rsatilgan.
