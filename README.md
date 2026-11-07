@@ -6,7 +6,7 @@ O‘z asaringizni muqovali kitoblar va sahifalar ko‘rinishida yozish uchun yen
 
 - Javonda bir nechta kitob yaratish, muqovasiga nom, taglavha, muallif, rang va rasm qo‘shish; rasmning ko‘rinadigan qismini gorizontal va vertikal sozlash yoki markazga qaytarish
 - Yozuv xonasiga mos yangi javon dizayni: yashil kirish paneli, yumshoq javon kartasi, bo‘sh holat illustratsiyasi va ekranga mos asosiy tugma
-- Yozuv xonasi uchun fotoreal muhit; foydalanuvchi bosganda yoqiladigan haqiqiy o‘rmon va qushlar ovozi, sozlanadigan balandlik hamda tab yashirilganda avtomatik pauza
+- Yozuv xonasi uchun fotoreal muhit; jild yonidan ko‘rinadigan qog‘oz qatlamlari bilan hajmli kitoblar; foydalanuvchi bosganda yoqiladigan haqiqiy o‘rmon va qushlar ovozi, sozlanadigan balandlik hamda tab yashirilganda avtomatik pauza
 - Muqova nomi, taglavhasi va muallifi uchun belgi chegaralarini real vaqtda ko‘rish
 - Belgi limitiga yaqinlashganda muqova, kitob va sahifa sarlavhasi sanagichlari ogohlantiruvchi rangga o‘tadi
 - Yozish oynasida kitob nomining 70 belgilik chegarasi va joriy belgi sonini ko‘rish; klaviatura fokusi aniq ajratiladi
