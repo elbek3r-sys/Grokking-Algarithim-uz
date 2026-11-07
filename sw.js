@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kitob-daftari-v100';
+const CACHE_NAME = 'kitob-daftari-v101';
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './assets/writing-room.webp', './assets/writing-studio.webp', './assets/rainforest.ogg'];
 
 self.addEventListener('install', event => {
