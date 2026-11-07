@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kitob-daftari-v92';
+const CACHE_NAME = 'kitob-daftari-v93';
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
@@ -17,14 +17,24 @@ function cacheResponse(request, response) {
     .then(() => response);
 }
 
+async function isAppDocument(response) {
+  if (!response.ok || !response.headers.get('content-type')?.includes('text/html')) return false;
+  try {
+    const html = await response.clone().text();
+    return html.includes('id="coverScreen"') && html.includes('id="pageEditor"');
+  } catch {
+    return false;
+  }
+}
+
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(fetch(request).then(response => {
+    event.respondWith(fetch(request).then(async response => {
       if (response.status >= 500) return caches.match(request).then(cached => cached || caches.match('./index.html').then(fallback => fallback || response));
-      return cacheResponse(request, response);
+      return await isAppDocument(response) ? cacheResponse(request, response) : response;
     }).catch(async () => (await caches.match(request)) || (await caches.match('./index.html'))));
     return;
   }
