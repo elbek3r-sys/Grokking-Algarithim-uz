@@ -712,7 +712,7 @@
   window.addEventListener('online',updateNetworkNote);window.addEventListener('offline',updateNetworkNote);updateNetworkNote();
   if(Number.isFinite(savedReaderFontSize)&&savedReaderFontSize>=14&&savedReaderFontSize<=28)setReaderFontSize(savedReaderFontSize);else updateReaderControls();
   title.value=state.title||'Yangi kitob';$('soundToggle').setAttribute('aria-pressed',String(!!state.sound));$('soundToggle').setAttribute('aria-label',state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan');$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';$('soundToggle').title=state.sound?'Ovoz effektlarini o‘chirish':'Ovoz effektlarini yoqish';if(storageRecoveryRaw!==null)$('storageRecovery').hidden=false;renderLibrary();updatePage();updateBackupStatus();updateStorageProtection();persist(true);
-  if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}),{once:true});
+  if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>{const hadController=!!navigator.serviceWorker.controller;let updateNoticeShown=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!hadController||updateNoticeShown)return;updateNoticeShown=true;toast('Yangi versiya tayyor. Yozuvlaringizni saqlab, yangilang.',false,{label:'Yangilash',ariaLabel:'Kitob Daftarining yangi versiyasini ochish',run:()=>{flushSave();if(pendingEdits||$('saveNote').classList.contains('save-error')){toast('Yozuv saqlanmadi, shu sabab sahifa yangilanmadi.',true);return}location.reload()}})});navigator.serviceWorker.register('./sw.js').catch(()=>{})},{once:true});
 })();
 
 </script>
