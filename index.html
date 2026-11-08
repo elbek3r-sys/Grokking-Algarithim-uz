@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="249">
+  <meta name="app-build" content="250">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -292,6 +292,18 @@
     .intro-copy{background:linear-gradient(145deg,rgba(12,27,18,.96),rgba(20,36,27,.92));border-color:rgba(239,220,181,.52);box-shadow:0 42px 88px rgba(8,14,9,.52),inset 0 1px rgba(255,255,255,.22),inset 0 -3px rgba(0,0,0,.26)}
     .intro-copy h1{color:#fff8e9;text-shadow:0 2px 14px rgba(0,0,0,.3)}
     .intro-copy>p{color:rgba(255,249,235,.9)}
+
+    /* The cover editor previews a complete hardback with a paper block and visible spine. */
+    .cover-preview-column{perspective:1200px;perspective-origin:48% 42%}
+    .cover-preview-stage{--cover-yaw:0deg;--cover-pitch:0deg;position:relative;display:grid;place-items:center;width:clamp(200px,24vw,260px);height:clamp(295px,34vw,370px);perspective:1100px;transform-style:preserve-3d;transform:rotateY(calc(-11deg + var(--cover-yaw))) rotateX(calc(1deg + var(--cover-pitch)));transform-origin:48% 50%;transition:transform .22s ease-out;filter:drop-shadow(24px 30px 15px rgba(26,30,22,.32))}
+    .cover-preview-stage:before{content:"";position:absolute;z-index:0;inset:7px -20px 5px 15px;border:1px solid rgba(117,101,74,.68);border-radius:2px 12px 11px 2px;background:repeating-linear-gradient(0deg,rgba(124,105,73,.2) 0 1px,transparent 1px 3px),linear-gradient(90deg,#b9aa8c 0%,#fff9ea 14%,#e9dfcb 78%,#b4a486 100%);box-shadow:1px 1px 0 #9d8d70,3px 3px 0 #e4dac8,6px 6px 0 #a7987a,9px 10px 0 #ede4d3,13px 14px 16px rgba(22,27,20,.34);transform:translateZ(-15px);pointer-events:none}
+    .cover-preview-stage:after{content:"";position:absolute;z-index:0;top:10px;bottom:11px;left:-12px;width:20px;border:1px solid rgba(20,29,22,.68);border-radius:4px 0 0 4px;background:linear-gradient(90deg,#1c2a20,#728064 30%,#3d4c39 65%,#1d2a20);box-shadow:inset 4px 0 6px rgba(255,255,255,.18),inset -4px 0 7px rgba(0,0,0,.4);transform:translateZ(-13px) rotateY(-24deg);transform-origin:right center;pointer-events:none}
+    .cover-preview-stage .cover-preview{position:relative;z-index:1;width:100%;height:100%;transform:translateZ(9px);border-radius:4px 13px 13px 4px;box-shadow:inset 13px 0 17px rgba(0,0,0,.38),inset -3px 0 1px rgba(255,255,255,.22),2px 0 0 #fff8e7,5px 0 0 #cfc0a3,8px 0 0 #f1e8d7,11px 0 0 #a49475,14px 4px 15px rgba(17,23,17,.42)}
+    .cover-preview-stage .cover-spine{left:4px;width:30px;background:linear-gradient(90deg,rgba(0,0,0,.58),rgba(220,188,131,.28) 15%,rgba(255,255,255,.12) 31%,rgba(0,0,0,.34));box-shadow:inset -4px 0 7px rgba(0,0,0,.3),inset 1px 0 rgba(255,255,255,.26)}
+    .cover-editor-backdrop:not([hidden]) .cover-preview-stage{animation:coverReveal .72s cubic-bezier(.2,.8,.2,1) both}
+    @keyframes coverReveal{from{opacity:0;transform:translateY(24px) rotateY(-28deg) rotateX(9deg) scale(.91)}to{opacity:1;transform:rotateY(calc(-11deg + var(--cover-yaw))) rotateX(calc(1deg + var(--cover-pitch))) scale(1)}}
+    @media(max-width:680px){.cover-preview-stage{width:165px;height:240px;transform:rotateY(-8deg) rotateX(1deg)}.cover-preview-stage:before{right:-14px}.cover-preview-stage:after{left:-9px;width:15px}.cover-editor-backdrop:not([hidden]) .cover-preview-stage{animation:coverRevealMobile .55s ease-out both}@keyframes coverRevealMobile{from{opacity:0;transform:translateY(15px) rotateY(-19deg) scale(.94)}to{opacity:1;transform:rotateY(-8deg) rotateX(1deg) scale(1)}}}
+    @media(prefers-reduced-motion:reduce){.cover-preview-stage,.cover-editor-backdrop:not([hidden]) .cover-preview-stage{animation:none!important;transition:none!important;transform:rotateY(-8deg) rotateX(1deg)}}
   </style>
 </head>
 <body>
@@ -335,12 +347,14 @@
         </div>
         <div class="cover-editor-body">
           <div class="cover-preview-column">
+            <div class="cover-preview-stage" id="coverPreviewStage">
             <div class="book-cover cover-preview" id="coverPreview">
               <div class="cover-spine"></div><div class="cover-inner">
                 <div class="cover-ornament" aria-hidden="true">✳</div><div class="cover-flower" aria-hidden="true">❧</div>
                 <h3 class="cover-title" id="previewTitle">Yangi kitob</h3><div class="cover-subtitle" id="previewSubtitle">Hali yozilmagan hikoya</div>
                 <div class="cover-rule"></div><div class="cover-author" id="previewAuthor">Muallif</div>
               </div>
+            </div>
             </div>
             <div class="cover-image-tools"><button type="button" id="chooseCoverImage">Rasm tanlash</button><button class="remove-image" type="button" id="removeCoverImage" hidden>Rasmni olib tashlash</button></div>
             <div class="cover-image-controls" id="coverImageControls" hidden><label for="coverImageX">Chap-o‘ng <output id="coverImageXValue">50%</output></label><input id="coverImageX" type="range" min="0" max="100" value="50" aria-label="Muqova rasmini chapga yoki o‘ngga joylash"><label for="coverImageY">Yuqori-past <output id="coverImageYValue">50%</output></label><input id="coverImageY" type="range" min="0" max="100" value="50" aria-label="Muqova rasmini yuqoriga yoki pastga joylash"><button class="cover-image-reset" id="resetCoverCrop" type="button">Markazga qaytarish</button></div>
@@ -506,6 +520,9 @@
   window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;installButton.hidden=true;toast('Kitob Daftari qurilmaga o‘rnatildi')});
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle'),pageTitle=$('pageTitle');
   const canTiltBooks=window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches;
+  const coverPreview3d=$('coverPreviewStage');
+  if(canTiltBooks&&coverPreview3d){const resetCoverTilt=()=>{coverPreview3d.style.removeProperty('--cover-yaw');coverPreview3d.style.removeProperty('--cover-pitch')};coverPreview3d.addEventListener('pointermove',event=>{if(event.pointerType==='touch')return;const rect=coverPreview3d.getBoundingClientRect(),x=Math.max(-1,Math.min(1,((event.clientX-rect.left)/rect.width-.5)*2)),y=Math.max(-1,Math.min(1,((event.clientY-rect.top)/rect.height-.5)*2));coverPreview3d.style.setProperty('--cover-yaw',`${(x*10).toFixed(1)}deg`);coverPreview3d.style.setProperty('--cover-pitch',`${(-y*7).toFixed(1)}deg`)});coverPreview3d.addEventListener('pointerleave',resetCoverTilt);coverPreview3d.addEventListener('blur',resetCoverTilt)}
+
   function updateSaveTimestamp(value){const time=$('saveTime'),stamp=Date.parse(value);if(!Number.isFinite(stamp)){time.textContent='';time.removeAttribute('datetime');time.setAttribute('aria-label','Oxirgi saqlash vaqti mavjud emas');time.removeAttribute('title');return}const savedAt=new Date(stamp),timeText=savedAt.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'}),fullText=savedAt.toLocaleString('uz-UZ',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});time.textContent=timeText;time.dateTime=savedAt.toISOString();time.setAttribute('aria-label',`Oxirgi muvaffaqiyatli saqlash: ${fullText}`);time.title=`Oxirgi saqlash: ${fullText}`}
   updateSaveTimestamp(lastSavedAt);
   function updateDocumentTitle(){updateCharacterCounter('bookTitleCount',title.value,70);const bookTitle=state.title||'Yangi kitob',pageLabel=`${bookTitle}, ${state.current+1}-sahifa`;pageTitle.setAttribute('aria-label',`${pageLabel} sarlavhasi`);editor.setAttribute('aria-label',`${pageLabel} matni`);document.title=work.classList.contains('active')?`${bookTitle} · ${state.current+1}-sahifa — Kitob Daftari`:'Kitob Daftari — yozish uchun sokin joy'}
