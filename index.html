@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="247">
+  <meta name="app-build" content="248">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -276,6 +276,14 @@
     @media(max-width:900px){.library-covers{background-size:100% 480px}.shelf-item{min-height:450px}}
     @media(max-width:680px){.cover-stage.library-stage{padding-bottom:90px}.library-covers{gap:20px 12px;background-size:100% 410px;background-image:repeating-linear-gradient(180deg,transparent 0 344px,rgba(15,19,14,.72) 345px 349px,#a97b52 350px 355px,#5f4028 356px 371px,rgba(16,20,15,.5) 372px 378px,transparent 379px 410px)}.shelf-item{min-height:400px}.shelf-item .book-button{transform:rotateY(-18deg) rotateZ(-1deg) translateZ(6px)}.shelf-item:nth-child(odd),.shelf-item:nth-child(even){transform:translateY(0)}.shelf-item .book-button:before{right:-17px;box-shadow:1px 1px 0 #a69779,3px 3px 0 #f0e7d6,5px 5px 0 #968568,8px 8px 0 #d6c8ad,11px 12px 14px rgba(0,0,0,.42)}.shelf-item .book-button:hover,.shelf-item .book-button:focus-visible{transform:rotateY(-8deg) rotateX(5deg) translate3d(0,-12px,28px)}}
     @media(prefers-reduced-motion:reduce){.shelf-item .book-button,.shelf-actions button,.new-book-button{transition:none!important}.shelf-item .book-button:hover,.shelf-item .book-button:focus-visible,.shelf-actions button:hover{transform:none}}
+
+    /* Motion and light follow the reader's pointer; values are capped and disabled for reduced-motion users. */
+    .shelf-item .book-button:hover,.shelf-item .book-button:focus-visible{transform:rotateY(calc(-7deg + var(--pointer-tilt-y,0deg))) rotateX(calc(8deg + var(--pointer-tilt-x,0deg))) rotateZ(.8deg) translate3d(0,-24px,58px)}
+    .shelf-item .cover-inner:before{content:"";position:absolute;z-index:-1;inset:-36px;pointer-events:none;background:radial-gradient(ellipse at var(--shine-x,28%) var(--shine-y,18%),rgba(255,243,213,.28),transparent 58%);mix-blend-mode:screen}
+    .book-spread{--reader-light-x:38%;--reader-light-y:15%;transform:rotateX(calc(2deg + var(--reader-tilt-x,0deg))) rotateY(var(--reader-tilt-y,0deg)) translateZ(10px);transition:transform .28s ease-out}
+    .leaf:before{content:"";position:absolute;z-index:0;inset:0;pointer-events:none;background:radial-gradient(ellipse at var(--reader-light-x) var(--reader-light-y),rgba(255,255,255,.52),transparent 66%);opacity:.42;mix-blend-mode:screen}
+    .editor-page{z-index:2}
+    @media(prefers-reduced-motion:reduce){.book-spread{transition:none}.shelf-item .cover-inner:before,.leaf:before{display:none}}
   </style>
 </head>
 <body>
@@ -489,6 +497,7 @@
   installButton.addEventListener('click',async()=>{if(!deferredInstallPrompt){showInstallGuide();return}const promptEvent=deferredInstallPrompt;deferredInstallPrompt=null;try{await promptEvent.prompt();const choice=await promptEvent.userChoice;if(choice?.outcome==='accepted'){installButton.hidden=true;toast('Kitob Daftari qurilmaga o‘rnatilmoqda')}else toast('O‘rnatish bekor qilindi. Uni brauzer menyusidan keyinroq tanlashingiz mumkin.')}catch{showInstallGuide()}});
   window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;installButton.hidden=true;toast('Kitob Daftari qurilmaga o‘rnatildi')});
   const cover=$('coverScreen'),work=$('workScreen'),editor=$('pageEditor'),title=$('bookTitle'),pageTitle=$('pageTitle');
+  const canTiltBooks=window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches;
   function updateSaveTimestamp(value){const time=$('saveTime'),stamp=Date.parse(value);if(!Number.isFinite(stamp)){time.textContent='';time.removeAttribute('datetime');time.setAttribute('aria-label','Oxirgi saqlash vaqti mavjud emas');time.removeAttribute('title');return}const savedAt=new Date(stamp),timeText=savedAt.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'}),fullText=savedAt.toLocaleString('uz-UZ',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});time.textContent=timeText;time.dateTime=savedAt.toISOString();time.setAttribute('aria-label',`Oxirgi muvaffaqiyatli saqlash: ${fullText}`);time.title=`Oxirgi saqlash: ${fullText}`}
   updateSaveTimestamp(lastSavedAt);
   function updateDocumentTitle(){updateCharacterCounter('bookTitleCount',title.value,70);const bookTitle=state.title||'Yangi kitob',pageLabel=`${bookTitle}, ${state.current+1}-sahifa`;pageTitle.setAttribute('aria-label',`${pageLabel} sarlavhasi`);editor.setAttribute('aria-label',`${pageLabel} matni`);document.title=work.classList.contains('active')?`${bookTitle} · ${state.current+1}-sahifa — Kitob Daftari`:'Kitob Daftari — yozish uchun sokin joy'}
@@ -567,6 +576,7 @@
       inner.append(ornament,flower,coverTitle,subtitle,rule,author);coverArt.append(spine,inner);
       const cta=document.createElement('div');cta.className='cover-cta';const ctaText=document.createElement('span');ctaText.textContent=book.pages.some(p=>p.trim())?`Davom ettirish · ${book.current+1}-sahifa`:'Kitobni ochish';const arrow=document.createElement('span');arrow.textContent='→';arrow.setAttribute('aria-hidden','true');cta.append(ctaText,arrow);
       open.append(coverArt,cta);open.addEventListener('click',()=>openBook(book.id));
+      if(canTiltBooks){const resetTilt=()=>{open.style.removeProperty('--pointer-tilt-x');open.style.removeProperty('--pointer-tilt-y');open.style.removeProperty('--shine-x');open.style.removeProperty('--shine-y')};open.addEventListener('pointermove',event=>{if(event.pointerType==='touch')return;const rect=open.getBoundingClientRect(),x=Math.max(-1,Math.min(1,((event.clientX-rect.left)/rect.width-.5)*2)),y=Math.max(-1,Math.min(1,((event.clientY-rect.top)/rect.height-.5)*2));open.style.setProperty('--pointer-tilt-x',`${(-y*9).toFixed(1)}deg`);open.style.setProperty('--pointer-tilt-y',`${(x*11).toFixed(1)}deg`);open.style.setProperty('--shine-x',`${((x+1)*50).toFixed(1)}%`);open.style.setProperty('--shine-y',`${((y+1)*50).toFixed(1)}%`)});open.addEventListener('pointerleave',resetTilt);open.addEventListener('blur',resetTilt)}
       const stats=document.createElement('p');stats.className='shelf-stats';const totalWords=bookWordTotal(book);stats.textContent=`${book.pages.length} ta sahifa · ${totalWords} ta so‘z`;let editedAt=null;if(sort==='modified'&&book.modifiedAt){const modified=new Date(book.modifiedAt);if(Number.isFinite(modified.getTime())){editedAt=document.createElement('time');editedAt.className='shelf-stats shelf-edited';editedAt.dateTime=modified.toISOString();editedAt.textContent=`Oxirgi tahrir: ${modified.toLocaleString('uz-UZ',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}`}}
       let goalDetails=null;if(book.wordGoal>0){const percent=Math.min(100,Math.round(totalWords/book.wordGoal*100));goalDetails=document.createElement('div');goalDetails.className='shelf-goal';const progress=document.createElement('progress');progress.max=100;progress.value=percent;progress.setAttribute('aria-label',`${book.title} so‘z maqsadi`);progress.setAttribute('aria-valuetext',`${percent}%`);const summary=document.createElement('span');summary.textContent=totalWords>=book.wordGoal?'So‘z maqsadi bajarildi':`${totalWords.toLocaleString('uz-UZ')} / ${book.wordGoal.toLocaleString('uz-UZ')} so‘z · ${percent}%`;goalDetails.append(progress,summary)}
       const actions=document.createElement('div');actions.className='shelf-actions';const edit=document.createElement('button');edit.type='button';edit.className='shelf-edit';edit.textContent='✎ Muqova';edit.setAttribute('aria-label',`${book.title} muqovasini tahrirlash`);edit.addEventListener('click',()=>openCoverEditor(book.id));
