@@ -1,7 +1,7 @@
 Warning: truncated output (original token count: 563)
 Total output lines: 49
 
-const CACHE_NAME = 'kitob-daftari-v105';
+const CACHE_NAME = 'kitob-daftari-v106';
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './assets/writing-room.webp', './assets/writing-studio.webp', './assets/rainforest.ogg'];
 
 self.addEventListener('install', event => {
@@ -14,7 +14,12 @@ self.addEventListener('activate', event => {
 
 function cacheResponse(request, response) {
   if (!response.ok) return Promise.resolve(response);
-  return cache…163 tokens truncated…!== self.location.origin) return;
+  return caches.open(CACHE_NAME)
+    .then(cache => cache.put(request, response.clone()))
+    .catch(() => {})
+   …113 tokens truncated…=> {
+  const request = event.request;
+  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
 
   if (new URL(request.url).searchParams.has('__kitob_update_check')) {
     event.respondWith(fetch(new Request(request, { cache: 'no-store' })));
