@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="248">
+  <meta name="app-build" content="249">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -284,6 +284,14 @@
     .leaf:before{content:"";position:absolute;z-index:0;inset:0;pointer-events:none;background:radial-gradient(ellipse at var(--reader-light-x) var(--reader-light-y),rgba(255,255,255,.52),transparent 66%);opacity:.42;mix-blend-mode:screen}
     .editor-page{z-index:2}
     @media(prefers-reduced-motion:reduce){.book-spread{transition:none}.shelf-item .cover-inner:before,.leaf:before{display:none}}
+
+    /* Visual review fix: keep the wood set visible between the room and the books, with clear text contrast. */
+    .cover-stage.library-stage:before{z-index:0;background:linear-gradient(90deg,rgba(8,12,8,.2),transparent 10% 90%,rgba(7,10,7,.22)),repeating-linear-gradient(0deg,transparent 0 104px,rgba(231,196,140,.09) 105px,transparent 108px),linear-gradient(132deg,#795537 0%,#49301f 47%,#734f32 100%);box-shadow:inset 0 1px rgba(255,238,200,.48),inset 0 -25px 36px rgba(8,12,8,.34),0 44px 68px rgba(7,12,8,.48)}
+    .cover-stage.library-stage:after{z-index:0}
+    .cover-stage.library-stage>*{z-index:2}
+    .intro-copy{background:linear-gradient(145deg,rgba(12,27,18,.96),rgba(20,36,27,.92));border-color:rgba(239,220,181,.52);box-shadow:0 42px 88px rgba(8,14,9,.52),inset 0 1px rgba(255,255,255,.22),inset 0 -3px rgba(0,0,0,.26)}
+    .intro-copy h1{color:#fff8e9;text-shadow:0 2px 14px rgba(0,0,0,.3)}
+    .intro-copy>p{color:rgba(255,249,235,.9)}
   </style>
 </head>
 <body>
