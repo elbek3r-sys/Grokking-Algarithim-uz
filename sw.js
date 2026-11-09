@@ -1,7 +1,7 @@
 Warning: truncated output (original token count: 563)
 Total output lines: 49
 
-const CACHE_NAME = 'kitob-daftari-v108';
+const CACHE_NAME = 'kitob-daftari-v109';
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './assets/writing-room.webp', './assets/writing-studio.webp', './assets/rainforest.ogg'];
 
 self.addEventListener('install', event => {
