@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="256">
+  <meta name="app-build" content="258">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -381,6 +381,34 @@
     .hero-new-book-button{width:max-content;min-height:49px;margin-top:23px;padding:12px 19px;border:1px solid rgba(220,188,133,.64);border-radius:4px;background:linear-gradient(180deg,#927249,#674e31);color:#fff4df;box-shadow:0 4px 0 #34281b,0 9px 18px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.25);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
     .hero-new-book-button:hover{background:linear-gradient(180deg,#a48252,#755a37);transform:translateY(-2px);box-shadow:0 6px 0 #34281b,0 13px 22px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.28)}.hero-new-book-button span{margin-right:9px;font-size:14px}
     @media(max-width:760px){.intro-copy>p{margin:0;max-width:460px;text-align:left}.hero-new-book-button{margin-top:15px}.progress-card{margin-top:18px}.backup-actions{gap:6px}.intro-copy .quiet-btn{font-size:9px;padding:9px 10px}.cover-screen{gap:14px}.cover-stage.library-stage{margin-top:0}}
+
+    /* Natural materials pass: use a photographed walnut shelf and quiet paper surfaces. */
+    .app-shell{background:linear-gradient(90deg,rgba(12,17,14,.42),rgba(12,17,14,.22)),url('./assets/writing-studio.webp') center 50%/cover fixed}
+    .cover-stage.library-stage{isolation:isolate;overflow:hidden;border:1px solid rgba(235,220,192,.38);border-radius:8px;background:linear-gradient(180deg,rgba(20,25,21,.18),rgba(18,22,18,.12)),url('./assets/bookcase-room.webp') center 49%/cover no-repeat;box-shadow:0 26px 54px rgba(0,0,0,.34);backdrop-filter:none;transform:none;perspective:1100px}
+    .cover-stage.library-stage:before,.cover-stage.library-stage:after{display:none!important}
+    .library-covers{background:none!important;align-items:flex-end;align-content:center;gap:16px 22px;min-height:240px;padding:14px 0 10px;perspective:1100px}
+    .shelf-empty{width:min(100%,400px);min-height:80px;justify-content:center;align-items:center;margin:auto;padding:14px 18px;border:1px solid rgba(220,195,154,.42);border-radius:2px;background:linear-gradient(180deg,rgba(26,31,25,.62),rgba(20,25,21,.73));box-shadow:0 8px 18px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.08);color:#f1e6d1;backdrop-filter:blur(2px);font-family:var(--serif);font-size:15px;line-height:1.55;text-shadow:0 1px 4px rgba(0,0,0,.55)}
+    .shelf-item .cover-flower,.shelf-item .cover-ornament,.cover-preview .cover-flower,.cover-preview .cover-ornament{display:none!important}
+    .shelf-empty:before{display:none!important}
+    .shelf-item{width:clamp(160px,17vw,210px);min-height:0;gap:6px;filter:drop-shadow(8px 14px 12px rgba(0,0,0,.27));transform:none!important}
+    .shelf-item .book-button{transform:perspective(1000px) rotateY(-7deg) rotateZ(-.35deg);filter:drop-shadow(7px 12px 9px rgba(0,0,0,.28));transition:transform .35s ease,filter .35s ease}
+    .shelf-item .book-button:hover,.shelf-item .book-button:focus-visible{transform:perspective(1000px) rotateY(-3deg) translateY(-5px);filter:drop-shadow(10px 17px 11px rgba(0,0,0,.34))}
+    .shelf-item .book-button:before{inset:4px -12px 4px 7px;border-color:rgba(91,75,53,.48);background:repeating-linear-gradient(0deg,rgba(119,103,77,.09) 0 1px,transparent 1px 3px),linear-gradient(90deg,#d6cbb5,#f6f0e3 18%,#e9dfcd 82%,#c9bda6);box-shadow:1px 1px 0 #c5b89f,3px 3px 0 #e8dfcf,5px 6px 8px rgba(0,0,0,.23);transform:translateZ(-7px)}
+    .shelf-item .book-button:after{top:6px;bottom:7px;left:-8px;width:12px;border-color:rgba(26,33,26,.55);background:linear-gradient(90deg,#263128,#606a53 45%,#303a2f);box-shadow:inset 2px 0 4px rgba(255,255,255,.13);transform:translateZ(-6px) rotateY(-14deg)}
+    .shelf-item .book-cover{width:clamp(160px,17vw,210px);height:clamp(240px,25vw,320px);border-radius:2px 7px 7px 2px;box-shadow:inset 5px 0 9px rgba(0,0,0,.23),inset -1px 0 rgba(255,255,255,.12),1px 0 0 #e8decc,3px 2px 0 #cdbfa4,5px 4px 8px rgba(0,0,0,.24);filter:saturate(.84)}
+    .shelf-item .cover-spine{left:5px;width:17px;opacity:.78}.shelf-item .cover-flower,.shelf-item .cover-ornament{display:none}
+    .shelf-item .cover-inner{inset:48px 24px 38px 34px}.shelf-item .cover-title{font-size:24px;text-shadow:0 1px 2px rgba(0,0,0,.12)}
+    .new-book-button{border:1px solid rgba(239,222,187,.5);border-radius:4px;background:linear-gradient(180deg,#3c4938,#29352c);box-shadow:0 3px 0 #1c251f,0 8px 14px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.14);transform:none!important}
+    .new-book-button:hover{background:linear-gradient(180deg,#4b5944,#344337);box-shadow:0 4px 0 #1c251f,0 11px 17px rgba(0,0,0,.34)}
+    .hero-new-book-button{background:linear-gradient(180deg,#78654a,#5c4b35);box-shadow:0 3px 0 #342a20,0 8px 14px rgba(0,0,0,.26),inset 0 1px rgba(255,255,255,.18)}
+    .hero-new-book-button:hover{background:linear-gradient(180deg,#887455,#69563b);box-shadow:0 4px 0 #342a20,0 10px 17px rgba(0,0,0,.3)}
+    .cover-stage.library-stage .library-controls{transform:none}.library-search,.library-sort-wrap select{box-shadow:0 4px 10px rgba(0,0,0,.17)!important}
+    .book-spread{filter:drop-shadow(0 23px 22px rgba(0,0,0,.3));transform:rotateX(1deg) translateZ(2px)}
+    .book-spread:before{inset:-5px -4px 5px;border:1px solid rgba(171,150,114,.5);border-radius:5px;background:linear-gradient(90deg,#263129,#59624d 2%,#333d32 6%,#242d25 50%,#333d32 94%,#59624d 98%,#263129);box-shadow:0 5px 0 #1d251f,0 10px 16px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.15);transform:translateZ(-9px)}
+    .leaf.left{box-shadow:inset -13px 0 16px -14px rgba(52,43,31,.42),0 3px 0 #ddd3bf,0 6px 0 #b6aa92}.leaf.right{box-shadow:inset 13px 0 16px -14px rgba(52,43,31,.4),0 3px 0 #ddd3bf,0 6px 0 #b6aa92}
+    .book-spread.book-opening{animation-duration:.42s}@keyframes bookUnfold{0%{opacity:.85;transform:rotateY(-16deg) scaleX(.94) translateZ(5px)}100%{opacity:1;transform:rotateX(1deg) rotateY(0) scaleX(1) translateZ(2px)}}
+    @media(max-width:760px){.cover-stage.library-stage{background-position:center;background-size:cover}.library-covers{background:none!important;gap:14px 10px}.shelf-empty{min-height:118px;font-size:14px}.shelf-item{width:calc(50% - 9px);max-width:190px}.shelf-item .book-cover{width:100%;height:auto;aspect-ratio:2/3}.shelf-item .cover-inner{inset:40px 20px 34px 30px}.shelf-item .cover-title{font-size:20px}.book-spread{transform:none}.book-spread:before{inset:-4px -2px 4px}}
+    @media(prefers-reduced-motion:reduce){.book-spread.book-opening{animation:none!important}.shelf-item .book-button:hover,.shelf-item .book-button:focus-visible{transform:none}}
   </style>
 </head>
 <body>
@@ -648,25 +676,21 @@
   function play(type='click'){
     if(!state.sound)return;
     try{
-      audioContext||=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();
+      audioContext||=new(window.AudioContext||window.webkitAudioContext)();
+      if(audioContext.state==='suspended')audioContext.resume().catch(()=>{});
       const ctx=audioContext,now=ctx.currentTime;
-      const tone=(frequency,{at=now,duration=.12,wave='sine',peak=.025,endFrequency=frequency*.72}={})=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=wave;osc.frequency.setValueAtTime(frequency,at);if(endFrequency!==frequency)osc.frequency.exponentialRampToValueAtTime(Math.max(1,endFrequency),at+duration);gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(peak,at+.008);gain.gain.exponentialRampToValueAtTime(.0001,at+duration);osc.connect(gain);gain.connect(ctx.destination);osc.start(at);osc.stop(at+duration+.01)};
-      if(type==='page'||type==='pageBack'||type==='open'){
-        const length=Math.floor(ctx.sampleRate*(type==='open'?.24:.18)),buffer=ctx.createBuffer(1,length,ctx.sampleRate),data=buffer.getChannelData(0);
-        for(let i=0;i<length;i++){const fade=1-i/length;data[i]=(Math.random()*2-1)*fade*fade}
-        const rustle=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();rustle.buffer=buffer;filter.type='bandpass';filter.frequency.value=type==='pageBack'?760:1120;filter.Q.value=.65;gain.gain.setValueAtTime(.0001,now);gain.gain.linearRampToValueAtTime(type==='open'?.035:.026,now+.025);gain.gain.exponentialRampToValueAtTime(.0001,now+(type==='open'?.23:.17));rustle.connect(filter);filter.connect(gain);gain.connect(ctx.destination);rustle.start(now);rustle.stop(now+(type==='open'?.24:.18));
-        if(type==='open')tone(155,{at:now,duration:.2,wave:'triangle',peak:.018,endFrequency:92});else tone(type==='pageBack'?230:310,{at:now+.025,duration:.1,wave:'triangle',peak:.012,endFrequency:type==='pageBack'?145:190});
-      }else if(type==='success'){
-        [392,494,587].forEach((hz,i)=>tone(hz,{at:now+i*.055,duration:.3,peak:.018,endFrequency:hz}));
-      }else if(type==='close'){
-        tone(185,{duration:.19,wave:'triangle',peak:.028,endFrequency:78});tone(330,{at:now+.035,duration:.13,peak:.012,endFrequency:210});
-      }else if(type==='delete'){
-        tone(245,{duration:.07,wave:'triangle',peak:.014,endFrequency:150});
-      }else if(type==='cover'){
-        tone(205,{duration:.16,wave:'triangle',peak:.022,endFrequency:120});tone(620,{at:now+.045,duration:.18,peak:.012,endFrequency:410});
-      }else{
-        tone(520,{duration:.045,wave:'triangle',peak:.018,endFrequency:310});tone(760,{at:now+.025,duration:.035,peak:.009,endFrequency:520});
+      const settings={page:[.22,'bandpass',1180,.42,.018],pageBack:[.2,'bandpass',820,.5,.016],open:[.34,'lowpass',720,.55,.022],close:[.2,'lowpass',470,.65,.017],delete:[.08,'lowpass',390,.7,.009],success:[.2,'bandpass',1320,.38,.012],cover:[.12,'bandpass',760,.55,.012],click:[.035,'lowpass',1250,.8,.008]}[type]||[.035,'lowpass',1250,.8,.008];
+      const [duration,filterType,cutoff,q,peak]=settings,length=Math.max(1,Math.floor(ctx.sampleRate*duration));
+      const buffer=ctx.createBuffer(1,length,ctx.sampleRate),data=buffer.getChannelData(0);
+      for(let i=0;i<length;i++){
+        const t=i/length,envelope=Math.pow(Math.sin(Math.PI*t),type==='click'?1.8:.78);
+        const flutter=type==='page'||type==='pageBack'?(.48+.52*Math.max(0,Math.sin(2*Math.PI*(type==='page'?36:29)*i/ctx.sampleRate))):1;
+        data[i]=(Math.random()*2-1)*envelope*flutter;
       }
+      const source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();
+      source.buffer=buffer;filter.type=filterType;filter.frequency.value=cutoff;filter.Q.value=q;
+      gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(peak,now+Math.min(.025,duration*.24));gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+      source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);source.start(now);source.stop(now+duration+.01);
     }catch{}
   }
   function getShelfSearchIndex(book){
@@ -776,7 +800,7 @@
       if(book.id===library.activeId){Object.assign(state,merged);if(coverChanged)state.modifiedAt=book.modifiedAt;title.value=state.title}
       persist();const saved=!$('saveNote').classList.contains('save-error');renderLibrary();updateCover();if(!saved){toast('Muqova hozircha saqlanmadi. Xatoni bartaraf etib, qayta urinib ko‘ring.',true);return}closeCoverEditor();toast('Muqova yangilandi');return;
     }
-    const book=normalizeBook({...details,pages:[''],current:0,cursors:[0],modifiedAt:new Date().toISOString()});$('librarySearch').value='';library.books.unshift(book);library.activeId=book.id;state={...copyBook(book),sound:library.sound};bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));persist();const saved=!$('saveNote').classList.contains('save-error');renderLibrary();closeCoverEditor();openBook(book.id);setTimeout(()=>play('success'),260);if(!saved)toast('Yangi kitob ochildi, lekin saqlanmadi. JSON zaxira yuklab oling.',true,{label:'JSON zaxiralash',ariaLabel:'Javonni JSON fayliga zaxiralash',run:downloadJSON});
+    const book=normalizeBook({...details,pages:[''],current:0,cursors:[0],modifiedAt:new Date().toISOString()});$('librarySearch').value='';library.books.unshift(book);library.activeId=book.id;state={...copyBook(book),sound:library.sound};bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));persist();const saved=!$('saveNote').classList.contains('save-error');renderLibrary();closeCoverEditor();openBook(book.id);if(!saved)toast('Yangi kitob ochildi, lekin saqlanmadi. JSON zaxira yuklab oling.',true,{label:'JSON zaxiralash',ariaLabel:'Javonni JSON fayliga zaxiralash',run:downloadJSON});
   }
   function switchBook(id){const book=library.books.find(b=>b.id===id);if(!book)return;library.activeId=id;state=copyBook(book);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));activeBaseline=JSON.stringify(normalizeBook(book));pendingEdits=false;title.value=state.title||'Yangi kitob';persist()}
   function setFocusMode(enabled,restoreFocus=true){if(work.classList.contains('active'))captureEditor();document.body.classList.toggle('focus-mode',enabled);const button=$('focusModeToggle'),label=enabled?'Diqqat rejimidan chiqish':'Diqqat rejimini yoqish';button.setAttribute('aria-pressed',String(enabled));button.setAttribute('aria-label',label);button.title=`${label} · Ctrl/Cmd+Shift+F`;button.textContent=enabled?'×':'⛶';if(restoreFocus){if(enabled)focusEditor();else button.focus()}}
@@ -946,11 +970,11 @@
   $('previousPage').addEventListener('click',()=>go(state.current-1,true));$('nextPage').addEventListener('click',()=>go(state.current+1,true));$('turnCornerNext').addEventListener('click',()=>go(state.current+1,true));
   $('jumpPage').addEventListener('click',jumpToPage);$('pageJump').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();jumpToPage()}});
   $('movePageUp').addEventListener('click',()=>moveCurrentPage(-1));$('movePageDown').addEventListener('click',()=>moveCurrentPage(1));
-  $('duplicatePage').addEventListener('click',()=>{duplicateCurrentPage();play('cover')});
+  $('duplicatePage').addEventListener('click',duplicateCurrentPage);
   $('findText').addEventListener('click',()=>{const panel=$('findPanel');panel.hidden=!panel.hidden;if(!panel.hidden){$('bookSearch').focus();$('bookSearch').select()}});
   $('closeFind').addEventListener('click',()=>{clearTimeout(searchTimer);$('findPanel').hidden=true;$('bookSearch').value='';searchBook('');$('findText').focus()});
   $('bookSearch').addEventListener('input',e=>scheduleSearch(e.target.value));
-  $('addPage').addEventListener('click',()=>{addPageAfterCurrent();play('cover')});
+  $('addPage').addEventListener('click',addPageAfterCurrent);
   pageTitle.addEventListener('input',()=>{updateCharacterCounter('pageTitleCount',pageTitle.value,80);const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pageTitles[state.current]=pageTitle.value;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
   editor.addEventListener('input',()=>{const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;$('pageProgress').innerHTML=`<strong>${state.current+1}</strong> / ${state.pages.length}-sahifa`;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
   $('wordGoalInput').addEventListener('input',()=>{const entered=$('wordGoalInput').value;state.wordGoal=entered===''?0:Math.max(0,Math.min(1000000,Math.trunc(Number(entered)||0)));updateWordGoalProgress();scheduleSave()});$('wordGoalInput').addEventListener('change',updateWordGoalProgress);$('wordGoalInput').addEventListener('blur',updateWordGoalProgress);pageTitle.addEventListener('input',updateWordGoalProgress);editor.addEventListener('input',updateWordGoalProgress);
