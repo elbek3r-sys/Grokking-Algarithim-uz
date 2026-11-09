@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="252">
+  <meta name="app-build" content="253">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -319,6 +319,12 @@
     @keyframes gutterFlash{0%,100%{opacity:0}38%,62%{opacity:.9}}
     @media(max-width:680px){.turn-leaf{border-radius:0 3px 3px 0}.turn-leaf-back{border-radius:3px 0 0 3px}}
     @media(prefers-reduced-motion:reduce){.turn-leaf,.book-spread.turning-forward:after,.book-spread.turning-back:after{animation:none!important;display:none!important}}
+
+    /* The reader unfolds out of the cover instead of appearing as a separate screen. */
+    .book-spread.book-opening{transform-origin:50% 50%;backface-visibility:hidden;animation:bookUnfold .74s cubic-bezier(.2,.76,.24,1) both}
+    @keyframes bookUnfold{0%{opacity:.72;transform:rotateX(5deg) rotateY(-72deg) scaleX(.7) translateZ(34px);filter:drop-shadow(0 48px 40px rgba(7,11,8,.48))}52%{opacity:1;transform:rotateX(3deg) rotateY(7deg) scaleX(.96) translateZ(18px);filter:drop-shadow(0 40px 36px rgba(7,11,8,.4))}100%{opacity:1;transform:rotateX(calc(2deg + var(--reader-tilt-x,0deg))) rotateY(var(--reader-tilt-y,0deg)) scaleX(1) translateZ(10px);filter:drop-shadow(0 36px 32px rgba(13,19,14,.35))}}
+    @media(max-width:680px){.book-spread.book-opening{animation-duration:.58s}@keyframes bookUnfold{0%{opacity:.72;transform:rotateY(-54deg) scaleX(.78) translateZ(20px)}60%{opacity:1;transform:rotateY(5deg) scaleX(.96) translateZ(8px)}100%{opacity:1;transform:rotateX(1deg) rotateY(0) scaleX(1) translateZ(4px)}}}
+    @media(prefers-reduced-motion:reduce){.book-spread.book-opening{animation:none!important}}
   </style>
 </head>
 <body>
@@ -697,7 +703,7 @@
   }
   function switchBook(id){const book=library.books.find(b=>b.id===id);if(!book)return;library.activeId=id;state=copyBook(book);state.sound=library.sound;bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));activeBaseline=JSON.stringify(normalizeBook(book));pendingEdits=false;title.value=state.title||'Yangi kitob';persist()}
   function setFocusMode(enabled,restoreFocus=true){if(work.classList.contains('active'))captureEditor();document.body.classList.toggle('focus-mode',enabled);const button=$('focusModeToggle'),label=enabled?'Diqqat rejimidan chiqish':'Diqqat rejimini yoqish';button.setAttribute('aria-pressed',String(enabled));button.setAttribute('aria-label',label);button.title=`${label} · Ctrl/Cmd+Shift+F`;button.textContent=enabled?'×':'⛶';if(restoreFocus){if(enabled)focusEditor();else button.focus()}}
-  function openBook(id=library.activeId){if(id&&id!==library.activeId)switchBook(id);recordBookOpen(library.activeId);clearTimeout(searchTimer);$('findPanel').hidden=true;$('bookSearch').value='';$('bookSearchStatus').textContent='';$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;cover.classList.remove('active');work.classList.add('active');title.value=state.title||'Yangi kitob';updatePage();play('page');setTimeout(focusEditor,180)}
+  function openBook(id=library.activeId){if(id&&id!==library.activeId)switchBook(id);recordBookOpen(library.activeId);clearTimeout(searchTimer);$('findPanel').hidden=true;$('bookSearch').value='';$('bookSearchStatus').textContent='';$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;cover.classList.remove('active');work.classList.add('active');title.value=state.title||'Yangi kitob';updatePage();const spread=$('bookSpread');spread.classList.remove('book-opening');void spread.offsetWidth;spread.classList.add('book-opening');setTimeout(()=>spread.classList.remove('book-opening'),760);play('page');setTimeout(focusEditor,180)}
   function renderList(){
     const list=$('pageList');list.replaceChildren();const total=state.pages.length,windowSize=30,start=Math.max(0,Math.min(state.current-Math.floor(windowSize/2),total-windowSize)),end=Math.min(total,start+windowSize);
     $('pageListRange').textContent=`Sahifalar ${start+1}–${end} / ${total}`;$('pageJump').max=String(total);$('pageJump').value=String(state.current+1);$('movePageUp').disabled=state.current===0;$('movePageDown').disabled=state.current===total-1;$('movePageUp').setAttribute('aria-label',`${state.current+1}-sahifani oldingi o‘ringa ko‘chirish`);$('movePageDown').setAttribute('aria-label',`${state.current+1}-sahifani keyingi o‘ringa ko‘chirish`);
