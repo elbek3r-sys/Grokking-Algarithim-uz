@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="275">
+  <meta name="app-build" content="276">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -772,7 +772,8 @@
   function updateDocumentTitle(){updateCharacterCounter('bookTitleCount',title.value,70);const bookTitle=state.title||'Yangi kitob',pageLabel=`${bookTitle}, ${state.current+1}-sahifa`;pageTitle.setAttribute('aria-label',`${pageLabel} sarlavhasi`);editor.setAttribute('aria-label',`${pageLabel} matni`);document.title=work.classList.contains('active')?`${bookTitle} · ${state.current+1}-sahifa — Kitob Daftari`:'Kitob Daftari — yozish uchun sokin joy'}
   function persist(silent=false){
     clearTimeout(saveTimer);saveTimer=null;clearTimeout(saveStatusTimer);
-    shelfSearchIndex.clear();shelfSearchIndexSize=0;
+    const cachedActiveIndex=library.activeId?shelfSearchIndex.get(library.activeId):null;
+    if(cachedActiveIndex){shelfSearchIndex.delete(library.activeId);shelfSearchIndexSize=Math.max(0,shelfSearchIndexSize-cachedActiveIndex.size)}
     const i=library.books.findIndex(b=>b.id===library.activeId);
     if(i>=0){const existing=library.books[i],next={...state,pages:[...state.pages],cursors:[...state.cursors]};next.modifiedAt=bookSignature(normalizeBook(existing))!==bookSignature(normalizeBook(next))?new Date().toISOString():(existing.modifiedAt||'');library.books[i]=next}
     library.sound=state.sound;
@@ -1114,7 +1115,7 @@
   $('bookSearch').addEventListener('input',e=>scheduleSearch(e.target.value));
   $('addPage').addEventListener('click',addPageAfterCurrent);
   pageTitle.addEventListener('input',()=>{updateCharacterCounter('pageTitleCount',pageTitle.value,80);const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pageTitles[state.current]=pageTitle.value;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
-  editor.addEventListener('input',()=>{const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;$('pageProgress').innerHTML=`<strong>${state.current+1}</strong> / ${state.pages.length}-sahifa`;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
+  editor.addEventListener('input',()=>{const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
   $('wordGoalInput').addEventListener('input',()=>{const entered=$('wordGoalInput').value;state.wordGoal=entered===''?0:Math.max(0,Math.min(1000000,Math.trunc(Number(entered)||0)));updateWordGoalProgress();scheduleSave()});$('wordGoalInput').addEventListener('change',updateWordGoalProgress);$('wordGoalInput').addEventListener('blur',updateWordGoalProgress);pageTitle.addEventListener('input',updateWordGoalProgress);editor.addEventListener('input',updateWordGoalProgress);
   editor.addEventListener('keyup',()=>{state.cursors[state.current]=editor.selectionStart});editor.addEventListener('mouseup',()=>{state.cursors[state.current]=editor.selectionStart});editor.addEventListener('blur',()=>{state.cursors[state.current]=editor.selectionStart;scheduleSave()});
   title.addEventListener('input',()=>{state.title=title.value.trim()||'Yangi kitob';updateDocumentTitle();scheduleSave()});
