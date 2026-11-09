@@ -1,5 +1,5 @@
-const CACHE_NAME = 'kitob-daftari-v112';
-const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './assets/writing-room.webp', './assets/writing-studio.webp', './assets/rainforest.ogg'];
+const CACHE_NAME = 'kitob-daftari-v114';
+const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './assets/writing-room.webp', './assets/writing-studio.webp', './assets/bookcase-room.webp', './assets/rainforest.ogg'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
