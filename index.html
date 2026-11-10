@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="279">
+  <meta name="app-build" content="281">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -569,6 +569,8 @@
     @media(max-width:350px){.topbar{padding-left:8px;padding-right:8px;gap:5px}.brand{gap:6px;font-size:15px}.top-actions{gap:4px}#installApp{display:none}}
     @media(min-width:1001px){#coverScreen .cover-stage.library-stage{padding-top:46px}}
     @media(prefers-reduced-motion:reduce){#coverScreen .cover-stage.library-stage #newBookButton,#coverScreen .cover-stage.library-stage #newBookButton:hover{transition:none!important;transform:none!important}}
+
+    .replace-row{display:grid;grid-template-columns:104px minmax(0,1fr) auto;gap:8px;align-items:center;margin:9px 0 2px}.replace-row label{font-size:11px;color:#666b60}.replace-row input{min-width:0;border:1px solid #d8d1bf;border-radius:7px;background:rgba(255,255,255,.75);padding:9px 11px;color:var(--forest);font:13px var(--sans)}.replace-row button{min-height:36px;border:1px solid rgba(48,68,54,.2);border-radius:7px;background:#344b3b;color:#f7f1e3;padding:7px 12px;font:600 11px var(--sans);white-space:nowrap}.replace-row button:disabled{opacity:.45;cursor:not-allowed}.replace-row button:not(:disabled):hover{background:#435b49}#replaceStatus{min-height:1em;margin:4px 0 0;color:#7c806f;font-size:10px;line-height:1.4}.replace-row input:focus-visible,.replace-row button:focus-visible{outline:2px solid #bd8d53;outline-offset:2px}@media(max-width:680px){.replace-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px}.replace-row label,.replace-row input{grid-column:1/-1}.replace-row label{font-size:11px}.replace-row button{min-height:42px;white-space:normal}}
   </style>
 </head>
 <body>
@@ -664,7 +666,7 @@
       <div class="goal-row"><label for="wordGoalInput">So‘z maqsadi</label><input id="wordGoalInput" type="number" min="0" max="1000000" step="50" inputmode="numeric" placeholder="Masalan, 1000" aria-describedby="wordGoalSummary"><progress id="wordGoalProgress" max="100" value="0" aria-label="So‘z maqsadi bajarilishi" hidden></progress><span id="wordGoalSummary">Ixtiyoriy</span></div>
       <div class="find-panel" id="findPanel" hidden>
         <div class="find-row"><label for="bookSearch">Kitobdan qidirish</label><input id="bookSearch" type="search" placeholder="So‘z yoki ibora…" autocomplete="off"><button class="find-close" id="closeFind" type="button">Yopish</button></div>
-        <p id="bookSearchStatus" aria-live="polite"></p><div class="search-results" id="bookSearchResults" hidden></div>
+        <p id="bookSearchStatus" aria-live="polite"></p><div class="replace-row"><label for="replaceText">Almashtirish</label><input id="replaceText" type="text" autocomplete="off" placeholder="Yangi matn…"><button id="replaceAll" type="button" disabled>Hammasini almashtirish</button></div><p id="replaceStatus" role="status" aria-live="polite"></p><div class="search-results" id="bookSearchResults" hidden></div>
       </div>
       <div class="book-workspace">
         <aside class="side-panel" aria-label="Kitob va sahifa boshqaruvi">
@@ -770,7 +772,7 @@
   let shelfStorageEstimate=(savedShelfRaw??JSON.stringify(library)).length*2;
   let state=copyBook(library.books.find(b=>b.id===library.activeId)||normalizeBook());state.sound=library.sound;let bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index)),bookWordTotalCount=bookWordCounts.reduce((total,count)=>total+count,0);
   let activeBaseline=JSON.stringify(normalizeBook(library.books.find(b=>b.id===library.activeId)||state)),pendingEdits=false,lastShelfSnapshot=shelfSignature(),lastShelfContentSnapshot=shelfContentSignature(),lastShelfRawSnapshot=savedShelfRaw;
-  let coverEditId=null,coverEditorReturnFocus=null,coverEditBaseline=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',selectedCoverX=50,selectedCoverY=50,coverImageRequest=0,saveTimer=null,saveStatusTimer=null,saveFailureNotified=false,backupStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,restoreExistingBackupConfirmed=false,restoreExistingBackupSignature=null,searchTimer=null,librarySearchTimer=null,printOriginalTitle=null,deferredInstallPrompt=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})(),lastChangeAt=(()=>{try{return localStorage.getItem(CHANGE_META)||''}catch{return ''}})(),lastSavedAt=(()=>{try{return localStorage.getItem(SAVE_META)||''}catch{return ''}})();
+  let coverEditId=null,coverEditorReturnFocus=null,coverEditBaseline=null,selectedTheme='forest',selectedCoverImage='',selectedCoverName='',selectedCoverX=50,selectedCoverY=50,coverImageRequest=0,saveTimer=null,saveStatusTimer=null,saveFailureNotified=false,backupStatusTimer=null,toastTimer=null,audioContext=null,restoreCandidate=null,restoreExistingBackupConfirmed=false,restoreExistingBackupSignature=null,searchTimer=null,replacePreviewTimer=null,lastReplaceUndo=null,librarySearchTimer=null,printOriginalTitle=null,deferredInstallPrompt=null,lastBackupAt=(()=>{try{return localStorage.getItem(BACKUP_META)||''}catch{return ''}})(),lastChangeAt=(()=>{try{return localStorage.getItem(CHANGE_META)||''}catch{return ''}})(),lastSavedAt=(()=>{try{return localStorage.getItem(SAVE_META)||''}catch{return ''}})();
   const shelfSearchIndex=new Map(),SHELF_SEARCH_INDEX_LIMIT=750000;let shelfSearchIndexSize=0;
   const $=id=>document.getElementById(id),isComposingKey=event=>event.isComposing||event.key==='Process'||event.key==='Dead';
   function updateCharacterCounter(id,value,limit){const counter=$(id);counter.textContent=`${value.length}/${limit}`;counter.classList.toggle('near-limit',value.length>=limit-9);counter.classList.toggle('at-limit',value.length>=limit)}
@@ -1013,7 +1015,7 @@
     }})
   }
   function pagePreview(text,heading=''){return heading.trim()||text.slice(0,320).trim().split(/\s+/).slice(0,5).join(' ')||'Bo‘sh sahifa'}
-  function scheduleSearch(queryText){clearTimeout(searchTimer);if(!queryText.trim()){searchBook('');return}$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;$('bookSearchStatus').textContent='Qidirilmoqda…';searchTimer=setTimeout(()=>searchBook(queryText),140)}
+  function scheduleSearch(queryText){clearTimeout(searchTimer);clearTimeout(replacePreviewTimer);if(!queryText.trim()){searchBook('');replacePreviewTimer=setTimeout(updateReplacePreview,0);return}$('bookSearchResults').replaceChildren();$('bookSearchResults').hidden=true;$('bookSearchStatus').textContent='Qidirilmoqda…';$('replaceStatus').textContent='Mosliklar tekshirilmoqda…';searchTimer=setTimeout(()=>searchBook(queryText),140);replacePreviewTimer=setTimeout(updateReplacePreview,100)}
   const graphemeSegmenter=typeof Intl!=='undefined'&&typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null;
   function foldWithOffsets(text){
     const source=String(text??''),segments=[];
@@ -1036,6 +1038,43 @@
     searchPages: for(let pageIndex=0;pageIndex<state.pages.length;pageIndex++){const page=state.pages[pageIndex];for(const source of [{text:state.pageTitles[pageIndex]||'',isTitle:true},{text:page,isTitle:false}]){const mapped=foldWithOffsets(source.text);let from=0,at;while((at=mapped.folded.indexOf(query,from))!==-1){const start=mapped.starts[at],end=mapped.ends[at+query.length-1];if(Number.isInteger(start)&&Number.isInteger(end)){matches.push({pageIndex,start,end,page:source.text,isTitle:source.isTitle});if(matches.length===100){more=true;break searchPages}}from=at+Math.max(1,query.length)}}}
     status.textContent=matches.length?(more?'Dastlabki 100 ta natija ko‘rsatilmoqda':`${matches.length} ta natija`):'Mos keladigan matn topilmadi';
     matches.forEach(match=>{const button=document.createElement('button');button.type='button';button.className='search-result';button.setAttribute('aria-label',`${match.pageIndex+1}-sahifa${match.isTitle?' sarlavhasi':''}: ${match.page.slice(Math.max(0,match.start-30),Math.min(match.page.length,match.end+40))}`);const heading=document.createElement('strong');heading.textContent=`${match.pageIndex+1}-sahifa${match.isTitle?' · sarlavha':''}`;const excerpt=document.createElement('span');const start=Math.max(0,match.start-30),end=Math.min(match.page.length,match.end+40);if(start>0)excerpt.append(document.createTextNode('…'));excerpt.append(document.createTextNode(match.page.slice(start,match.start)));const mark=document.createElement('mark');mark.textContent=match.page.slice(match.start,match.end);excerpt.append(mark,document.createTextNode(match.page.slice(match.end,end)+(end<match.page.length?'…':'')));button.append(heading,excerpt);button.addEventListener('click',()=>{const select=()=>{const target=match.isTitle?pageTitle:editor;target.focus();target.setSelectionRange(match.start,match.end);if(!match.isTitle)state.cursors[match.pageIndex]=match.end};if(match.pageIndex!==state.current){go(match.pageIndex,false);setTimeout(select,0)}else select()});results.append(button)});
+  }
+  function textMatchRanges(text,query){
+    if(!query)return[];const folded=foldWithOffsets(text),ranges=[];let from=0,at,lastEnd=-1;
+    while((at=folded.folded.indexOf(query,from))!==-1){const start=folded.starts[at],end=folded.ends[at+query.length-1];if(Number.isInteger(start)&&Number.isInteger(end)&&start>=lastEnd){ranges.push({start,end});lastEnd=end}from=at+Math.max(1,query.length)}
+    return ranges;
+  }
+  function replaceTextRanges(text,ranges,replacement){
+    let value=text;for(let i=ranges.length-1;i>=0;i--){const range=ranges[i];value=value.slice(0,range.start)+replacement+value.slice(range.end)}
+    const mapOffset=point=>{let delta=0;for(const range of ranges){if(point<=range.start)break;if(point<range.end)return range.start+delta+replacement.length;delta+=replacement.length-(range.end-range.start)}return Math.max(0,point+delta)};
+    return{value,mapOffset};
+  }
+  function updateReplacePreview(){
+    const query=normalizeSearchText($('bookSearch').value),button=$('replaceAll'),status=$('replaceStatus');if(!query){button.disabled=true;status.textContent='Avval qidiriladigan matnni kiriting.';return}
+    let total=0;for(let i=0;i<state.pages.length;i++)total+=textMatchRanges(state.pageTitles[i]||'',query).length+textMatchRanges(state.pages[i]||'',query).length;
+    button.disabled=total===0;status.textContent=total?`Kitob bo‘ylab ${total} ta moslik topildi.`:'Almashtirish uchun mos matn topilmadi.';
+  }
+  function bookTextSignature(){return JSON.stringify([state.pages,state.pageTitles])}
+  function undoLastReplace(){
+    const undo=lastReplaceUndo;if(!undo)return;if(library.activeId!==undo.bookId||state.id!==undo.bookId){lastReplaceUndo=null;toast('Boshqa kitob ochilgani uchun almashtirish bekor qilinmadi.');return}
+    captureEditor();if(bookTextSignature()!==undo.afterSignature){lastReplaceUndo=null;toast('Keyin qo‘lyozma tahrirlangani uchun almashtirishni bekor qilmadim.',true);return}
+    for(const change of undo.changes){state.pages[change.index]=change.oldText;state.pageTitles[change.index]=change.oldTitle;state.cursors[change.index]=change.oldCursor}
+    bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));lastReplaceUndo=null;updatePage();scheduleSave();updateReplacePreview();setTimeout(focusEditor,0);toast('Oxirgi almashtirish bekor qilindi');
+  }
+  function replaceAllBookMatches(){
+    clearTimeout(searchTimer);captureEditor();const rawQuery=$('bookSearch').value,query=normalizeSearchText(rawQuery),replacement=$('replaceText').value;if(!query){updateReplacePreview();$('bookSearch').focus();return}
+    const changes=[];let total=0;
+    for(let index=0;index<state.pages.length;index++){
+      const oldTitle=state.pageTitles[index]||'',oldText=state.pages[index]||'',titleRanges=textMatchRanges(oldTitle,query),textRanges=textMatchRanges(oldText,query),count=titleRanges.length+textRanges.length;if(!count)continue;
+      const titleResult=replaceTextRanges(oldTitle,titleRanges,replacement),textResult=replaceTextRanges(oldText,textRanges,replacement);if(titleResult.value===oldTitle&&textResult.value===oldText)continue;
+      if(titleResult.value.length>80){toast(`${index+1}-sahifa sarlavhasi 80 belgidan oshib ketadi. Qisqaroq almashtirish matnini tanlang.`,true);return}
+      changes.push({index,oldTitle,oldText,oldCursor:state.cursors[index]||0,newTitle:titleResult.value,newText:textResult.value,mapCursor:textResult.mapOffset});total+=count;
+    }
+    if(!total){$('replaceStatus').textContent='Matn o‘zgarmadi.';updateReplacePreview();return}
+    const shownReplacement=replacement||'(bo‘sh)';if(!confirm(`Kitob bo‘ylab ${total} ta moslikni “${rawQuery.trim()}” → “${shownReplacement}” qilib almashtirasizmi?`))return;
+    for(const change of changes){state.pageTitles[change.index]=change.newTitle;state.pages[change.index]=change.newText;state.cursors[change.index]=change.mapCursor(change.oldCursor)}
+    bookWordCounts=state.pages.map((_,index)=>pageWordCount(state,index));lastReplaceUndo={bookId:state.id,changes,afterSignature:bookTextSignature()};const undo=lastReplaceUndo;setTimeout(()=>{if(lastReplaceUndo===undo)lastReplaceUndo=null},9000);
+    updatePage();scheduleSave();updateReplacePreview();setTimeout(focusEditor,0);toast(`${total} ta moslik almashtirildi`,false,{label:'Bekor qilish',ariaLabel:'Oxirgi almashtirishni bekor qilish',timeoutMs:8500,run:undoLastReplace});
   }
   function updateCurrentPagePreview(){const row=$('pageList').querySelector(`[data-page-index="${state.current}"] .page-chip-preview`);if(row)row.textContent=pagePreview(state.pages[state.current]||'',state.pageTitles[state.current]||'')}
   function captureEditor(){if(work.classList.contains('active')){state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;state.pageTitles[state.current]=pageTitle.value;state.title=title.value.trim()||'Yangi kitob'}}
@@ -1134,9 +1173,10 @@
   $('jumpPage').addEventListener('click',jumpToPage);$('pageJump').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();jumpToPage()}});
   $('movePageUp').addEventListener('click',()=>moveCurrentPage(-1));$('movePageDown').addEventListener('click',()=>moveCurrentPage(1));
   $('duplicatePage').addEventListener('click',duplicateCurrentPage);
-  $('findText').addEventListener('click',()=>{const panel=$('findPanel');panel.hidden=!panel.hidden;if(!panel.hidden){$('bookSearch').focus();$('bookSearch').select()}});
-  $('closeFind').addEventListener('click',()=>{clearTimeout(searchTimer);$('findPanel').hidden=true;$('bookSearch').value='';searchBook('');$('findText').focus()});
+  $('findText').addEventListener('click',()=>{const panel=$('findPanel');panel.hidden=!panel.hidden;if(!panel.hidden){updateReplacePreview();$('bookSearch').focus();$('bookSearch').select()}});
+  $('closeFind').addEventListener('click',()=>{clearTimeout(searchTimer);clearTimeout(replacePreviewTimer);$('findPanel').hidden=true;$('bookSearch').value='';$('replaceText').value='';searchBook('');updateReplacePreview();$('findText').focus()});
   $('bookSearch').addEventListener('input',e=>scheduleSearch(e.target.value));
+  $('replaceText').addEventListener('input',updateReplacePreview);$('replaceAll').addEventListener('click',replaceAllBookMatches);
   $('addPage').addEventListener('click',addPageAfterCurrent);
   pageTitle.addEventListener('input',()=>{updateCharacterCounter('pageTitleCount',pageTitle.value,80);const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pageTitles[state.current]=pageTitle.value;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
   editor.addEventListener('input',()=>{const previousTotal=bookWordTotalCount,previousPageWords=bookWordCounts[state.current];state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;bookWordCounts[state.current]=pageWordCount(state,state.current);bookWordTotalCount+=bookWordCounts[state.current]-previousPageWords;announceWordGoalReached(previousTotal,bookWordTotalCount);$('pageWordCount').textContent=bookWordCounts[state.current]?`${bookWordCounts[state.current]} ta so‘z`:'Bo‘sh sahifa';const totalWords=`${bookWordTotalCount} ta so‘z`;$('wordCount').textContent=totalWords;$('mobileWordCount').textContent=totalWords;updateCurrentPagePreview();if($('bookSearch').value)scheduleSearch($('bookSearch').value);scheduleSave()});
@@ -1183,7 +1223,7 @@
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){naturePausedForVisibility=natureRequested&&!natureAudio.paused;if(naturePausedForVisibility)natureAudio.pause()}else if(naturePausedForVisibility&&natureRequested){naturePausedForVisibility=false;natureAudio.play().catch(()=>{})}});
   window.addEventListener('pagehide',flushSave);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushSave();else updateBackupStatus()});window.addEventListener('pageshow',updateBackupStatus);
   window.addEventListener('beforeunload',event=>{if(!pendingEdits&&!$('saveNote').classList.contains('save-error'))return;flushSave();if(pendingEdits||$('saveNote').classList.contains('save-error')){event.preventDefault();event.returnValue=''}});
-  document.addEventListener('keydown',e=>{if(isComposingKey(e))return;if((e.metaKey||e.ctrlKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();downloadJSON();return}if(!work.classList.contains('active'))return;const inTextField=e.target instanceof Element&&!!e.target.closest('input,textarea,select,[contenteditable="true"]');if((e.metaKey||e.ctrlKey)&&e.shiftKey&&e.key.toLowerCase()==='f'){e.preventDefault();setFocusMode($('focusModeToggle').getAttribute('aria-pressed')!=='true');return}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='f'){e.preventDefault();$('findPanel').hidden=false;$('bookSearch').focus();$('bookSearch').select()}if(e.key==='Escape'&&!$('findPanel').hidden){clearTimeout(searchTimer);$('findPanel').hidden=true;$('bookSearch').value='';searchBook('');$('findText').focus();return}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;state.pageTitles[state.current]=pageTitle.value;persist();if(!$('saveNote').classList.contains('save-error'))toast('Qo‘lyozma saqlandi')}if(!inTextField&&(e.metaKey||e.ctrlKey)&&e.key==='ArrowRight'){e.preventDefault();go(state.current+1,true)}if(!inTextField&&(e.metaKey||e.ctrlKey)&&e.key==='ArrowLeft'){e.preventDefault();go(state.current-1,true)}if(!inTextField&&(e.metaKey||e.ctrlKey)&&e.key==='Home'){e.preventDefault();go(0,true)}if(!inTextField&&(e.metaKey||e.ctrlKey)&&e.key==='End'){e.preventDefault();go(state.pages.length-1,true)}});
+  document.addEventListener('keydown',e=>{if(isComposingKey(e))return;if((e.metaKey||e.ctrlKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();downloadJSON();return}if(!work.classList.contains('active'))return;const inTextField=e.target instanceof Element&&!!e.target.closest('input,textarea,select,[contenteditable="true"]');if((e.metaKey||e.ctrlKey)&&e.shiftKey&&e.key.toLowerCase()==='f'){e.preventDefault();setFocusMode($('focusModeToggle').getAttribute('aria-pressed')!=='true');return}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='f'){e.preventDefault();$('findPanel').hidden=false;updateReplacePreview();$('bookSearch').focus();$('bookSearch').select()}if(e.key==='Escape'&&!$('findPanel').hidden){clearTimeout(searchTimer);clearTimeout(replacePreviewTimer);$('findPanel').hidden=true;$('bookSearch').value='';$('replaceText').value='';searchBook('');updateReplacePreview();$('findText').focus();return}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();state.pages[state.current]=editor.value;state.cursors[state.current]=editor.selectionStart;state.pageTitles[state.current]=pageTitle.value;persist();if(!$('saveNote').classList.contains('save-error'))toast('Qo‘lyozma saqlandi')}if(!inTextField&&(e.metaKey||e.ctrlKey)&&e.key==='ArrowRight'){e.preventDefault();go(state.current+1,true)}if(!inTextField&&(e.metaKey||e.ctrlKey)&&e.key==='ArrowLeft'){e.preventDefault();go(state.current-1,true)}if(!inTextField&&(e.metaKey||e.ctrlKey)&&e.key==='Home'){e.preventDefault();go(0,true)}if(!inTextField&&(e.metaKey||e.ctrlKey)&&e.key==='End'){e.preventDefault();go(state.pages.length-1,true)}});
   window.addEventListener('online',updateNetworkNote);window.addEventListener('offline',updateNetworkNote);updateNetworkNote();
   if(Number.isFinite(savedReaderFontSize)&&savedReaderFontSize>=14&&savedReaderFontSize<=28)setReaderFontSize(savedReaderFontSize);else updateReaderControls();
   title.value=state.title||'Yangi kitob';$('soundToggle').setAttribute('aria-pressed',String(!!state.sound));$('soundToggle').setAttribute('aria-label',state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan');$('soundIcon').textContent=state.sound?'♪':'♩';$('soundLabel').textContent=state.sound?'Ovoz yoqilgan':'Ovoz o‘chirilgan';$('soundToggle').title=state.sound?'Ovoz effektlarini o‘chirish':'Ovoz effektlarini yoqish';if(storageRecoveryRaw!==null)$('storageRecovery').hidden=false;renderLibrary();updatePage();updateBackupStatus();updateStorageProtection();persist(true);
