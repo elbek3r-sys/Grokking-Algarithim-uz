@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#24372f">
-  <meta name="app-build" content="284">
+  <meta name="app-build" content="285">
   <meta name="description" content="O‘z asaringizni sahifa-sahifa yozing. Kitobingiz o‘zi saqlanadi va oxirgi joyingizdan ochiladi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -745,7 +745,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMessage"></span><button class="toast-action" id="toastAction" type="button" hidden></button></div>
 </div>
 <div id="printRoot" hidden></div>
-<audio class="nature-audio" id="natureAudio" preload="none" loop aria-hidden="true"><source src="./assets/rainforest.ogg" type="audio/ogg; codecs=vorbis"></audio>
+<audio class="nature-audio" id="natureAudio" preload="none" loop aria-hidden="true"><source src="./assets/rainforest.ogg" type="audio/ogg; codecs=vorbis"><source src="./assets/rainforest-fallback.mp3" type="audio/mpeg"></audio>
 <script>
 (()=>{
   function appVersionFingerprint(doc){return JSON.stringify({app:doc.querySelector('.app-shell')?.innerHTML||'',styles:[...doc.querySelectorAll('style')].map(style=>style.textContent),scripts:[...doc.querySelectorAll('script:not([src])')].map(script=>script.textContent)})}

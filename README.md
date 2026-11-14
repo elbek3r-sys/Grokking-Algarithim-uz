@@ -95,6 +95,6 @@ Javon buzilganida ham ochiq kitobni **Joriy kitobni JSON zaxiralash** tugmasi bi
 - `Ctrl/Cmd + Shift + F` — diqqat rejimini yoqish yoki o‘chirish
 - `Esc` — diqqat rejimidan chiqish (qidiruv ochiq bo‘lsa, avval qidiruv yopiladi)
 
-Sayt `dist/index.html`, `dist/assets/writing-studio.webp`, `dist/assets/writing-room.webp`, `dist/assets/rainforest.ogg` va oflayn ishlash uchun `dist/sw.js`, `dist/manifest.webmanifest`, `dist/icon.svg`, `dist/icon-192.png`, `dist/icon-512.png` hamda `dist/apple-touch-icon.png` fayllaridan foydalanadi.
+Sayt `dist/index.html` va `dist/assets/` ichidagi rasm hamda audio fayllaridan foydalanadi. Tabiat ovozi uchun OGG asosiy format, MP3 esa OGG’ni qo‘llamaydigan brauzerlar uchun zaxira format. Oflayn ishlashda `dist/sw.js`, `dist/manifest.webmanifest`, `dist/icon.svg`, `dist/icon-192.png`, `dist/icon-512.png` hamda `dist/apple-touch-icon.png` kerak bo‘ladi.
 
 Tabiat ovozi uchun `Walk in the rainforest.ogg` yozuvi ishlatiladi. [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Walk_in_the_rainforest.ogg) sahifasida yozuv muallif **ezwa** tomonidan jamoat mulkiga topshirilgani ko‘rsatilgan.
